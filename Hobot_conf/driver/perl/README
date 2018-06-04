@@ -43,7 +43,7 @@ at your option, any later version of Perl 5 you may have available.
 
 安装说明
 --------------
-0. 按照QConf的说明对QConf进行编译安装，编译好的libqconf.so复制到/lib64/
+0. 按照QConf的说明对QConf进行编译安装，编译好的libhconf.so复制到/lib64/
 1. 部署好zookeeper集群或单节点测试环境
 2. 按QConf的文档说明配置好QConf对zookeeper的连接设置
 3. 启动QConf agent
@@ -58,7 +58,7 @@ at your option, any later version of Perl 5 you may have available.
 -------------
 api参考QConf/QConf.xs
 示例参考QConf/test.pl
-错误码请参考qconf_errno.h
+错误码请参考hconf_errno.h
 各个api函数的最后一个参数async(取值true/false)，表示是否异步调用，与c++api的同步和异步函数对应。同步和异步的概念请参考QConf的相关文档或如下：
         松仔 10:45:18
         同步和异步两种不同的api的区别是什么呢

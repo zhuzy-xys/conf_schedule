@@ -1,14 +1,14 @@
 use QConf;
 use strict;
 # init
-my $err = &QConf::qconf_init();
+my $err = &QConf::hconf_init();
 if ($err != 0){
 	printf "init fail.\n";
 	printf "$err\n";
 }
 
 
-#qconf_get_conf
+#hconf_get_conf
 	my $ret = "";
 	my $errCode = &QConf::get_conf("/zookeeper",$ret,"","true");
 	if ($errCode == 0){  
@@ -17,7 +17,7 @@ if ($err != 0){
 		printf "fail,err: %d\n",$errCode;
 	}
 
-#qconf_get_batch_conf
+#hconf_get_batch_conf
 	my %ret = ();
 	my $errCode = &QConf::get_batch_conf("/zookeeper",\%ret,"","false");
 	if ($errCode == 0){  		
@@ -28,7 +28,7 @@ if ($err != 0){
 		printf "fail,err: %d\n",$errCode;
 	}
 
-#qconf_get_host
+#hconf_get_host
 	my $ret = "";
 	my $errCode = &QConf::get_host("/zookeeper",$ret,"","false");
 	if ($errCode == 0){  
@@ -37,7 +37,7 @@ if ($err != 0){
 		printf "fail,err: %d\n",$errCode;
 	}
 
-#qconf_get_batch_keys
+#hconf_get_batch_keys
 	my @ret = ();
 	my $errCode = &QConf::get_batch_keys("/zookeeper",\@ret,"","false");
 	if ($errCode == 0){  		
@@ -49,5 +49,5 @@ if ($err != 0){
 	}
 
 #finalize
-&QConf::qconf_destroy();
+&QConf::hconf_destroy();
 

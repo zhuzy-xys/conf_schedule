@@ -2,8 +2,8 @@ NODE_ADD=0
 NODE_CHANGE=1
 NODE_DEL=2
 
-if [ "$qconf_event" != "$NODE_DEL" ]; then
-    value=`./qconf get_conf $qconf_path`
+if [ "$hconf_event" != "$NODE_DEL" ]; then
+    value=`./hconf get_conf $hconf_path`
 
 # TODO: Nginx directory, You may change this to your own directory
     nginx=/usr/local/nginx

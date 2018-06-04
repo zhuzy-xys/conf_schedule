@@ -7,9 +7,9 @@
 #include <fstream>
 #include <algorithm>
 
-#include "qconf_log.h"
-#include "qconf_const.h"
-#include "qconf_script.h"
+#include "hconf_log.h"
+#include "hconf_const.h"
+#include "hconf_script.h"
 
 using namespace std;
 
@@ -19,12 +19,12 @@ using namespace std;
 static int script_content_read(const string &path, string &script);
 static void sig_child(int sig);
 
-static const string QCONF_SCRIPT_DIR("/script/");
-static string _qconf_script_dir;
+static const string HCONF_SCRIPT_DIR("/script/");
+static string _hconf_script_dir;
 
-void qconf_init_script_dir(const string &agent_dir)
+void hconf_init_script_dir(const string &agent_dir)
 {
-    _qconf_script_dir = agent_dir + QCONF_SCRIPT_DIR;
+    _hconf_script_dir = agent_dir + HCONF_SCRIPT_DIR;
 }
 
 static void sig_child(int sig)
@@ -49,7 +49,7 @@ static void sig_child(int sig)
 
 int execute_script(const string &script, const long mtimeout)
 {
-    if (script.empty()) return QCONF_ERR_PARAM;
+    if (script.empty()) return HCONF_ERR_PARAM;
 
     int     rv = 0;
     int     pfd[2];
@@ -68,13 +68,13 @@ int execute_script(const string &script, const long mtimeout)
     if (pipe(pfd) < 0)
     {
         LOG_ERR("Failed to create pipe! error:%d", errno);
-        return QCONF_ERR_OTHER; 
+        return HCONF_ERR_OTHER; 
     }
 
     if ((pid = fork()) < 0) 
     {
         LOG_ERR("Failed to fork process! error:%d", errno);
-        return QCONF_ERR_OTHER; 
+        return HCONF_ERR_OTHER; 
     } 
     else if (0 == pid) 
     {
@@ -108,70 +108,70 @@ int execute_script(const string &script, const long mtimeout)
         {
             close(pfd[0]); // sub process has exit
             // sigaction(SIGCHLD, &oact, NULL);
-            return QCONF_OK;
+            return HCONF_OK;
         }
     } while (true);
 
     close(pfd[0]);
     kill(-pid, SIGKILL);
     // sigaction(SIGCHLD, &oact, NULL);
-    if (0 == rv) return QCONF_ERR_SCRIPT_TIMEOUT;
-    return QCONF_ERR_OTHER;
+    if (0 == rv) return HCONF_ERR_SCRIPT_TIMEOUT;
+    return HCONF_ERR_OTHER;
 }
 
 int find_script(const string &path,  string &script)
 {
-    if (path.empty()) return QCONF_ERR_PARAM;
+    if (path.empty()) return HCONF_ERR_PARAM;
 
-    if (_qconf_script_dir.empty())
+    if (_hconf_script_dir.empty())
     {
-        LOG_ERR("Not init qconf script dir");
-        return QCONF_ERR_SCRIPT_DIR_NOT_INIT;
+        LOG_ERR("Not init hconf script dir");
+        return HCONF_ERR_SCRIPT_DIR_NOT_INIT;
     }
     //find exist script file
-    string script_path(_qconf_script_dir), tmp_path, file_path;
+    string script_path(_hconf_script_dir), tmp_path, file_path;
     tmp_path = (path[0] == '/') ? path.substr(1) : path;
-    replace(tmp_path.begin(), tmp_path.end(), '/', QCONF_SCRIPT_SEPARATOR);
+    replace(tmp_path.begin(), tmp_path.end(), '/', HCONF_SCRIPT_SEPARATOR);
     script_path.append(tmp_path);
     size_t index = script_path.size();
     do 
     {
         script_path.resize(index);
-        file_path = script_path + QCONF_SCRIPT_SUFFIX;
+        file_path = script_path + HCONF_SCRIPT_SUFFIX;
         if (-1 != access(file_path.c_str(), R_OK )) break; //script exist
-        index = script_path.find_last_of(QCONF_SCRIPT_SEPARATOR);
+        index = script_path.find_last_of(HCONF_SCRIPT_SEPARATOR);
     }
     while (string::npos != index);
 
     if (string::npos == index)
     {
         LOG_INFO("No script exist for %s!", script_path.c_str());
-        return QCONF_ERR_SCRIPT_NOT_EXIST;
+        return HCONF_ERR_SCRIPT_NOT_EXIST;
     }
 
     //read script content
     int ret = script_content_read(file_path, script);
-    if (QCONF_OK != ret)
+    if (HCONF_OK != ret)
     {
         LOG_ERR("Failed to read all script content, file:%s", script_path.c_str());
-        return QCONF_ERR_FAILED_READ_FILE;
+        return HCONF_ERR_FAILED_READ_FILE;
     }
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 static int script_content_read(const string &path, string &script)
 {
-    if (path.empty()) return QCONF_ERR_PARAM;
+    if (path.empty()) return HCONF_ERR_PARAM;
     ifstream in(path.c_str(), std::ifstream::in);
     if (!in)
     {
         LOG_ERR("Failed to open script file:%s", path.c_str());
-        return QCONF_ERR_OTHER;
+        return HCONF_ERR_OTHER;
     }
     in.seekg(0, in.end);
     script.resize(in.tellg());
     in.seekg(0, in.beg);
     in.read(&script[0], script.size());
     in.close();
-    return QCONF_OK;
+    return HCONF_OK;
 }

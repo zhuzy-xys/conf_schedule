@@ -5,12 +5,12 @@ QConf Python Doc
 ``` shell
 python setup.py build
 ```
-which will generate the qconf_py library in build/lib.linux-x86_64-X.X as qconf_py.so
+which will generate the hconf_py library in build/lib.linux-x86_64-X.X as hconf_py.so
 
 - modify setup.py if you has specified the install prefix of Qconf.
 ``` shell
-include_dirs : QCONF_INSTALL_PREFIX/include
-extra_objects : QCONF_INSTALL_PREFIX/lib/libqconf.a
+include_dirs : HCONF_INSTALL_PREFIX/include
+extra_objects : HCONF_INSTALL_PREFIX/lib/libhconf.a
 ```
 
 more information about python [Setup Script](https://docs.python.org/2/distutils/setupscript.html).
@@ -35,10 +35,10 @@ Parameters
 >idc - Optional，from which idc to get the value，get from local idc if  omit
 
 Return Value
->value of the configuation, throw Exception qconf_py.Error if failed 
+>value of the configuation, throw Exception hconf_py.Error if failed 
  
 Example 
- >value = qconf.get_conf(key) 
+ >value = hconf.get_conf(key) 
 
 ### get_batch_keys
 
@@ -54,10 +54,10 @@ Parameters
 >idc - Optional，from which idc to get the keys，get from local idc if  omit
 
 Return Value
->python list of the node's keys, throw Exception qconf_py.Error if failed 
+>python list of the node's keys, throw Exception hconf_py.Error if failed 
  
 Example 
- >children_keys = qconf.get_batch_keys(key)
+ >children_keys = hconf.get_batch_keys(key)
  >
  > for item in children_keys:
  >
@@ -77,10 +77,10 @@ Parameters
 >idc - Optional， from which idc to get the children configurations，get from local idc if  omit
 
 Return Value
->python dictionary of the children configuration, throw Exception qconf_py.Error if failed 
+>python dictionary of the children configuration, throw Exception hconf_py.Error if failed 
  
  Example 
- >children = qconf.get_batch_conf(key)
+ >children = hconf.get_batch_conf(key)
  >
  >for k, v in children.iteritems():
  >
@@ -98,10 +98,10 @@ Parameters
 >idc - Optional， from which idc to get the services，get from local idc if  omit
 
 Return Value
->python list of all available services, throw Exception qconf_py.Error if failed 
+>python list of all available services, throw Exception hconf_py.Error if failed 
  
 Example 
->hosts = qconf.get_allhost(key)
+>hosts = hconf.get_allhost(key)
 >
 > for item in hosts:
 >
@@ -120,10 +120,10 @@ Parameters
 >idc - Optional，from which idc to get the host，get from local idc if  omit
 
 Return Value
->available host, throw Exception qconf_py.Error if failed
+>available host, throw Exception hconf_py.Error if failed
  
 Example 
->host = qconf.get_host(key)
+>host = hconf.get_host(key)
 
 ---
 ## Example
@@ -132,30 +132,30 @@ Example
 
  try:
       #get conf value
-      value = qconf.get_conf(key)
+      value = hconf.get_conf(key)
       if value is "":
           print "empty string"
       print "value : " + value
 
       #get one service host
-      host = qconf.get_host(key)
+      host = hconf.get_host(key)
       print "host : " + host
 
       #get all service hosts
-      hosts = qconf.get_allhost(key)
+      hosts = hconf.get_allhost(key)
       for h in hosts:
          print "one host: " + h
 
       #get batch confs
-      children = qconf.get_batch_conf(key)
+      children = hconf.get_batch_conf(key)
       for k, v in children.iteritems():
          print k + " => " + v
 
       #get batch keys
-      children_keys = qconf.get_batch_keys(key)
+      children_keys = hconf.get_batch_keys(key)
       for h in children_keys:
          print "one key: " + h
 
-  except qconf.Error, Argument:
+  except hconf.Error, Argument:
       print "error happend in Basic Usage! ", Argument
 ```

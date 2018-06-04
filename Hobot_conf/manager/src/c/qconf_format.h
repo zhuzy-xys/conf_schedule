@@ -1,11 +1,11 @@
-#ifndef QCONF_FORMAT_H
-#define QCONF_FORMAT_H
+#ifndef HCONF_FORMAT_H
+#define HCONF_FORMAT_H
 
 #include <vector>
 #include <string>
 #include <set>
 
-#include "qconf_common.h"
+#include "hconf_common.h"
 
 /**
  * free the string vector according to the free_size
@@ -118,7 +118,7 @@ void serialize_to_idc_host(const std::string &idc, const std::string &host, std:
  */
 int deserialize_from_idc_host(const std::string &idc_host, std::string &idc, std::string &host);
 
-#define LOG_ERR_KEY_INFO(format, ...)  qconf_print_key_info(__FILE__, __LINE__, format, ## __VA_ARGS__)
+#define LOG_ERR_KEY_INFO(format, ...)  hconf_print_key_info(__FILE__, __LINE__, format, ## __VA_ARGS__)
 
 /**
  * Get gray nodes from serialized string

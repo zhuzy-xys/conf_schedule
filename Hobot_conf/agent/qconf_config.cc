@@ -16,19 +16,19 @@
 #include <iostream>
 #include <sstream>
 
-#include "qconf_log.h"
-#include "qconf_const.h"
-#include "qconf_config.h"
+#include "hconf_log.h"
+#include "hconf_const.h"
+#include "hconf_config.h"
 
 using namespace std;
 
 //length of one line in config file and path
-#define QCONF_LINE_MAX_LEN			        1024
+#define HCONF_LINE_MAX_LEN			        1024
 
 // configure file name
-#define QCONF_IDC_CONF_PATH     		    "/conf/idc.conf"
-#define QCONF_AGENT_CONF_PATH               "/conf/agent.conf"
-#define QCONF_LOCAL_IDC_PATH                "/conf/localidc"
+#define HCONF_IDC_CONF_PATH     		    "/conf/idc.conf"
+#define HCONF_AGENT_CONF_PATH               "/conf/agent.conf"
+#define HCONF_LOCAL_IDC_PATH                "/conf/localidc"
 
 static string strtrim(const string &cnt);
 static int is_ip_port(const string &item);
@@ -62,22 +62,22 @@ static void printf_map(const map<string, string> &map)
  */
 int get_integer(const string &cnt, long &integer)
 {
-    if(cnt.empty()) return QCONF_ERR_PARAM;
+    if(cnt.empty()) return HCONF_ERR_PARAM;
     errno = 0;
     char *endptr = NULL;
     long value = strtol(cnt.c_str(), &endptr, 0);
 
     //over range
 	if ((LONG_MAX == value || LONG_MIN == value) && ERANGE == errno)
-        return QCONF_ERR_OUT_OF_RANGE;
+        return HCONF_ERR_OUT_OF_RANGE;
     //Illegal number
     if (cnt == endptr || (0 == value && EINVAL == errno))
-        return QCONF_ERR_NOT_NUMBER;
+        return HCONF_ERR_NOT_NUMBER;
     //further characters exists
-    if ('\0' != *endptr) return QCONF_ERR_OTHRE_CHARACTER;
+    if ('\0' != *endptr) return HCONF_ERR_OTHRE_CHARACTER;
 
     integer = value;
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 /**
@@ -107,7 +107,7 @@ static string strtrim(const string &cnt)
  */
 static int is_ip_port(const string &item)
 {
-    if (item.empty()) return QCONF_ERR_PARAM;
+    if (item.empty()) return HCONF_ERR_PARAM;
  
     int status = 0;
     regex_t reg = {0};
@@ -122,21 +122,21 @@ static int is_ip_port(const string &item)
     {
         regerror(status, &reg, errbuf, sizeof(errbuf));
         LOG_ERR("error happened when compile regex error: %s", errbuf);
-        return QCONF_ERR_OTHER;
+        return HCONF_ERR_OTHER;
     }
     
     status = regexec(&reg, item.c_str(), nmatch, pmatch, 0);
     if (0 == status)
     {
         regfree(&reg);
-        return QCONF_OK;
+        return HCONF_OK;
     }
     else
     {
         regerror(status, &reg, errbuf, sizeof(errbuf));
         LOG_ERR("error happened when execute regex error: %s", errbuf);
         regfree(&reg);
-        return QCONF_ERR_OTHER;
+        return HCONF_ERR_OTHER;
     }
 }
 
@@ -148,7 +148,7 @@ static int get_first_host_by_name(const string &domain, string &ip_address)
     char str[32];
 
     if(NULL == (hptr = gethostbyname(domain.c_str())))
-        return QCONF_ERR_OTHER;
+        return HCONF_ERR_OTHER;
 
     switch(hptr->h_addrtype)
     {
@@ -160,7 +160,7 @@ static int get_first_host_by_name(const string &domain, string &ip_address)
             if (ip_res)
             {
                 ip_address.assign(ip_res);
-                return QCONF_OK;
+                return HCONF_OK;
             }
             break;
         default:
@@ -168,7 +168,7 @@ static int get_first_host_by_name(const string &domain, string &ip_address)
     }
 
     LOG_ERR("Invalid domain name: %s", domain.c_str());
-    return QCONF_ERR_OTHER;
+    return HCONF_ERR_OTHER;
 }
 
 /**
@@ -176,23 +176,23 @@ static int get_first_host_by_name(const string &domain, string &ip_address)
  */
 static int is_domain_port(const string &item)
 {
-    if (item.empty()) return QCONF_ERR_PARAM;
+    if (item.empty()) return HCONF_ERR_PARAM;
 
     string::size_type spos;
     string domain, _port, ip_address;
 
     spos = item.find(':');
     if (spos == string::npos)
-        return QCONF_ERR_OTHER;
+        return HCONF_ERR_OTHER;
     domain = item.substr(0, spos);
     _port = item.substr(spos);
 
-    if (QCONF_OK != get_first_host_by_name(domain, ip_address))
-        return QCONF_ERR_OTHER;
-    if (QCONF_OK != is_ip_port(ip_address + _port))
-        return QCONF_ERR_OTHER;
+    if (HCONF_OK != get_first_host_by_name(domain, ip_address))
+        return HCONF_ERR_OTHER;
+    if (HCONF_OK != is_ip_port(ip_address + _port))
+        return HCONF_ERR_OTHER;
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 /**
@@ -200,21 +200,21 @@ static int is_domain_port(const string &item)
  */
 static int is_valid_idc(const string &idc, const string &value)
 {
-    if (idc.empty() || value.empty()) return QCONF_ERR_PARAM;
+    if (idc.empty() || value.empty()) return HCONF_ERR_PARAM;
 
     string idc_address;
     stringstream ss(value);
 
     while (getline(ss, idc_address, ','))
     {
-        if ((QCONF_OK != is_domain_port(idc_address)) && (QCONF_OK != is_ip_port(idc_address)))
+        if ((HCONF_OK != is_domain_port(idc_address)) && (HCONF_OK != is_ip_port(idc_address)))
         {
             LOG_ERR("Invalid of ip_port:%s\n", idc_address.c_str());
-            return QCONF_ERR_INVALID_IP;
+            return HCONF_ERR_INVALID_IP;
         }
     }
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 /**
@@ -222,28 +222,28 @@ static int is_valid_idc(const string &idc, const string &value)
  */
 static int is_valid_conf(const string &key, const string &value)
 {
-    if (key.empty() || value.empty()) return QCONF_ERR_PARAM;
+    if (key.empty() || value.empty()) return HCONF_ERR_PARAM;
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
-int qconf_load_conf(const string &agent_dir, const std::string& localidc)
+int hconf_load_conf(const string &agent_dir, const std::string& localidc)
 {
-    string agent_conf_path = agent_dir + QCONF_AGENT_CONF_PATH;
-    string idc_conf_path = agent_dir + QCONF_IDC_CONF_PATH;
-    string localidc_path = agent_dir + QCONF_LOCAL_IDC_PATH;
+    string agent_conf_path = agent_dir + HCONF_AGENT_CONF_PATH;
+    string idc_conf_path = agent_dir + HCONF_IDC_CONF_PATH;
+    string localidc_path = agent_dir + HCONF_LOCAL_IDC_PATH;
 
     // init conf map
     int ret = load_conf_(agent_conf_path);
-    if (QCONF_OK != ret) return ret;
+    if (HCONF_OK != ret) return ret;
     ret = load_conf_(idc_conf_path);
-    if (QCONF_OK != ret) return ret;
+    if (HCONF_OK != ret) return ret;
     if (localidc.empty()) {
       ret = load_localidc_conf_(localidc_path);
-      if (QCONF_OK != ret) return ret;
+      if (HCONF_OK != ret) return ret;
     } else {
-      _agent_conf_map.insert(make_pair(QCONF_KEY_LOCAL_IDC, localidc));
-      ret = QCONF_OK;
+      _agent_conf_map.insert(make_pair(HCONF_KEY_LOCAL_IDC, localidc));
+      ret = HCONF_OK;
     }
 
     printf_map(_agent_conf_map);
@@ -254,57 +254,57 @@ int qconf_load_conf(const string &agent_dir, const std::string& localidc)
 
 static int load_localidc_conf_(const string &localidc_path)
 {
-    if (localidc_path.empty()) return QCONF_ERR_PARAM;
+    if (localidc_path.empty()) return HCONF_ERR_PARAM;
 
-    char idc_buf[QCONF_MAX_BUF_LEN] = {0};
+    char idc_buf[HCONF_MAX_BUF_LEN] = {0};
     FILE *fp = fopen(localidc_path.c_str(), "r");
     if (NULL == fp)
     {
         LOG_FATAL_ERR("Failed to open local idc file! path:%s, errno:%d",
                 localidc_path.c_str(), errno);
-        return QCONF_ERR_OPEN;
+        return HCONF_ERR_OPEN;
     }
     if (NULL == fgets(idc_buf, sizeof(idc_buf), fp))
     {
         LOG_FATAL_ERR("Failed to read local idc file! path:%s",
                 localidc_path.c_str());
-        return QCONF_ERR_READ;
+        return HCONF_ERR_READ;
     }
    
     size_t idc_len = strlen(idc_buf);
     if (0 == idc_len)
     {
         LOG_FATAL_ERR("local idc is null!");
-        return QCONF_ERR_NULL_LOCAL_IDC;
+        return HCONF_ERR_NULL_LOCAL_IDC;
     }
 
     if ('\n' == idc_buf[idc_len - 1]) idc_buf[idc_len - 1] = '\0';
     
-    _agent_conf_map.insert(make_pair(QCONF_KEY_LOCAL_IDC, idc_buf));
+    _agent_conf_map.insert(make_pair(HCONF_KEY_LOCAL_IDC, idc_buf));
 
     fclose(fp);
     fp = NULL;
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 static int load_conf_(const string &conf_path)
 {
-    if (conf_path.empty()) return QCONF_ERR_PARAM;
+    if (conf_path.empty()) return HCONF_ERR_PARAM;
 
     //open config file
     FILE *conf_file = fopen(conf_path.c_str(), "r"); 
     if (NULL == conf_file)
     {
         LOG_FATAL_ERR("Failed to open conf file! path:%s", conf_path.c_str());
-        return QCONF_ERR_OPEN;
+        return HCONF_ERR_OPEN;
     }
 
     //read config file
     size_t line_num = 0;
     pair<map_iterator, bool> ret;
-    char line[QCONF_LINE_MAX_LEN] = {0};
-    while (NULL != fgets(line, QCONF_LINE_MAX_LEN, conf_file))
+    char line[HCONF_LINE_MAX_LEN] = {0};
+    while (NULL != fgets(line, HCONF_LINE_MAX_LEN, conf_file))
     {
         line_num++;
 
@@ -333,7 +333,7 @@ static int load_conf_(const string &conf_path)
         if (0 == key.find("zookeeper."))
         {
             string idc(key, key.find(".") + 1);
-            if (QCONF_OK != is_valid_idc(idc, value))
+            if (HCONF_OK != is_valid_idc(idc, value))
             {
                 LOG_ERR("Invalid ips of idc! line_num:%zd, idc:%s, value:%s",
                         line_num, idc.c_str(), value.c_str());
@@ -350,7 +350,7 @@ static int load_conf_(const string &conf_path)
         }
         else
         {
-            if (QCONF_OK != is_valid_conf(key, value))
+            if (HCONF_OK != is_valid_conf(key, value))
             {
                 LOG_ERR("Invalid conf of key! line_num:%zd, key:%s, value:%s",
                         line_num, key.c_str(), value.c_str());
@@ -369,7 +369,7 @@ static int load_conf_(const string &conf_path)
     fclose(conf_file);
     conf_file = NULL;
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 
@@ -378,18 +378,18 @@ static int load_conf_(const string &conf_path)
  */
 int get_agent_conf(const string &key, string &value)
 {
-    if (key.empty()) return QCONF_ERR_PARAM;
+    if (key.empty()) return HCONF_ERR_PARAM;
 
     map_iterator it = _agent_conf_map.find(key);
     if (it == _agent_conf_map.end())
     {
         LOG_WARN("Failed to get conf! key:%s", key.c_str());
-        return QCONF_ERR_NOT_FOUND;
+        return HCONF_ERR_NOT_FOUND;
     }
     
     value.assign(it->second);
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 /**
@@ -397,24 +397,24 @@ int get_agent_conf(const string &key, string &value)
  */
 int get_idc_conf(const string &idc, string &value)
 {
-    if (idc.empty()) return QCONF_ERR_PARAM;
+    if (idc.empty()) return HCONF_ERR_PARAM;
 
     map_iterator it = _idc_conf_map.find(idc);
     if (it == _idc_conf_map.end())
     {
         LOG_ERR("Failed to get conf! idc:%s", idc.c_str());
-        return QCONF_ERR_NOT_FOUND;
+        return HCONF_ERR_NOT_FOUND;
     }
     
     value.assign(it->second);
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 /**
  * Destroy the configuration environment
  */
-void qconf_destroy_conf_map()
+void hconf_destroy_conf_map()
 {
     _agent_conf_map.clear();
     _idc_conf_map.clear();

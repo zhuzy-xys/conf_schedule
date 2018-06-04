@@ -1,8 +1,8 @@
 #include <Python.h>
-#include "qconf.h"
+#include "hconf.h"
 static PyObject* QconfError;
 
-#define QCONF_DRIVER_PYTHON_VERSION  "1.2.2"
+#define HCONF_DRIVER_PYTHON_VERSION  "1.2.2"
 #if PY_MAJOR_VERSION >= 3
     #define Pys_FromString(val) PyBytes_FromString(val)
 #else
@@ -14,73 +14,73 @@ static int print_error_message(const int error_code)
     const char* message = NULL;
     switch (error_code)
     {
-        case QCONF_ERR_OTHER :
+        case HCONF_ERR_OTHER :
             message = "Execute failure!";
             break;
-        case QCONF_ERR_PARAM :
+        case HCONF_ERR_PARAM :
             message = "Error parameter!";
             break;
-        case QCONF_ERR_MEM :
+        case HCONF_ERR_MEM :
             message = "Failed to malloc memory!";
             break;
-        case QCONF_ERR_TBL_SET :
+        case HCONF_ERR_TBL_SET :
             message = "Failed to set share memory";
             break;
-        case QCONF_ERR_GET_HOST :
+        case HCONF_ERR_GET_HOST :
             message = "Failed to get zookeeper host!";
             break;
-        case QCONF_ERR_GET_IDC :
+        case HCONF_ERR_GET_IDC :
             message = "Failed to get idc!";
             break;
-        case QCONF_ERR_BUF_NOT_ENOUGH :
+        case HCONF_ERR_BUF_NOT_ENOUGH :
             message = "Buffer not enough!";
             break;
-        case QCONF_ERR_DATA_TYPE :
+        case HCONF_ERR_DATA_TYPE :
             message = "Illegal data type!";
             break;
-        case QCONF_ERR_DATA_FORMAT :
+        case HCONF_ERR_DATA_FORMAT :
             message = "Illegal data format!";
             break;
-        case QCONF_ERR_NOT_FOUND :
+        case HCONF_ERR_NOT_FOUND :
             message = "Failed to find the key on given idc!";
             break;
-        case QCONF_ERR_OPEN_DUMP :
+        case HCONF_ERR_OPEN_DUMP :
             message = "Failed to open dump file!";
             break;
-        case QCONF_ERR_OPEN_TMP_DUMP :
+        case HCONF_ERR_OPEN_TMP_DUMP :
             message = "Failed to open tmp dump file!";
             break;
-        case QCONF_ERR_NOT_IN_DUMP :
+        case HCONF_ERR_NOT_IN_DUMP :
             message = "Failed to find key in dump!";
             break;
-        case QCONF_ERR_WRITE_DUMP :
+        case HCONF_ERR_WRITE_DUMP :
             message = "Failed to write dump!";
             break;
-        case QCONF_ERR_SAME_VALUE :
+        case HCONF_ERR_SAME_VALUE :
             message = "Same with the value in share memory!";
             break;
-        case QCONF_ERR_OUT_OF_RANGE :
+        case HCONF_ERR_OUT_OF_RANGE :
             message = "Configure item error : out of range!";
             break;
-        case QCONF_ERR_NOT_NUMBER :
+        case HCONF_ERR_NOT_NUMBER :
             message = "Configure item error : not number!";
             break;
-        case QCONF_ERR_OTHRE_CHARACTER :
+        case HCONF_ERR_OTHRE_CHARACTER :
             message = "Configure item error : further characters exists!";
             break;
-        case QCONF_ERR_INVALID_IP :
+        case HCONF_ERR_INVALID_IP :
             message = "Configure item error : invalid ip!";
             break;
-        case QCONF_ERR_INVALID_PORT :
+        case HCONF_ERR_INVALID_PORT :
             message = "Configure item error : invalid port!";
             break;
-        case QCONF_ERR_NO_MESSAGE :
+        case HCONF_ERR_NO_MESSAGE :
             message = "No message exist in message queue!";
             break;
-        case QCONF_ERR_E2BIG :
+        case HCONF_ERR_E2BIG :
             message = "Length of message in the queue is too large!";
             break;
-        case QCONF_ERR_HOSTNAME :
+        case HCONF_ERR_HOSTNAME :
             message = "Error hostname!";
             break;
         default :
@@ -88,31 +88,31 @@ static int print_error_message(const int error_code)
             break;
     }
     PyErr_SetString(QconfError, message);
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 
 static void Qconf_dealloc(void) 
 {
-    // Destroy the qconf env
-    int ret = qconf_destroy();
-    if (QCONF_OK != ret)
+    // Destroy the hconf env
+    int ret = hconf_destroy();
+    if (HCONF_OK != ret)
     {
-        PyErr_SetString(QconfError, "destory qconf evn failed!");
+        PyErr_SetString(QconfError, "destory hconf evn failed!");
         return;
     }
 }
 
 static int Qconf_init(void) 
 {
-    // Init the qconf env
-    int ret = qconf_init();
-    if (QCONF_OK != ret)
+    // Init the hconf env
+    int ret = hconf_init();
+    if (HCONF_OK != ret)
     {
-        PyErr_SetString(QconfError, "inital qconf evn failed!");
-        return QCONF_ERR_OTHER;
+        PyErr_SetString(QconfError, "inital hconf evn failed!");
+        return HCONF_ERR_OTHER;
     }
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 static PyObject* Qconf_get_conf(PyObject *self, PyObject *args)
@@ -121,9 +121,9 @@ static PyObject* Qconf_get_conf(PyObject *self, PyObject *args)
     char* idc = NULL;
     if (!PyArg_ParseTuple(args, "s|s", &path, &idc))
         return NULL;
-    char value[QCONF_CONF_BUF_MAX_LEN];
-    int ret = qconf_get_conf(path, value, sizeof(value), idc);
-    if (QCONF_OK != ret)
+    char value[HCONF_CONF_BUF_MAX_LEN];
+    int ret = hconf_get_conf(path, value, sizeof(value), idc);
+    if (HCONF_OK != ret)
     {
         print_error_message(ret);
         return NULL;
@@ -138,9 +138,9 @@ static PyObject* Qconf_get_host(PyObject *self, PyObject *args)
     char* idc = NULL;
     if (!PyArg_ParseTuple(args, "s|s", &path, &idc))
         return NULL;
-    char host[QCONF_HOST_BUF_MAX_LEN] = {0};
-    int ret = qconf_get_host(path, host, sizeof(host), idc);
-    if (QCONF_OK != ret)
+    char host[HCONF_HOST_BUF_MAX_LEN] = {0};
+    int ret = hconf_get_host(path, host, sizeof(host), idc);
+    if (HCONF_OK != ret)
     {
         print_error_message(ret);
         return NULL;
@@ -171,7 +171,7 @@ static PyObject* convert_to_pylist(const string_vector_t *nodes)
     return pyList;
 }
 
-static PyObject* convert_to_pydict(const qconf_batch_nodes *bnodes)
+static PyObject* convert_to_pydict(const hconf_batch_nodes *bnodes)
 {
     PyObject *pyDict = NULL;
     int i = 0;
@@ -200,7 +200,7 @@ static PyObject* convert_to_pydict(const qconf_batch_nodes *bnodes)
 
 static PyObject* Qconf_get_allhost(PyObject *self, PyObject *args)
 {
-    int ret = QCONF_OK;
+    int ret = HCONF_OK;
     char* path = NULL;
     char* idc = NULL;
     if (!PyArg_ParseTuple(args, "s|s", &path, &idc))
@@ -208,13 +208,13 @@ static PyObject* Qconf_get_allhost(PyObject *self, PyObject *args)
 
     string_vector_t nodes;
     ret = init_string_vector(&nodes);
-    if (QCONF_OK != ret)
+    if (HCONF_OK != ret)
     {
         print_error_message(ret);
         return NULL;
     }
-    ret = qconf_get_allhost(path, &nodes, idc);
-    if (QCONF_OK != ret)
+    ret = hconf_get_allhost(path, &nodes, idc);
+    if (HCONF_OK != ret)
     {
         destroy_string_vector(&nodes);
         print_error_message(ret);
@@ -232,29 +232,29 @@ static PyObject* Qconf_get_allhost(PyObject *self, PyObject *args)
 
 static PyObject* Qconf_get_batch_conf(PyObject *self, PyObject *args)
 {
-    int ret = QCONF_OK;
+    int ret = HCONF_OK;
     char* path = NULL;
     char* idc = NULL;
     if (!PyArg_ParseTuple(args, "s|s", &path, &idc))
         return NULL;
 
-    qconf_batch_nodes bnodes;
-    ret = init_qconf_batch_nodes(&bnodes);
-    if (QCONF_OK != ret)
+    hconf_batch_nodes bnodes;
+    ret = init_hconf_batch_nodes(&bnodes);
+    if (HCONF_OK != ret)
     {
         print_error_message(ret);
         return NULL;
     }
-    ret = qconf_get_batch_conf(path, &bnodes, idc);
-    if (QCONF_OK != ret)
+    ret = hconf_get_batch_conf(path, &bnodes, idc);
+    if (HCONF_OK != ret)
     {
-        destroy_qconf_batch_nodes(&bnodes);
+        destroy_hconf_batch_nodes(&bnodes);
         print_error_message(ret);
         return NULL;
     }
 
     PyObject* result = convert_to_pydict(&bnodes);
-    destroy_qconf_batch_nodes(&bnodes);
+    destroy_hconf_batch_nodes(&bnodes);
     if (NULL == result)
     {
         PyErr_SetString(QconfError, "Failed to convert to python dictionary!");
@@ -265,7 +265,7 @@ static PyObject* Qconf_get_batch_conf(PyObject *self, PyObject *args)
 
 static PyObject* Qconf_get_batch_keys(PyObject *self, PyObject *args)
 {
-    int ret = QCONF_OK;
+    int ret = HCONF_OK;
     char* path = NULL;
     char* idc = NULL;
     if (!PyArg_ParseTuple(args, "s|s", &path, &idc))
@@ -273,13 +273,13 @@ static PyObject* Qconf_get_batch_keys(PyObject *self, PyObject *args)
 
     string_vector_t bnodes_key;
     ret = init_string_vector(&bnodes_key);
-    if (QCONF_OK != ret)
+    if (HCONF_OK != ret)
     {
         print_error_message(ret);
         return NULL;
     }
-    ret = qconf_get_batch_keys(path, &bnodes_key, idc);
-    if (QCONF_OK != ret)
+    ret = hconf_get_batch_keys(path, &bnodes_key, idc);
+    if (HCONF_OK != ret)
     {
         destroy_string_vector(&bnodes_key);
         print_error_message(ret);
@@ -297,27 +297,27 @@ static PyObject* Qconf_get_batch_keys(PyObject *self, PyObject *args)
 
 static PyObject* Qconf_version(PyObject *self)
 {
-    return Pys_FromString(QCONF_DRIVER_PYTHON_VERSION);
+    return Pys_FromString(HCONF_DRIVER_PYTHON_VERSION);
 }
 
 
-static PyMethodDef qconf_methods[] = {
+static PyMethodDef hconf_methods[] = {
     {"get_conf", (PyCFunction)Qconf_get_conf, METH_VARARGS, "get conf value"},
     {"get_host", (PyCFunction)Qconf_get_host, METH_VARARGS, "get one service host"},
     {"get_allhost", (PyCFunction)Qconf_get_allhost, METH_VARARGS, "get all service hosts"},
     {"get_batch_conf", (PyCFunction)Qconf_get_batch_conf, METH_VARARGS, "get all children nodes"},
     {"get_batch_keys", (PyCFunction)Qconf_get_batch_keys, METH_VARARGS, "get key of all children nodes"},
-    {"version", (PyCFunction)Qconf_version, METH_NOARGS, "qconf version"},
+    {"version", (PyCFunction)Qconf_version, METH_NOARGS, "hconf version"},
     {NULL, NULL, 0, NULL}
 };
 
 #if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef moduledef = {
     PyModuleDef_HEAD_INIT,
-    "qconf_py",     /* m_name */
+    "hconf_py",     /* m_name */
     "Python extension of Qconf",  /* m_doc */
     -1,                  /* m_size */
-    qconf_methods,    /* m_methods */
+    hconf_methods,    /* m_methods */
     NULL,                /* m_reload */
     NULL,                /* m_traverse */
     NULL,                /* m_clear */
@@ -332,13 +332,13 @@ static struct PyModuleDef moduledef = {
 #endif
 
 
-MOD_INIT(qconf_py)
+MOD_INIT(hconf_py)
 {
     PyObject *m;
 #if PY_MAJOR_VERSION >= 3
     m = PyModule_Create(&moduledef);
 #else
-    m = Py_InitModule3("qconf_py", qconf_methods, "Python extension of Qconf");
+    m = Py_InitModule3("hconf_py", hconf_methods, "Python extension of Qconf");
 #endif
     if (NULL == m)
 #if PY_MAJOR_VERSION >= 3
@@ -346,12 +346,12 @@ MOD_INIT(qconf_py)
 #else
         return;
 #endif
-    QconfError = PyErr_NewException("qconf_py.Error", NULL, NULL);
+    QconfError = PyErr_NewException("hconf_py.Error", NULL, NULL);
     Py_INCREF(QconfError);
     PyModule_AddObject(m, "Error", QconfError);
 
     int ret = Qconf_init();
-    if (QCONF_ERR_OTHER == ret)
+    if (HCONF_ERR_OTHER == ret)
 #if PY_MAJOR_VERSION >= 3
         return NULL;
 #else

@@ -2,28 +2,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "qconf_errno.h"
+#include "hconf_errno.h"
 #include "driver_common.h"
 
-int init_qconf_batch_nodes(qconf_batch_nodes *bnodes)
+int init_hconf_batch_nodes(hconf_batch_nodes *bnodes)
 {
-    if (NULL == bnodes) return QCONF_ERR_PARAM;
+    if (NULL == bnodes) return HCONF_ERR_PARAM;
 
-    memset((void*)bnodes, 0, sizeof(qconf_batch_nodes));
+    memset((void*)bnodes, 0, sizeof(hconf_batch_nodes));
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
-int destroy_qconf_batch_nodes(qconf_batch_nodes *bnodes)
+int destroy_hconf_batch_nodes(hconf_batch_nodes *bnodes)
 {
-    if (NULL == bnodes) return QCONF_ERR_PARAM;
+    if (NULL == bnodes) return HCONF_ERR_PARAM;
 
-    free_qconf_batch_nodes(bnodes, bnodes->count);
+    free_hconf_batch_nodes(bnodes, bnodes->count);
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
-void free_qconf_batch_nodes(qconf_batch_nodes *bnodes, size_t free_size)
+void free_hconf_batch_nodes(hconf_batch_nodes *bnodes, size_t free_size)
 {
     if (NULL == bnodes) return;
 

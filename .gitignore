@@ -1,1 +1,3 @@
-QConf/build/
+build
+*/deps/
+.vscode

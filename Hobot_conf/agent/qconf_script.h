@@ -1,12 +1,12 @@
-#ifndef QCONF_SCRIPT_H
-#define QCONF_SCRIPT_H
+#ifndef HCONF_SCRIPT_H
+#define HCONF_SCRIPT_H
 
 #include <string>
 
 /**
- * Init qconf directory of script
+ * Init hconf directory of script
  */
-void qconf_init_script_dir(const std::string &agent_dir);
+void hconf_init_script_dir(const std::string &agent_dir);
 
 /**
  * Get script content by given node path

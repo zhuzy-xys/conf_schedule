@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
-#include <qconf/qconf.h>
+#include <hconf/hconf.h>
 
 using namespace std;
 
@@ -10,24 +10,24 @@ int main()
     int ret = 0;
     int i = 0;
 
-    // Init the qconf env
-    ret = qconf_init();
-    if (QCONF_OK != ret)
+    // Init the hconf env
+    ret = hconf_init();
+    if (HCONF_OK != ret)
     {
-        cout << "qconf init error! ret:" << ret << endl;
+        cout << "hconf init error! ret:" << ret << endl;
         return ret;
     }
 
     const char *path = "/demo/test/confs/conf1/conf11";
-    char value[QCONF_CONF_BUF_MAX_LEN];
-    char host[QCONF_HOST_BUF_MAX_LEN] = {0};
+    char value[HCONF_CONF_BUF_MAX_LEN];
+    char host[HCONF_HOST_BUF_MAX_LEN] = {0};
 
     // Get the conf
-    ret = qconf_get_conf(path, value, sizeof(value), NULL);
-    if (QCONF_OK != ret)
+    ret = hconf_get_conf(path, value, sizeof(value), NULL);
+    if (HCONF_OK != ret)
     {
-        cout << "qconf get conf failed " << endl;
-        qconf_destroy();
+        cout << "hconf get conf failed " << endl;
+        hconf_destroy();
         return ret;
     }
     cout << "path: " << path << endl;
@@ -37,14 +37,14 @@ int main()
     // Get Batch conf with key and value
     /***********************************/
     path = "/demo/test/confs/conf1";
-    qconf_batch_nodes bnodes;
+    hconf_batch_nodes bnodes;
 
-    init_qconf_batch_nodes(&bnodes);
-    ret = qconf_get_batch_conf(path, &bnodes, NULL);
-    if (QCONF_OK != ret)
+    init_hconf_batch_nodes(&bnodes);
+    ret = hconf_get_batch_conf(path, &bnodes, NULL);
+    if (HCONF_OK != ret)
     {
-        cout << "qconf get batch conf failed! " << endl;
-        qconf_destroy();
+        cout << "hconf get batch conf failed! " << endl;
+        hconf_destroy();
         return ret;
     }
     cout << "children of parent path: " << path << endl;
@@ -63,7 +63,7 @@ int main()
             cout << endl;
         }
     }
-    destroy_qconf_batch_nodes(&bnodes);
+    destroy_hconf_batch_nodes(&bnodes);
     cout << endl;
 
     /***********************************/
@@ -72,11 +72,11 @@ int main()
     string_vector_t bnodes_key;
 
     init_string_vector(&bnodes_key);
-    ret = qconf_get_batch_keys(path, &bnodes_key, NULL);
-    if (QCONF_OK != ret)
+    ret = hconf_get_batch_keys(path, &bnodes_key, NULL);
+    if (HCONF_OK != ret)
     {
-        cout << "qconf get batch conf's key failed! " << endl;
-        qconf_destroy();
+        cout << "hconf get batch conf's key failed! " << endl;
+        hconf_destroy();
         return ret;
     }
     cout << "children of parent path: " << path << endl;
@@ -96,18 +96,18 @@ int main()
     path = "/demo/test/hosts/host1";
     string_vector_t nodes = {0};
     ret = init_string_vector(&nodes);
-    if (QCONF_OK != ret)
+    if (HCONF_OK != ret)
     {
         cout << "init string vector failed" << endl;
-        qconf_destroy();
+        hconf_destroy();
         return ret;
     }
-    //ret = qconf_get_allhost(path, &nodes, NULL);
-    ret = qconf_get_allhost(path, &nodes, NULL);
-    if (QCONF_OK != ret)
+    //ret = hconf_get_allhost(path, &nodes, NULL);
+    ret = hconf_get_allhost(path, &nodes, NULL);
+    if (HCONF_OK != ret)
     {
-        cout << "qconf get services failed! " << endl;
-        qconf_destroy();
+        cout << "hconf get services failed! " << endl;
+        hconf_destroy();
         return ret;
     }
     cout << "number of services of path: " << path << " is " << nodes.count << "; services are: " << endl;
@@ -121,26 +121,26 @@ int main()
     /***********************************/
     // Get one service of path
     /***********************************/
-    //ret = qconf_get_host(path, host, sizeof(host), NULL);
-    ret = qconf_get_host(path, host, sizeof(host), NULL);
-    if (QCONF_OK != ret)
+    //ret = hconf_get_host(path, host, sizeof(host), NULL);
+    ret = hconf_get_host(path, host, sizeof(host), NULL);
+    if (HCONF_OK != ret)
     {
-        cout << "qconf get service failed!" << endl;
-        qconf_destroy();
+        cout << "hconf get service failed!" << endl;
+        hconf_destroy();
         return ret;
     }
     cout << "service of path: " << path << " is below: " << endl;
     cout << host << endl << endl;
 
-    // Get the qconf version
-    const char *qv = qconf_version();
-    cout << "qconf version: " << qv << endl;
+    // Get the hconf version
+    const char *qv = hconf_version();
+    cout << "hconf version: " << qv << endl;
 
-    // Destroy the qconf env
-    ret = qconf_destroy();
-    if (QCONF_OK != ret)
+    // Destroy the hconf env
+    ret = hconf_destroy();
+    if (HCONF_OK != ret)
     {
-        cout << "qconf destroy failed" << endl;
+        cout << "hconf destroy failed" << endl;
         return -1;
     }
 

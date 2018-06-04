@@ -3,7 +3,7 @@
 namespace mlog {
 
 std::string kLogPath = "logs/";
-std::string kLogFileNamePrefix = "qconf_monitor.log";
+std::string kLogFileNamePrefix = "hconf_monitor.log";
 
 int log_level = LOG_WARNING;
 FILE* fp = nullptr;

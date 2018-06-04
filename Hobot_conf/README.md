@@ -44,7 +44,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/install/prefix
  - **Register** the Zookeeper server address with QConf
 
 ``` shell
-vi QCONF_INSTALL_PREFIX/conf/idc.conf
+vi HCONF_INSTALL_PREFIX/conf/idc.conf
 ```
 ``` php
   # all the zookeeper host configuration.
@@ -53,12 +53,12 @@ vi QCONF_INSTALL_PREFIX/conf/idc.conf
 ```
  - **Assign** local idc
 ``` 
-echo test > QCONF_INSTALL_PREFIX/conf/localidc #assign local idc to 'test'
+echo test > HCONF_INSTALL_PREFIX/conf/localidc #assign local idc to 'test'
 ```
  - **Run** QConf
 
 ``` shell
-cd QCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
+cd HCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 ```
  - **Code** to access QConf
 
@@ -84,31 +84,31 @@ cd QCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 
 * **shell** 
 ``` shell
-    qconf get_conf /demo/node1   # get the value of '/demo/node1'
+    hconf get_conf /demo/node1   # get the value of '/demo/node1'
 ```
 
 * **c/c++**
 ``` c
-	  // Init the qconf env
-      ret = qconf_init();
-      assert(QCONF_OK == ret);
+	  // Init the hconf env
+      ret = hconf_init();
+      assert(HCONF_OK == ret);
 
       // Get Conf value
-      char value[QCONF_CONF_BUF_MAX_LEN];
-      ret = qconf_get_conf("/demo/node1", value, sizeof(value), NULL);
-      assert(QCONF_OK == ret);
+      char value[HCONF_CONF_BUF_MAX_LEN];
+      ret = hconf_get_conf("/demo/node1", value, sizeof(value), NULL);
+      assert(HCONF_OK == ret);
       
-      // Destroy qconf env
-      qconf_destroy();
+      // Destroy hconf env
+      hconf_destroy();
 ```
 
 ## Document
 * [Getting Started](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Getting%20Started%20Guide.md) - a tutorial-style guide for developers to install, run, and program to QConf
-* [Implement](http://catkang.github.io/2015/06/23/qconf.html)
+* [Implement](http://catkang.github.io/2015/06/23/hconf.html)
 * [wiki](https://github.com/Qihoo360/QConf/wiki)
-* [qconf video guide](https://github.com/Qihoo360/QConf/wiki/QConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8)
+* [hconf video guide](https://github.com/Qihoo360/QConf/wiki/QConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8)
 
 ## Contact
 
-* Email: g-qconf@list.qihoo.net
+* Email: g-hconf@list.qihoo.net
 * QQ Group: 438042718 

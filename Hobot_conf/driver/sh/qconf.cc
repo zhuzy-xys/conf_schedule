@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <qconf.h>
+#include <hconf.h>
 
 using namespace std;
 
@@ -15,13 +15,13 @@ using namespace std;
 #define CMD_GET_BATCH_KEYS      "get_batch_keys"
 #define CMD_VERSION             "version"
 
-#define QCONF_SHELL_VERSION     "1.2.2"
+#define HCONF_SHELL_VERSION     "1.2.2"
 
 void show_usage()
 {
-    printf("usage: qconf command key [idc]\n");
+    printf("usage: hconf command key [idc]\n");
     printf("       command: can be one of below commands:\n");
-    printf("                version         : get qconf version\n");
+    printf("                version         : get hconf version\n");
     printf("                get_conf        : get configure value\n");
     printf("                get_host        : get one service\n");
     printf("                get_allhost     : get all services available\n");
@@ -29,8 +29,8 @@ void show_usage()
     printf("       key    : the path of your configure items\n");
     printf("       idc    : query from current idc if be omitted\n");
     printf("example: \n");
-    printf("       qconf get_conf \"demo/conf\"\n");
-    printf("       qconf get_conf \"demo/conf\" \"corp\" \n");
+    printf("       hconf get_conf \"demo/conf\"\n");
+    printf("       hconf get_conf \"demo/conf\" \"corp\" \n");
 }
 
 int main(int argc, char *argv[])
@@ -38,24 +38,24 @@ int main(int argc, char *argv[])
     if (argc < 2)
     {
         show_usage();
-        return QCONF_ERR_OTHER;
+        return HCONF_ERR_OTHER;
     }
     char *command = argv[1];
     if (!strcmp(command, CMD_VERSION))
     {
-        printf("Version : %s\n", QCONF_SHELL_VERSION) ;
-        return QCONF_OK;
+        printf("Version : %s\n", HCONF_SHELL_VERSION) ;
+        return HCONF_OK;
     }
     if (argc == 2)
     {
         show_usage();
-        return QCONF_ERR_OTHER;
+        return HCONF_ERR_OTHER;
     }
 
-    int ret = qconf_init();
-    if (QCONF_OK != ret)
+    int ret = hconf_init();
+    if (HCONF_OK != ret)
     {
-        printf("[ERROR] Failed to init qconf! ret:%d\n", ret);
+        printf("[ERROR] Failed to init hconf! ret:%d\n", ret);
         return ret;
     }
     char *path = argv[2];
@@ -64,9 +64,9 @@ int main(int argc, char *argv[])
     if (!strcmp(command, CMD_GET_CONF))
     {
         // Get the conf
-        char value[QCONF_CONF_BUF_MAX_LEN];
-        ret = qconf_get_conf(path, value, sizeof(value), idc);
-        if (QCONF_OK != ret)
+        char value[HCONF_CONF_BUF_MAX_LEN];
+        ret = hconf_get_conf(path, value, sizeof(value), idc);
+        if (HCONF_OK != ret)
         {
             printf("[ERROR]Failed to get conf! ret:%d\n", ret);
             return ret;
@@ -77,9 +77,9 @@ int main(int argc, char *argv[])
     else if (!strcmp(command, CMD_GET_HOST))
     {
         // Get the host
-        char host[QCONF_HOST_BUF_MAX_LEN] = {0};
-        ret = qconf_get_host(path, host, sizeof(host), idc);
-        if (QCONF_OK != ret)
+        char host[HCONF_HOST_BUF_MAX_LEN] = {0};
+        ret = hconf_get_host(path, host, sizeof(host), idc);
+        if (HCONF_OK != ret)
         {
             printf("[ERROR]Failed to get get host! ret:%d\n", ret);
             return ret;
@@ -93,13 +93,13 @@ int main(int argc, char *argv[])
         int i = 0;
         string_vector_t nodes;
         ret = init_string_vector(&nodes);
-        if (QCONF_OK != ret)
+        if (HCONF_OK != ret)
         {
             printf("[ERROR]Failed to init string vector! ret:%d\n", ret);
             return ret;
         }
-        ret = qconf_get_allhost(path, &nodes, idc);
-        if (QCONF_OK != ret)
+        ret = hconf_get_allhost(path, &nodes, idc);
+        if (HCONF_OK != ret)
         {
             printf("[ERROR]Failed to get all services! ret:%d\n", ret);
             return ret;
@@ -118,13 +118,13 @@ int main(int argc, char *argv[])
         int i = 0;
         string_vector_t bnodes_key;
         ret = init_string_vector(&bnodes_key);
-        if (QCONF_OK != ret)
+        if (HCONF_OK != ret)
         {
             printf("[ERROR]Faield to init string vector! ret:%d\n", ret);
             return ret;
         }
-        ret = qconf_get_batch_keys(path, &bnodes_key, idc);
-        if (QCONF_OK != ret)
+        ret = hconf_get_batch_keys(path, &bnodes_key, idc);
+        if (HCONF_OK != ret)
         {
             printf("[ERROR]Failed to get batch keys! ret:%d\n", ret);
             return ret;
@@ -141,5 +141,5 @@ int main(int argc, char *argv[])
         show_usage();
     }
 
-    return QCONF_OK;
+    return HCONF_OK;
 }

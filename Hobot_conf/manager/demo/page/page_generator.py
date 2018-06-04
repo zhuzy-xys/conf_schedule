@@ -1,7 +1,7 @@
 #!/usr/bin/python
-# This script is used to generate qconf_page.cc file from qconf_page.html
-f = open('qconf_page.html')
-f_out = open('qconf_page.cc', 'wa')
+# This script is used to generate hconf_page.cc file from hconf_page.html
+f = open('hconf_page.html')
+f_out = open('hconf_page.cc', 'wa')
 
 f_out.write("#include \"stdlib.h\"\n")
 f_out.write("#include \"cgic.h\"\n")

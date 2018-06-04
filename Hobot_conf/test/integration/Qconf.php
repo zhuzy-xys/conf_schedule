@@ -3,9 +3,9 @@ require dirname(__FILE__).'/QconfConfig.php';
 
 class Qconf
 {
-    public static function getHost($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        $version = phpversion("qconf");
+        $version = phpversion("hconf");
         switch ($version)
         {
         case "1.0.0":
@@ -20,9 +20,9 @@ class Qconf
         }
     }
 
-    public static function getAllHost($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getAllHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        $version = phpversion("qconf");
+        $version = phpversion("hconf");
         switch ($version)
         {
         case "1.0.0":
@@ -37,9 +37,9 @@ class Qconf
         }
     }
 
-    public static function getConf($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        $version = phpversion("qconf");
+        $version = phpversion("hconf");
         switch ($version)
         {
         case "1.0.0":
@@ -54,9 +54,9 @@ class Qconf
         }
     }
 
-    public static function getMultConf($names, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getMultConf($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        $version = phpversion("qconf");
+        $version = phpversion("hconf");
         switch ($version)
         {
         case "1.0.0":
@@ -71,19 +71,19 @@ class Qconf
         }
     }
 
-    public static function getBatchConf($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getBatchConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         return Qconf0_4_0::getBatchConf($name, $idc, $flags);
     }
 
-    public static function getBatchKeys($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getBatchKeys($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         return Qconf0_4_0::getBatchKeys($name, $idc, $flags);
     }
 
-    public static function getHostNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        $version = phpversion("qconf");
+        $version = phpversion("hconf");
         switch ($version)
         {
         case "1.0.0":
@@ -98,9 +98,9 @@ class Qconf
         }
     }
 
-    public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        $version = phpversion("qconf");
+        $version = phpversion("hconf");
         switch ($version)
         {
         case "1.0.0":
@@ -115,9 +115,9 @@ class Qconf
         }
     }
 
-    public static function getConfNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getConfNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        $version = phpversion("qconf");
+        $version = phpversion("hconf");
         switch ($version)
         {
         case "0.3.1":
@@ -129,9 +129,9 @@ class Qconf
         }
     }
 
-    public static function getMultConfNative($names, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getMultConfNative($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        $version = phpversion("qconf");
+        $version = phpversion("hconf");
         switch ($version)
         {
         case "0.3.1":
@@ -147,7 +147,7 @@ class Qconf
 
 class Qconf0_4_0
 {
-    public static function getHost($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $hosts = self::getAllHost($name, $idc, $flags);
         if ($hosts != null)
@@ -157,17 +157,17 @@ class Qconf0_4_0
         return null;
     }
 
-    public static function getAllHost($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getAllHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         return QConfig::GetChild(trim($name), $idc, $flags);
     }
 
-    public static function getConf($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         return QConfig::Get(trim($name), $idc, $flags);
     }
 
-    public static function getMultConf($names, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getMultConf($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $result = array();
         $name_arr = explode(',', $names);
@@ -185,17 +185,17 @@ class Qconf0_4_0
         return $result;
     }
 
-    public static function getBatchConf($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getBatchConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         return QConfig::GetBatchConf(trim($name), $idc, $flags);
     }
 
-    public static function getBatchKeys($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getBatchKeys($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         return QConfig::GetBatchKeys(trim($name), $idc, $flags);
     }
 
-    public static function getHostNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $hosts = self::getAllHostNative($name, $idc, $flags);
         if ($hosts != null)
@@ -205,7 +205,7 @@ class Qconf0_4_0
         return null;
     }
 
-    public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         return QConfig::GetBatchKeysNative(trim($name), $idc, $flags);
     }
@@ -222,7 +222,7 @@ class Qconf0_3_1
         return $cluster;
     }
 
-    public static function getHost($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $hosts = self::getAllHost($name, $idc, $flags);
         if ($hosts != null)
@@ -232,19 +232,19 @@ class Qconf0_3_1
         return null;
     }
 
-    public static function getAllHost($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getAllHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $node = QconfConfig::getNodePath($name);
         return QConfig::GetChild($node, $idc, $flags);
     }
 
-    public static function getConf($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $node = QconfConfig::getNodePath($name);
         return QConfig::Get($node, $idc, $flags);
     }
 
-    public static function getMultConf($names, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getMultConf($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $result = array();
         $name_arr = explode(',', $names);
@@ -263,7 +263,7 @@ class Qconf0_3_1
         return $result;
     }
 
-    public static function getHostNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $hosts = self::getAllHostNative($name, $idc, $flags);
         if ($hosts != null)
@@ -273,17 +273,17 @@ class Qconf0_3_1
         return null;
     }
 
-    public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         return QConfig::GetChild($name, $idc, $flags);
     }
 
-    public static function getConfNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getConfNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         return QConfig::Get($name, $idc, $flags);
     }
 
-    public static function getMultConfNative($names, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getMultConfNative($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $result = array();
         $name_arr = explode(',', $names);
@@ -312,7 +312,7 @@ class Qconf0_3_0
         $hostname = $uname["nodename"];
         $words = explode(".", $hostname);
         $cluster = $words[count($words)-3];
-        return QconfConfig::$qconfZkHost[$cluster];
+        return QconfConfig::$hconfZkHost[$cluster];
     }
 
     private static function getIdc()
@@ -324,7 +324,7 @@ class Qconf0_3_0
         return $cluster;
     }
 
-    public static function getHost($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $hosts = self::getAllHost($name, $idc, $flags);
         if ($hosts != null)
@@ -334,7 +334,7 @@ class Qconf0_3_0
         return null;
     }
 
-    public static function getAllHost($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getAllHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         if ($idc === null)
         {
@@ -347,7 +347,7 @@ class Qconf0_3_0
         return QConfig::GetChild($node, $flags);
     }
 
-    public static function getConf($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         if ($idc === null)
         {
@@ -360,7 +360,7 @@ class Qconf0_3_0
         return QConfig::Get($node, $flags);
     }
 
-    public static function getMultConf($names, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getMultConf($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $result = array();
         $name_arr = explode(',', $names);
@@ -379,7 +379,7 @@ class Qconf0_3_0
         return $result;
     }
 
-    public static function getHostNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $hosts = self::getAllHostNative($name, $idc, $flags);
         if ($hosts != null)
@@ -389,7 +389,7 @@ class Qconf0_3_0
         return null;
     }
 
-    public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         if ($idc === null)
         {
@@ -401,7 +401,7 @@ class Qconf0_3_0
         return QConfig::GetChild($name, $flags);
     }
 
-    public static function getConfNative($name, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getConfNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         if ($idc === null)
         {
@@ -413,7 +413,7 @@ class Qconf0_3_0
         return QConfig::Get($name, $flags);
     }
 
-    public static function getMultConfNative($names, $idc = null, $flags = QconfConfig::QCONF_WAIT)
+    public static function getMultConfNative($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $result = array();
         $name_arr = explode(',', $names);
@@ -438,15 +438,15 @@ class Qconf0_3_0
 class Qconf_old {
     private static function getZk() 
     {
-        if (defined("QCONF_TEST_ENV")) {
-            return QconfConfig::$qconfZkHost["test"];     
+        if (defined("HCONF_TEST_ENV")) {
+            return QconfConfig::$hconfZkHost["test"];     
         }   
         else {
             $uname = posix_uname();
             $hostname = $uname["nodename"];
             $words = explode(".", $hostname);
             $cluster = $words[count($words)-3];
-            return QconfConfig::$qconfZkHost[$cluster];
+            return QconfConfig::$hconfZkHost[$cluster];
         } 
     }
 

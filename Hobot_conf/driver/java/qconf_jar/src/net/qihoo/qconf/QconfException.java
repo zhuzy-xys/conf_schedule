@@ -1,4 +1,4 @@
-package net.qihoo.qconf;
+package net.qihoo.hconf;
 public class QconfException extends Exception
 {
     public QconfException()

@@ -35,19 +35,19 @@ file(GLOB ZK_OBJ_FILE
 message(${ZK_OBJ_FILE})
 
 add_definitions(${MANAGER_COMPILE_FLAGS})
-add_executable(qconf_monitor ${DIR_SRCS})
+add_executable(hconf_monitor ${DIR_SRCS})
 
 # link libpthread
 find_package (Threads)
-target_link_libraries (qconf_monitor ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries (hconf_monitor ${CMAKE_THREAD_LIBS_INIT})
 
 # link static libzookeeper_mt
-target_link_libraries(qconf_monitor
+target_link_libraries(hconf_monitor
     ${PROJECT_SOURCE_DIR}/../deps/zookeeper/_install/lib/libzookeeper_mt.a)
 
 # link static slash
-target_link_libraries(qconf_monitor ${PROJECT_SOURCE_DIR}/third/slash/output/lib/libslash.a)
+target_link_libraries(hconf_monitor ${PROJECT_SOURCE_DIR}/third/slash/output/lib/libslash.a)
 # link static pink
-target_link_libraries(qconf_monitor ${PROJECT_SOURCE_DIR}/third/pink/output/lib/libpink.a)
+target_link_libraries(hconf_monitor ${PROJECT_SOURCE_DIR}/third/pink/output/lib/libpink.a)
 
-install(TARGETS qconf_monitor DESTINATION bin)
+install(TARGETS hconf_monitor DESTINATION bin)

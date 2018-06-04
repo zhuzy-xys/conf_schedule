@@ -2,8 +2,8 @@
 #include <cstdlib>
 #include <string>
 
-#include "qconf_log.h"
-#include "qconf_lock.h"
+#include "hconf_log.h"
+#include "hconf_lock.h"
 
 
 static void PthreadCall(const std::string &label, int result) {

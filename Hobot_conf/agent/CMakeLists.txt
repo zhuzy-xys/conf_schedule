@@ -1,15 +1,15 @@
 #CMakelist agent
 if (${HAS_PREFIX})
-    set(AGENT_COMPILE_FLAGS "-c -D__STDC_FORMAT_MACROS -DQCONF_INTERNAL
-    -DQCONF_CURL_ENABLE
-    -DQCONF_AGENT_DIR=${CMAKE_INSTALL_PREFIX} -fPIC -g -pthread -Wall")
+    set(AGENT_COMPILE_FLAGS "-c -D__STDC_FORMAT_MACROS -DHCONF_INTERNAL
+    -DHCONF_CURL_ENABLE
+    -DHCONF_AGENT_DIR=${CMAKE_INSTALL_PREFIX} -fPIC -g -pthread -Wall")
 else()
-    set(AGENT_COMPILE_FLAGS "-c -D__STDC_FORMAT_MACROS -DQCONF_CURL_ENABLE
-    -DQCONF_AGENT_DIR=${CMAKE_INSTALL_PREFIX} -fPIC -g -pthread -Wall")
+    set(AGENT_COMPILE_FLAGS "-c -D__STDC_FORMAT_MACROS -DHCONF_CURL_ENABLE
+    -DHCONF_AGENT_DIR=${CMAKE_INSTALL_PREFIX} -fPIC -g -pthread -Wall")
 endif()
 #set(LINK_FLAGS "-lpthread -lrt")
 
-project(qconf-agent)
+project(hconf-agent)
 cmake_minimum_required(VERSION 2.6)
 include_directories(
     ${PROJECT_SOURCE_DIR}/../base
@@ -28,11 +28,11 @@ set_source_files_properties(../base/qlibc/qhash.c PROPERTIES LANGUAGE CXX )
 set_source_files_properties(../base/qlibc/qhasharr.c PROPERTIES LANGUAGE CXX )
 
 add_definitions(${AGENT_COMPILE_FLAGS})
-add_executable(qconf_agent ${DIR_SRCS})
+add_executable(hconf_agent ${DIR_SRCS})
 
 # link libpthread
 find_package (Threads)
-target_link_libraries (qconf_agent ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries (hconf_agent ${CMAKE_THREAD_LIBS_INIT})
 
 IF(WIN32)
     MESSAGE(STATUS "This is windows")
@@ -40,7 +40,7 @@ ELSEIF(APPLE)
     MESSAGE(STATUS "This is apple")
 ELSEIF(UNIX)
     MESSAGE(STATUS "This is unix, and add the librt.so")
-    target_link_libraries (qconf_agent rt)
+    target_link_libraries (hconf_agent rt)
 ENDIF(WIN32)
 
 #build libcurl
@@ -62,13 +62,13 @@ execute_process(WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/../deps/gdbm COMMAND
     make install)
 
 # link libcurl
-target_link_libraries(qconf_agent
+target_link_libraries(hconf_agent
     ${PROJECT_SOURCE_DIR}/../deps/curl/_install/lib/libcurl.a)
 # link static libzookeeper_mt
-target_link_libraries(qconf_agent
+target_link_libraries(hconf_agent
     ${PROJECT_SOURCE_DIR}/../deps/zookeeper/_install/lib/libzookeeper_mt.a)
 # link static libgdbm
-target_link_libraries(qconf_agent ${PROJECT_SOURCE_DIR}/../deps/gdbm/_install/lib/libgdbm.a)
+target_link_libraries(hconf_agent ${PROJECT_SOURCE_DIR}/../deps/gdbm/_install/lib/libgdbm.a)
 file(WRITE lockfile "")
 
 install(DIRECTORY bin DESTINATION .)
@@ -82,5 +82,5 @@ install(DIRECTORY DESTINATION lock)
 install(FILES lockfile DESTINATION lock)
 install(DIRECTORY DESTINATION doc)
 install(DIRECTORY DESTINATION logs)
-install(TARGETS qconf_agent DESTINATION bin)
+install(TARGETS hconf_agent DESTINATION bin)
 install(FILES version DESTINATION .)

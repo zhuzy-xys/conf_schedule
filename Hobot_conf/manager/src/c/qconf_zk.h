@@ -1,5 +1,5 @@
-#ifndef QCONF_ZK_H
-#define QCONF_ZK_H
+#ifndef HCONF_ZK_H
+#define HCONF_ZK_H
 
 #include <set>
 #include <map>
@@ -8,26 +8,26 @@
 #include <zookeeper.h>
 
 // Return code
-#define QCONF_OK                            0
-#define QCONF_ERR_PARAM                     1               /* Ilegal parameter */
-#define QCONF_ERR_ZOO_FAILED                61              /* Zookeeper Operation failed */
-#define QCONF_ERR_ZOO_NOTEMPTY              100             /* Child node exist on Zookeeper */
-#define QCONF_ERR_ZOO_NOT_EXIST             102             /* Zookeeper Node not exist */
-#define QCONF_ERR_ZOO_ALREADY_EXIST         103
-#define QCONF_ERR_NODE_TYPE                 110             /* Error node type for current Zookeeper operation */
+#define HCONF_OK                            0
+#define HCONF_ERR_PARAM                     1               /* Ilegal parameter */
+#define HCONF_ERR_ZOO_FAILED                61              /* Zookeeper Operation failed */
+#define HCONF_ERR_ZOO_NOTEMPTY              100             /* Child node exist on Zookeeper */
+#define HCONF_ERR_ZOO_NOT_EXIST             102             /* Zookeeper Node not exist */
+#define HCONF_ERR_ZOO_ALREADY_EXIST         103
+#define HCONF_ERR_NODE_TYPE                 110             /* Error node type for current Zookeeper operation */
 
 // error: gray level submission
-#define QCONF_ERR_GRAY_SERIALIZE            122             /* Error happened when serialize gray content */
-#define QCONF_ERR_GRAY_SET_CONTENT          123             /* Error happened when set content nodes */
-#define QCONF_ERR_GRAY_SET_CLIENTS          125             /* Error happened when set client nodes */
-#define QCONF_ERR_GRAY_SET_BACKLINK         126             /* Error happened when set backlink node */
-#define QCONF_ERR_GRAY_GET_CONTENT          127             /* Error happened when get notify content */
-#define QCONF_ERR_GRAY_GET_CLIENTS          129             /* Error happened when get clients */
-#define QCONF_ERR_GRAY_GET_BACKLINK         130             /* Error happened when get backlink */
-#define QCONF_ERR_GRAY_DELETE_CONTENT       131             /* Error happened when delete content nodes */
-#define QCONF_ERR_GRAY_DELETE_CLIENTS        133             /* Error happened when delete clinet nodes */
-#define QCONF_ERR_GRAY_DELETE_BACKLINK      134             /* Error happened when delete backlink node */
-#define QCONF_ERR_GRAY_COMMIT               135             /* Error happened when commit gray content */
+#define HCONF_ERR_GRAY_SERIALIZE            122             /* Error happened when serialize gray content */
+#define HCONF_ERR_GRAY_SET_CONTENT          123             /* Error happened when set content nodes */
+#define HCONF_ERR_GRAY_SET_CLIENTS          125             /* Error happened when set client nodes */
+#define HCONF_ERR_GRAY_SET_BACKLINK         126             /* Error happened when set backlink node */
+#define HCONF_ERR_GRAY_GET_CONTENT          127             /* Error happened when get notify content */
+#define HCONF_ERR_GRAY_GET_CLIENTS          129             /* Error happened when get clients */
+#define HCONF_ERR_GRAY_GET_BACKLINK         130             /* Error happened when get backlink */
+#define HCONF_ERR_GRAY_DELETE_CONTENT       131             /* Error happened when delete content nodes */
+#define HCONF_ERR_GRAY_DELETE_CLIENTS        133             /* Error happened when delete clinet nodes */
+#define HCONF_ERR_GRAY_DELETE_BACKLINK      134             /* Error happened when delete backlink node */
+#define HCONF_ERR_GRAY_COMMIT               135             /* Error happened when commit gray content */
 
 // server status define
 #define STATUS_UP                           0
@@ -121,7 +121,7 @@ class QConfZK
         int zk_list_with_values(const std::string &node, std::map<std::string, std::string> &children);
 
         /**
-         * Check path, return QCONF_OK if correct and new_path is the formated path
+         * Check path, return HCONF_OK if correct and new_path is the formated path
          */
         int zk_path(const std::string &path, std::string &new_path);
 

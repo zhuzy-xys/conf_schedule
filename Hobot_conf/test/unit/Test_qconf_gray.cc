@@ -7,19 +7,19 @@
 #include <algorithm>
 
 #include "gtest/gtest.h"
-#include "qconf_gray.h"
-#include "qconf_zk.h"
-#include "qconf_format.h"
+#include "hconf_gray.h"
+#include "hconf_zk.h"
+#include "hconf_format.h"
 using namespace std;
 
 #define MAX_NODE_NUM 20
 
-//unit test case for qconf_zk.cc
+//unit test case for hconf_zk.cc
 
 static void global_watcher(zhandle_t* zh, int type, int state, const char* path, void* context);
 
 //Related test environment set up 1:
-class Test_qconf_gray : public :: testing::Test
+class Test_hconf_gray : public :: testing::Test
 {
 protected:
     virtual void SetUp()
@@ -56,28 +56,28 @@ static void global_watcher(zhandle_t* zh, int type, int state, const char* path,
  * Begin_Test_for function: int gray_process(zhandle_t *zh, const std::string &idc, std::map<std::string, std::string> &nodes);
  */
 
-TEST_F(Test_qconf_gray, zk_gray_process_error_zk_null)
+TEST_F(Test_hconf_gray, zk_gray_process_error_zk_null)
 {
     string idc = "test";
     vector< pair<string, string> > nodes;
     int ret = -1;
     ret = gray_process(NULL, idc, nodes);
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
     
     //ret = qzk.zk_gray_rollback("GRAYID1434692493-519639");
-    //EXPECT_EQ(QCONF_OK, ret);
+    //EXPECT_EQ(HCONF_OK, ret);
 }
 
-TEST_F(Test_qconf_gray, zk_gray_process_error_idc_empty)
+TEST_F(Test_hconf_gray, zk_gray_process_error_idc_empty)
 {
     string idc;
     vector< pair<string, string> > nodes;
     int ret = -1;
     ret = gray_process(zh, idc, nodes);
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
 }
 
-TEST_F(Test_qconf_gray, zk_gray_process_ok_set_rollback)
+TEST_F(Test_hconf_gray, zk_gray_process_ok_set_rollback)
 {
     qzk.zk_node_set("/demo/key1", "old_value1");
     qzk.zk_node_set("/demo/key2", "old_value2");
@@ -100,17 +100,17 @@ TEST_F(Test_qconf_gray, zk_gray_process_ok_set_rollback)
     // Begin gray 
     string gray_id("GRAYID1434523437-573294");
     ret = qzk.zk_gray_begin(nodes, machines, gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     
     cout << "Gray ID : " << gray_id << endl; 
     ret = gray_process(zh, idc, onodes);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ(nodes.size(), onodes.size());
     string tblkey, tblval;
     for (map<string, string>::iterator it = nodes.begin(); it != nodes.end(); ++it)
     {
         tblkey.clear();
-        serialize_to_tblkey(QCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
+        serialize_to_tblkey(HCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
         
         tblval.clear();
         nodeval_to_tblval(tblkey, (*it).second, tblval);
@@ -119,27 +119,27 @@ TEST_F(Test_qconf_gray, zk_gray_process_ok_set_rollback)
     
     // gray rollback
     ret = qzk.zk_gray_rollback(gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
 
     string val;
     ret = qzk.zk_node_get("/demo/key1", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("old_value1", val);
 
     ret = qzk.zk_node_get("/demo/key2", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("old_value2", val);
     
     ret = qzk.zk_node_get("/demo/key3", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("old_value3", val);
     
     ret = qzk.zk_node_get("/demo/key4", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("old_value4", val);
 
 }
-TEST_F(Test_qconf_gray, zk_gray_process_ok_set_commit)
+TEST_F(Test_hconf_gray, zk_gray_process_ok_set_commit)
 {
     qzk.zk_node_set("/demo/key1", "old_value1");
     qzk.zk_node_set("/demo/key2", "old_value2");
@@ -161,18 +161,18 @@ TEST_F(Test_qconf_gray, zk_gray_process_ok_set_commit)
     // Begin gray 
     string gray_id("GRAYID1434523437-573294");
     ret = qzk.zk_gray_begin(nodes, machines, gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     
     cout << "Gray ID : " << gray_id << endl; 
 
     ret = gray_process(zh, idc, onodes);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ(nodes.size(), onodes.size());
     string tblkey, tblval;
     for (map<string, string>::iterator it = nodes.begin(); it != nodes.end(); ++it)
     {
         tblkey.clear();
-        serialize_to_tblkey(QCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
+        serialize_to_tblkey(HCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
         
         tblval.clear();
         nodeval_to_tblval(tblkey, (*it).second, tblval);
@@ -181,27 +181,27 @@ TEST_F(Test_qconf_gray, zk_gray_process_ok_set_commit)
     
     // gray rollback
     ret = qzk.zk_gray_commit(gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
 
     string val;
     ret = qzk.zk_node_get("/demo/key1", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("value1", val);
 
     ret = qzk.zk_node_get("/demo/key2", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("value2", val);
     
     ret = qzk.zk_node_get("/demo/key3", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("value3", val);
     
     ret = qzk.zk_node_get("/demo/key4", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("value4", val);
 }
 
-TEST_F(Test_qconf_gray, zk_gray_process_ok_multiset_rollback)
+TEST_F(Test_hconf_gray, zk_gray_process_ok_multiset_rollback)
 {
     qzk.zk_node_set("/demo/key1", "old_value1");
     qzk.zk_node_set("/demo/key2", "old_value2");
@@ -224,18 +224,18 @@ TEST_F(Test_qconf_gray, zk_gray_process_ok_multiset_rollback)
     // Begin gray 
     string gray_id("GRAYID1434523437-573294");
     ret = qzk.zk_gray_begin(nodes, machines, gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     
     cout << "Gray ID : " << gray_id << endl; 
 
     ret = gray_process(zh, idc, onodes);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ(nodes.size(), onodes.size());
     string tblkey, tblval;
     for (map<string, string>::iterator it = nodes.begin(); it != nodes.end(); ++it)
     {
         tblkey.clear();
-        serialize_to_tblkey(QCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
+        serialize_to_tblkey(HCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
         
         tblval.clear();
         nodeval_to_tblval(tblkey, (*it).second, tblval);
@@ -244,27 +244,27 @@ TEST_F(Test_qconf_gray, zk_gray_process_ok_multiset_rollback)
     
     // gray rollback
     ret = qzk.zk_gray_rollback(gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
 
    string val;
    ret = qzk.zk_node_get("/demo/key1", val);
-   EXPECT_EQ(QCONF_OK, ret);
+   EXPECT_EQ(HCONF_OK, ret);
    EXPECT_EQ("old_value1", val);
 
    ret = qzk.zk_node_get("/demo/key2", val);
-   EXPECT_EQ(QCONF_OK, ret);
+   EXPECT_EQ(HCONF_OK, ret);
    EXPECT_EQ("old_value2", val);
    
    ret = qzk.zk_node_get("/demo/key3", val);
-   EXPECT_EQ(QCONF_OK, ret);
+   EXPECT_EQ(HCONF_OK, ret);
    EXPECT_EQ("old_value3", val);
    
    ret = qzk.zk_node_get("/demo/key4", val);
-   EXPECT_EQ(QCONF_OK, ret);
+   EXPECT_EQ(HCONF_OK, ret);
    EXPECT_EQ("old_value4", val);
 }
 
-TEST_F(Test_qconf_gray, zk_gray_process_ok_multiset_commit)
+TEST_F(Test_hconf_gray, zk_gray_process_ok_multiset_commit)
 {
     qzk.zk_node_set("/demo/key1", "old_value1");
     qzk.zk_node_set("/demo/key2", "old_value2");
@@ -287,18 +287,18 @@ TEST_F(Test_qconf_gray, zk_gray_process_ok_multiset_commit)
     // Begin gray 
     string gray_id("GRAYID1434523437-573294");
     ret = qzk.zk_gray_begin(nodes, machines, gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     
     cout << "Gray ID : " << gray_id << endl; 
 
     ret = gray_process(zh, idc, onodes);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ(nodes.size(), onodes.size());
     string tblkey, tblval;
     for (map<string, string>::iterator it = nodes.begin(); it != nodes.end(); ++it)
     {
         tblkey.clear();
-        serialize_to_tblkey(QCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
+        serialize_to_tblkey(HCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
         
         tblval.clear();
         nodeval_to_tblval(tblkey, (*it).second, tblval);
@@ -307,27 +307,27 @@ TEST_F(Test_qconf_gray, zk_gray_process_ok_multiset_commit)
     
     // gray rollback
     ret = qzk.zk_gray_commit(gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
 
    string val;
    ret = qzk.zk_node_get("/demo/key1", val);
-   EXPECT_EQ(QCONF_OK, ret);
+   EXPECT_EQ(HCONF_OK, ret);
    EXPECT_EQ(bval, val);
 
    ret = qzk.zk_node_get("/demo/key2", val);
-   EXPECT_EQ(QCONF_OK, ret);
+   EXPECT_EQ(HCONF_OK, ret);
    EXPECT_EQ(bval, val);
 
    ret = qzk.zk_node_get("/demo/key3", val);
-   EXPECT_EQ(QCONF_OK, ret);
+   EXPECT_EQ(HCONF_OK, ret);
    EXPECT_EQ(bval, val);
 
    ret = qzk.zk_node_get("/demo/key4", val);
-   EXPECT_EQ(QCONF_OK, ret);
+   EXPECT_EQ(HCONF_OK, ret);
    EXPECT_EQ(bval, val);
 }
 
-TEST_F(Test_qconf_gray, zk_gray_process_too_large)
+TEST_F(Test_hconf_gray, zk_gray_process_too_large)
 {
     qzk.zk_node_set("/demo/key1", "old_value1");
     qzk.zk_node_set("/demo/key2", "old_value2");
@@ -349,11 +349,11 @@ TEST_F(Test_qconf_gray, zk_gray_process_too_large)
     // Begin gray 
     string gray_id("GRAYID1434523437-573294");
     ret = qzk.zk_gray_begin(nodes, machines, gray_id);
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
     
 }
 
-TEST_F(Test_qconf_gray, zk_gray_process_error_node_not_exist)
+TEST_F(Test_hconf_gray, zk_gray_process_error_node_not_exist)
 {
     qzk.zk_node_set("/demo/key1", "old_value1");
     qzk.zk_node_set("/demo/key2", "old_value2");
@@ -375,10 +375,10 @@ TEST_F(Test_qconf_gray, zk_gray_process_error_node_not_exist)
     // Begin gray 
     string gray_id("GRAYID1434523437-573294");
     ret = qzk.zk_gray_begin(nodes, machines, gray_id);
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
 }
 
-TEST_F(Test_qconf_gray, zk_gray_process_error_client_already_in_gray)
+TEST_F(Test_hconf_gray, zk_gray_process_error_client_already_in_gray)
 {
     qzk.zk_node_set("/demo/key1", "old_value1");
     qzk.zk_node_set("/demo/key2", "old_value2");
@@ -400,18 +400,18 @@ TEST_F(Test_qconf_gray, zk_gray_process_error_client_already_in_gray)
     // Begin gray 
     string gray_id("GRAYID1434523437-573294");
     ret = qzk.zk_gray_begin(nodes, machines, gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     
     cout << "Gray ID : " << gray_id << endl; 
 
     ret = gray_process(zh, idc, onodes);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ(nodes.size(), onodes.size());
     string tblkey, tblval;
     for (map<string, string>::iterator it = nodes.begin(); it != nodes.end(); ++it)
     {
         tblkey.clear();
-        serialize_to_tblkey(QCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
+        serialize_to_tblkey(HCONF_DATA_TYPE_NODE, idc, (*it).first, tblkey); 
         
         tblval.clear();
         nodeval_to_tblval(tblkey, (*it).second, tblval);
@@ -421,31 +421,31 @@ TEST_F(Test_qconf_gray, zk_gray_process_error_client_already_in_gray)
     map<string, string> sec_nodes;
     sec_nodes.insert(pair<string, string>("/demo", "value1"));
     ret = qzk.zk_gray_begin(sec_nodes, machines, gray_id);
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
 
     // gray rollback
     ret = qzk.zk_gray_rollback(gray_id);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
 
     string val;
     ret = qzk.zk_node_get("/demo/key1", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("old_value1", val);
 
     ret = qzk.zk_node_get("/demo/key2", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("old_value2", val);
     
     ret = qzk.zk_node_get("/demo/key3", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("old_value3", val);
     
     ret = qzk.zk_node_get("/demo/key4", val);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ("old_value4", val);
 }
 
-TEST_F(Test_qconf_gray, zk_gray_process_ok_rollback)
+TEST_F(Test_hconf_gray, zk_gray_process_ok_rollback)
 {
     int ret = 0;
     ret = qzk.zk_gray_rollback("GRAYID1434627521-581423");

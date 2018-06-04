@@ -1,5 +1,5 @@
 #include <node.h>
-#include <qconf.h>
+#include <hconf.h>
 #include <string>
 #include <v8.h>
 
@@ -8,7 +8,7 @@ using namespace v8;
 //gte version
 Handle<Value> QConf_version(const Arguments& args) {
     HandleScope scope;
-    return scope.Close(String::New(QCONF_DRIVER_CC_VERSION));
+    return scope.Close(String::New(HCONF_DRIVER_CC_VERSION));
 }
 
 //get_conf
@@ -17,7 +17,7 @@ Handle<Value> QConf_get_conf(const Arguments& args) {
 
     const char *path = NULL;
     const char *idc = NULL;
-    char value[QCONF_CONF_BUF_MAX_LEN];
+    char value[HCONF_CONF_BUF_MAX_LEN];
     int ret;
 
     if (args.Length() < 1) {
@@ -35,9 +35,9 @@ Handle<Value> QConf_get_conf(const Arguments& args) {
     }
     idc = temp.c_str();
 
-    ret = qconf_get_conf(path, value, sizeof(value), idc);
+    ret = hconf_get_conf(path, value, sizeof(value), idc);
 
-    if (ret != QCONF_OK) {
+    if (ret != HCONF_OK) {
         ThrowException(Exception::TypeError(String::New("Get conf failed")));
         return scope.Close(Undefined());
     }
@@ -69,9 +69,9 @@ Handle<Value> QConf_get_batch_keys(const Arguments& args) {
     idc = temp.c_str();
 
     init_string_vector(&keys);
-    ret = qconf_get_batch_keys(path, &keys, idc);
+    ret = hconf_get_batch_keys(path, &keys, idc);
 
-    if (ret != QCONF_OK) {
+    if (ret != HCONF_OK) {
         ThrowException(Exception::TypeError(String::New("Get children failed")));
         return scope.Close(Undefined());
     }
@@ -90,7 +90,7 @@ Handle<Value> QConf_get_batch_conf(const Arguments& args) {
 
     const char *path = NULL;
     const char *idc = NULL;
-    qconf_batch_nodes nodes;
+    hconf_batch_nodes nodes;
     int ret;
 
     if (args.Length() < 1) {
@@ -108,10 +108,10 @@ Handle<Value> QConf_get_batch_conf(const Arguments& args) {
     }
     idc = temp.c_str();
 
-    init_qconf_batch_nodes(&nodes);
-    ret = qconf_get_batch_conf(path, &nodes, idc);
+    init_hconf_batch_nodes(&nodes);
+    ret = hconf_get_batch_conf(path, &nodes, idc);
 
-    if (ret != QCONF_OK) {
+    if (ret != HCONF_OK) {
         ThrowException(Exception::TypeError(String::New("Get children and confs failed")));
         return scope.Close(Undefined());
     }
@@ -120,7 +120,7 @@ Handle<Value> QConf_get_batch_conf(const Arguments& args) {
     for (int i = 0; i < nodes.count; ++i) {
         v8Obj->Set(String::New(nodes.nodes[i].key), String::New(nodes.nodes[i].value));
     }
-    destroy_qconf_batch_nodes(&nodes);
+    destroy_hconf_batch_nodes(&nodes);
     return scope.Close(v8Obj);
 }
 
@@ -130,7 +130,7 @@ Handle<Value> QConf_get_host(const Arguments& args) {
 
     const char *path = NULL;
     const char *idc = NULL;
-    char value[QCONF_HOST_BUF_MAX_LEN];
+    char value[HCONF_HOST_BUF_MAX_LEN];
     int ret;
 
     if (args.Length() < 1) {
@@ -147,9 +147,9 @@ Handle<Value> QConf_get_host(const Arguments& args) {
         temp = std::string(*v8Idc);
     }
     idc = temp.c_str();
-    ret = qconf_get_host(path, value, sizeof(value), idc);
+    ret = hconf_get_host(path, value, sizeof(value), idc);
 
-    if (ret != QCONF_OK) {
+    if (ret != HCONF_OK) {
         ThrowException(Exception::TypeError(String::New("Get host failed")));
         return scope.Close(Undefined());
     }
@@ -181,9 +181,9 @@ Handle<Value> QConf_get_allhost(const Arguments& args) {
     idc = temp.c_str();
     
     init_string_vector(&nodes);
-    ret = qconf_get_allhost(path, &nodes, idc);
+    ret = hconf_get_allhost(path, &nodes, idc);
 
-    if (ret != QCONF_OK) {
+    if (ret != HCONF_OK) {
         ThrowException(Exception::TypeError(String::New("Get all host failed")));
         return scope.Close(Undefined());
     }
@@ -197,8 +197,8 @@ Handle<Value> QConf_get_allhost(const Arguments& args) {
 }
 
 void init(Handle<Object> target) {
-    int ret = qconf_init();
-    if (ret != QCONF_OK) {
+    int ret = hconf_init();
+    if (ret != HCONF_OK) {
         ThrowException(Exception::TypeError(String::New("QConf init failed")));
         return;
     }
@@ -220,4 +220,4 @@ void init(Handle<Object> target) {
     target->Set(String::NewSymbol("get_allhost"),
             FunctionTemplate::New(QConf_get_allhost)->GetFunction());
 }
-NODE_MODULE(qconf, init)
+NODE_MODULE(hconf, init)

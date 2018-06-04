@@ -1,20 +1,20 @@
-#ifndef QCONF_H
-#define QCONF_H
+#ifndef HCONF_H
+#define HCONF_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include "driver_common.h"
-#include "qconf_errno.h"
+#include "hconf_errno.h"
 
 // agent version
-#define QCONF_DRIVER_CC_VERSION "1.2.2"
+#define HCONF_DRIVER_CC_VERSION "1.2.2"
 
 // The max length of conf
-#define QCONF_CONF_BUF_MAX_LEN   (1024*1024)
+#define HCONF_CONF_BUF_MAX_LEN   (1024*1024)
 // The max length of one host
-#define QCONF_HOST_BUF_MAX_LEN   256
+#define HCONF_HOST_BUF_MAX_LEN   256
 
 /**
  * The array for keeping the services
@@ -29,44 +29,44 @@ typedef struct
 #endif
 
 /**
- * Init qconf environment
- * @Note: the function should be called before using qconf
+ * Init hconf environment
+ * @Note: the function should be called before using hconf
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_OTHER: if failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_OTHER: if failed
  */
-int qconf_init();
+int hconf_init();
 
 /**
- * Destroy qconf environment
+ * Destroy hconf environment
  * @Note: the function should only be called before process exit
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_OTHER: if failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_OTHER: if failed
  */
-int qconf_destroy();
+int hconf_destroy();
 
 /**
  * Init the array for keeping services
- * @Note: the function should be called before calling qconf_get_allhost
+ * @Note: the function should be called before calling hconf_get_allhost
  *
  * @param nodes: the array for keeping services
  *
- * @return QCONF_Ok: if success
- *         QCONF_ERR_PARAM: if nodes is null
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_Ok: if success
+ *         HCONF_ERR_PARAM: if nodes is null
+ *         HCONF_ERR_OTHER: other failed
  */
 int init_string_vector(string_vector_t *nodes);
 
 /**
  * Destroy the array for keeping services
- * @Note: the function should be called after the last use of calling qconf_get_allhost
+ * @Note: the function should be called after the last use of calling hconf_get_allhost
  *
  * @param nodes: the array for keeping services
  *
- * @return QCONF_Ok: if success
- *         QCONF_ERR_PARAM: if nodes is null
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_Ok: if success
+ *         HCONF_ERR_PARAM: if nodes is null
+ *         HCONF_ERR_OTHER: other failed
  */
 int destroy_string_vector(string_vector_t *nodes);
 
@@ -79,11 +79,11 @@ int destroy_string_vector(string_vector_t *nodes);
  * @param idc: the place to get value;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_get_conf(const char *path, char *buf, unsigned int buf_len, const char *idc);
+int hconf_get_conf(const char *path, char *buf, unsigned int buf_len, const char *idc);
 
 /**
  * Synchronize get all children nodes of key which is path
@@ -93,11 +93,11 @@ int qconf_get_conf(const char *path, char *buf, unsigned int buf_len, const char
  * @param idc: the place to get children nodes;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_get_batch_conf(const char *path, qconf_batch_nodes *bnodes, const char *idc);
+int hconf_get_batch_conf(const char *path, hconf_batch_nodes *bnodes, const char *idc);
 
 /**
  * Synchronize get all children nodes' key of path
@@ -107,11 +107,11 @@ int qconf_get_batch_conf(const char *path, qconf_batch_nodes *bnodes, const char
  * @param idc: the place to get children nodes;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_get_batch_keys(const char *path, string_vector_t *nodes, const char *idc);
+int hconf_get_batch_keys(const char *path, string_vector_t *nodes, const char *idc);
 
 /**
  * Synchronize get all services of key which is path
@@ -121,11 +121,11 @@ int qconf_get_batch_keys(const char *path, string_vector_t *nodes, const char *i
  * @param idc: the place to get services;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_get_allhost(const char *path, string_vector_t *nodes, const char *idc);
+int hconf_get_allhost(const char *path, string_vector_t *nodes, const char *idc);
 
 /**
  * Synchronize get one service of key which is path
@@ -136,11 +136,11 @@ int qconf_get_allhost(const char *path, string_vector_t *nodes, const char *idc)
  * @param idc: the place to get service;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_get_host(const char *path, char *buf, unsigned int buf_len, const char *idc);
+int hconf_get_host(const char *path, char *buf, unsigned int buf_len, const char *idc);
 
 
 /**
@@ -152,11 +152,11 @@ int qconf_get_host(const char *path, char *buf, unsigned int buf_len, const char
  * @param idc: the place to get value;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_aget_conf(const char *path, char *buf, unsigned int buf_len, const char *idc);
+int hconf_aget_conf(const char *path, char *buf, unsigned int buf_len, const char *idc);
 
 /**
  * Asynchronize get all children nodes of key which is path
@@ -166,11 +166,11 @@ int qconf_aget_conf(const char *path, char *buf, unsigned int buf_len, const cha
  * @param idc: the place to get children nodes;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_aget_batch_conf(const char *path, qconf_batch_nodes *bnodes, const char *idc);
+int hconf_aget_batch_conf(const char *path, hconf_batch_nodes *bnodes, const char *idc);
 
 /**
  * Asynchronize get all children nodes' key of path
@@ -180,11 +180,11 @@ int qconf_aget_batch_conf(const char *path, qconf_batch_nodes *bnodes, const cha
  * @param idc: the place to get children nodes;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_aget_batch_keys(const char *path, string_vector_t *nodes, const char *idc);
+int hconf_aget_batch_keys(const char *path, string_vector_t *nodes, const char *idc);
 
 /**
  * Asynchronize get all services of key which is path
@@ -194,11 +194,11 @@ int qconf_aget_batch_keys(const char *path, string_vector_t *nodes, const char *
  * @param idc: the place to get services;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_aget_allhost(const char *path, string_vector_t *nodes, const char *idc);
+int hconf_aget_allhost(const char *path, string_vector_t *nodes, const char *idc);
 
 /**
  * Asynchronize get one service of key which is path
@@ -209,47 +209,47 @@ int qconf_aget_allhost(const char *path, string_vector_t *nodes, const char *idc
  * @param idc: the place to get service;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_aget_host(const char *path, char *buf, unsigned int buf_len, const char *idc);
+int hconf_aget_host(const char *path, char *buf, unsigned int buf_len, const char *idc);
 
 /**
  * Synchronize get all children nodes' key of path
  *
- * @param path: the key of the children nodes, and the path will be used directly without adding head "/qconf/"
+ * @param path: the key of the children nodes, and the path will be used directly without adding head "/hconf/"
  * @param nodes: the array for keeping all children nodes' key
  * @param idc: the place to get children nodes;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_get_batch_keys_native(const char *path, string_vector_t *nodes, const char *idc);
+int hconf_get_batch_keys_native(const char *path, string_vector_t *nodes, const char *idc);
 
 /**
  * Asynchronize get all children nodes' key of path
  *
- * @param path: the key of the children nodes, and the path will be used directly without adding head "/qconf/"
+ * @param path: the key of the children nodes, and the path will be used directly without adding head "/hconf/"
  * @param nodes: the array for keeping all children nodes' key
  * @param idc: the place to get children nodes;
  *             NULL is default value
  *
- * @return QCONF_OK: if success
- *         QCONF_ERR_NOT_FOUND: if the key not exists
- *         QCONF_ERR_OTHER: other failed
+ * @return HCONF_OK: if success
+ *         HCONF_ERR_NOT_FOUND: if the key not exists
+ *         HCONF_ERR_OTHER: other failed
  */
-int qconf_aget_batch_keys_native(const char *path, string_vector_t *nodes, const char *idc);
+int hconf_aget_batch_keys_native(const char *path, string_vector_t *nodes, const char *idc);
 
 /**
- * Get the qconf version
+ * Get the hconf version
  * @Note: it must not change the return string
  *
  * @return: the pointer that pointing to the string of version
  */
-const char* qconf_version();
+const char* hconf_version();
 
 #ifdef __cplusplus
 }

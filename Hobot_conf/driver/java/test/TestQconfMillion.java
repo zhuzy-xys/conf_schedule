@@ -1,5 +1,5 @@
-import net.qihoo.qconf.Qconf;
-import net.qihoo.qconf.QconfException;
+import net.qihoo.hconf.Qconf;
+import net.qihoo.hconf.QconfException;
 import java.util.ArrayList;
 public class TestQconfMillion
 {

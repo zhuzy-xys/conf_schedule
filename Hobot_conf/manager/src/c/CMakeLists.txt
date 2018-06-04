@@ -34,21 +34,21 @@ file(GLOB ZK_OBJ_FILE
 message(${ZK_OBJ_FILE})
 
 add_definitions(${MANAGER_COMPILE_FLAGS})
-add_library(qconf_zk_static STATIC ${DIR_SRCS}
+add_library(hconf_zk_static STATIC ${DIR_SRCS}
     ${ZK_OBJ_FILE})
-add_library(qconf_zk SHARED ${DIR_SRCS})
+add_library(hconf_zk SHARED ${DIR_SRCS})
 
 # link libpthread
 find_package (Threads)
-target_link_libraries (qconf_zk ${CMAKE_THREAD_LIBS_INIT})
-target_link_libraries (qconf_zk_static ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries (hconf_zk ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries (hconf_zk_static ${CMAKE_THREAD_LIBS_INIT})
 
 # link static libzookeeper_mt
-target_link_libraries(qconf_zk
+target_link_libraries(hconf_zk
     ${PROJECT_SOURCE_DIR}/deps/zookeeper/_install/lib/libzookeeper_mt.a)
 
-set_target_properties(qconf_zk_static PROPERTIES OUTPUT_NAME qconf_zk)
-install(TARGETS qconf_zk DESTINATION lib)
-install(TARGETS qconf_zk_static DESTINATION lib)
-install(FILES qconf_zk.h DESTINATION include)
+set_target_properties(hconf_zk_static PROPERTIES OUTPUT_NAME hconf_zk)
+install(TARGETS hconf_zk DESTINATION lib)
+install(TARGETS hconf_zk_static DESTINATION lib)
+install(FILES hconf_zk.h DESTINATION include)
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/deps/zookeeper/_install/include/zookeeper DESTINATION include)

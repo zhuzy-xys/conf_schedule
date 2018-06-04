@@ -6,14 +6,14 @@
 #include <sstream>
 #include <iostream>
 
-#include "qconf_config.h"
-#include "qconf_const.h"
-#include "qconf_log.h"
-#include "qconf_zoo.h"
-#include "qconf_format.h"
-#include "qconf_log.h"
-#include "qconf_lock.h"
-#include "qconf_gray.h"
+#include "hconf_config.h"
+#include "hconf_const.h"
+#include "hconf_log.h"
+#include "hconf_zoo.h"
+#include "hconf_format.h"
+#include "hconf_log.h"
+#include "hconf_lock.h"
+#include "hconf_gray.h"
 
 using namespace std;
 
@@ -58,32 +58,32 @@ static void get_notify_path()
 {
     char hostname[256] = {0};
     gethostname(hostname, sizeof(hostname));
-    _notify_node.assign(QCONF_NOTIFY_CLIENT_PREFIX);
+    _notify_node.assign(HCONF_NOTIFY_CLIENT_PREFIX);
     _notify_node += string("/") + hostname;
 }
 
 int gray_process(zhandle_t *zh, const string &idc, vector< pair<string, string> > &nodes)
 {
-    if (NULL == zh || idc.empty()) return QCONF_ERR_PARAM;
+    if (NULL == zh || idc.empty()) return HCONF_ERR_PARAM;
 
     // notify node => notify id
     if (_notify_node.empty()) get_notify_path();
     
     string notify_id;
-    int ret = QCONF_ERR_OTHER;
+    int ret = HCONF_ERR_OTHER;
     switch (zk_get_node(zh, _notify_node, notify_id, 1))
     {
-        case QCONF_OK:
-            if (QCONF_OK != read_notify_content(zh, notify_id, idc, nodes))
+        case HCONF_OK:
+            if (HCONF_OK != read_notify_content(zh, notify_id, idc, nodes))
             {
                 LOG_ERR("Failed to get notify node content! notify_id:%s", notify_id.c_str());
-                return QCONF_ERR_GRAY_GET_NOTIFY_CONTENT;
+                return HCONF_ERR_GRAY_GET_NOTIFY_CONTENT;
             }
             gray_nodes_set(nodes);
             break;
-        case QCONF_NODE_NOT_EXIST:
+        case HCONF_NODE_NOT_EXIST:
             ret = watch_notify_node(zh); //watch the notify node 
-            if (QCONF_OK != ret && QCONF_NODE_NOT_EXIST != ret)
+            if (HCONF_OK != ret && HCONF_NODE_NOT_EXIST != ret)
             {
                 LOG_FATAL_ERR("Failed to set watcher for notify node!");
             }
@@ -92,20 +92,20 @@ int gray_process(zhandle_t *zh, const string &idc, vector< pair<string, string> 
             break;
         default:
             LOG_ERR("Failed to get notify node id! notify_node:%s", _notify_node.c_str());
-            return QCONF_ERR_GRAY_GET_NOTIFY_NODE;
+            return HCONF_ERR_GRAY_GET_NOTIFY_NODE;
     }
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 static int read_notify_content(zhandle_t *zh, const string &notify_id, const string &idc, vector< pair<string, string> > &nodes)
 {
-    if (notify_id.empty()) return QCONF_ERR_PARAM;
+    if (notify_id.empty()) return HCONF_ERR_PARAM;
 
-    string content_node_pfx(QCONF_NOTIFY_CONTENT_PREFIX), content;
+    string content_node_pfx(HCONF_NOTIFY_CONTENT_PREFIX), content;
     content_node_pfx += "/" + notify_id;
 
     // Get the serialized content
-    int index = 0, ret = QCONF_ERR_OTHER;
+    int index = 0, ret = HCONF_ERR_OTHER;
     do 
     {
         stringstream ss;
@@ -115,38 +115,38 @@ static int read_notify_content(zhandle_t *zh, const string &notify_id, const str
         string tmp_content;
         switch (ret = zk_get_node(zh, content_node, tmp_content, 0))
         {
-            case QCONF_OK:
+            case HCONF_OK:
                 content += tmp_content;
-            case QCONF_NODE_NOT_EXIST:
+            case HCONF_NODE_NOT_EXIST:
                 break;
             default:
                 LOG_ERR("Failed to get notify content! content_node:%s", content_node.c_str());
-                return QCONF_ERR_OTHER;
+                return HCONF_ERR_OTHER;
         }
-    } while(QCONF_OK == ret);
+    } while(HCONF_OK == ret);
 
     // Parse notify content into map
     set<string> vnodes;
-    if (QCONF_OK != tblval_to_graynodeval(content, vnodes)) return QCONF_ERR_OTHER;
+    if (HCONF_OK != tblval_to_graynodeval(content, vnodes)) return HCONF_ERR_OTHER;
 
     for (set<string>::iterator i = vnodes.begin(); i != vnodes.end(); ++i)
     {
         string gray_path, gray_idc, gray_val, tblkey, tblval;
-        if (QCONF_OK != tblval_to_nodeval((*i), gray_val, gray_idc, gray_path))
+        if (HCONF_OK != tblval_to_nodeval((*i), gray_val, gray_idc, gray_path))
         {
             LOG_ERR("Illegal nodfiy content! content_node_pfx:%s", content_node_pfx.c_str());
-            return QCONF_ERR_OTHER;
+            return HCONF_ERR_OTHER;
         }
 
         tblkey.clear();
-        serialize_to_tblkey(QCONF_DATA_TYPE_NODE, idc, gray_path, tblkey); 
+        serialize_to_tblkey(HCONF_DATA_TYPE_NODE, idc, gray_path, tblkey); 
 
         tblval.clear();
         nodeval_to_tblval(tblkey, gray_val, tblval);
         nodes.push_back(pair<string, string>(tblkey, tblval));
     }
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 static void gray_nodes_set(const vector< pair<string, string> > &nodes)

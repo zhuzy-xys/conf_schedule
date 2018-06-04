@@ -1,8 +1,8 @@
 #CMakelist root
-set(HAS_PREFIX OFF CACHE BOOL "wether add prefix of qconf node on zookeeper")
+set(HAS_PREFIX OFF CACHE BOOL "wether add prefix of hconf node on zookeeper")
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX
-        "/usr/local/qconf" CACHE PATH "qconf install prefix" FORCE
+        "/usr/local/hconf" CACHE PATH "hconf install prefix" FORCE
         )
 endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 

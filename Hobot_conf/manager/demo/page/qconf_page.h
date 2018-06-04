@@ -1,5 +1,5 @@
-#ifndef QCONF_PAGE_H
-#define QCONF_PAGE_H
+#ifndef HCONF_PAGE_H
+#define HCONF_PAGE_H
 
 #include <string>
 #include <vector>

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-agent=qconf_agent                                     
+agent=hconf_agent                                     
 
 # get agent dir
 cd `dirname $0`
@@ -16,7 +16,7 @@ agentdir=`pwd -P | xargs dirname`
 cmdfile=${agentdir}/cmd/cmd$$            	#file used to send command for agent
 pidfile=${agentdir}/pid                  	#file restroe the current agent deamon thread
 resultfile=${agentdir}/result/result$$   	#result file end with pid of this shell
-agentpath=${agentdir}/bin/qconf_agent
+agentpath=${agentdir}/bin/hconf_agent
 lockfile=${agentdir}/lock/lockfile
 
 chdpid=$(if [ -e $pidfile ]; then cat $pidfile; fi)  	#file store pid of current daemon process
@@ -27,9 +27,9 @@ command_to_agent=""    					#command which will be send to agent
 #show usage and exit
 show_usage_and_exit () {
     echo "Usage: "
-    echo "  $0 start                                         start qconf agent."
-    echo "  $0 restart                                       restart qconf agent."
-    echo "  $0 stop                                          stop qconf agent."
+    echo "  $0 start                                         start hconf agent."
+    echo "  $0 restart                                       restart hconf agent."
+    echo "  $0 stop                                          stop hconf agent."
 #    echo "  $0 info                                          show information of agent."
 #    echo "  $0 list-all                                      get the whole nodes in share memory."
 #    echo "  $0 clear-all                                     clear the whole nodes in share memory."

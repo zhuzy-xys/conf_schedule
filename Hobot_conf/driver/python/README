@@ -1,7 +1,7 @@
 Description for setup.py
 
 Usage: python setup.py build
-       which will generate the qconf_py library in build/lib.linux-x86_64-X.X as qconf_py.so
+       which will generate the hconf_py library in build/lib.linux-x86_64-X.X as hconf_py.so
 
 Paramters of Extension:
     name : the full name of the extension, including any packages ? ie. not a filename or pathname, but Python dotted name;
@@ -10,7 +10,7 @@ Paramters of Extension:
     
     include_dirs : list of directories to search for C/C++ header files (in Unix form for portability);
 
-    extra_objects : list of extra files to link with (eg. object files not implied by ¡®sources¡¯, static library that must be explicitly specified, binary resource files, etc.)
+    extra_objects : list of extra files to link with (eg. object files not implied by ï¿½ï¿½sourcesï¿½ï¿½, static library that must be explicitly specified, binary resource files, etc.)
 
     library_dirs : list of directories to search for C/C++ libraries at link time
 

@@ -41,7 +41,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/install/prefix
  - 在QConf 配置文件中配置Zookeeper集群地址
 
 ``` shell
-vi QCONF_INSTALL_PREFIX/conf/idc.conf
+vi HCONF_INSTALL_PREFIX/conf/idc.conf
 ```
 ``` php
   #all the zookeeper host configuration.
@@ -50,12 +50,12 @@ vi QCONF_INSTALL_PREFIX/conf/idc.conf
 ```
  - 在QConf配置文件中指定本地机房
 ``` shell
-echo test > QCONF_INSTALL_PREFIX/conf/localidc #指定本地机房为test
+echo test > HCONF_INSTALL_PREFIX/conf/localidc #指定本地机房为test
 ```
  - 启动QConf
 
 ``` shell
-cd QCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
+cd HCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 ```
  - 编写代码访问QConf
  
@@ -79,32 +79,32 @@ cd QCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 
 * **shell** 
 ``` shell
-    qconf get_conf /demo/node1   # get the value of '/demo/node1'
+    hconf get_conf /demo/node1   # get the value of '/demo/node1'
 ```
 
 * **c/c++**
 ``` c
-	  // Init the qconf env
-      ret = qconf_init();
-      assert(QCONF_OK == ret);
+	  // Init the hconf env
+      ret = hconf_init();
+      assert(HCONF_OK == ret);
 
       // Get Conf value
-      char value[QCONF_CONF_BUF_MAX_LEN];
-      ret = qconf_get_conf("/demo/node1", value, sizeof(value), NULL);
-      assert(QCONF_OK == ret);
+      char value[HCONF_CONF_BUF_MAX_LEN];
+      ret = hconf_get_conf("/demo/node1", value, sizeof(value), NULL);
+      assert(HCONF_OK == ret);
 
-      // Destroy qconf env
-      qconf_destroy();
+      // Destroy hconf env
+      hconf_destroy();
 ```
 
 ## 文档
 * [Getting Started](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Getting%20Started%20Guide.md) - QConf 使用说明，包括QConf的安装，运行，API等信息
-* [实现介绍](http://catkang.github.io/2015/06/23/qconf.html)
+* [实现介绍](http://catkang.github.io/2015/06/23/hconf.html)
 * [wiki](https://github.com/Qihoo360/QConf/wiki)
-* [qconf video guide](https://github.com/Qihoo360/QConf/wiki/QConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8)
+* [hconf video guide](https://github.com/Qihoo360/QConf/wiki/QConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8)
 
 
 ## 联系方式
 
-* 邮箱: g-qconf@list.qihoo.net
+* 邮箱: g-hconf@list.qihoo.net
 * QQ群: 438042718

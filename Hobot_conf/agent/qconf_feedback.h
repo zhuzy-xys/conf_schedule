@@ -1,9 +1,9 @@
-#ifndef QCONF_FEEDBACK_H
-#define QCONF_FEEDBACK_H
+#ifndef HCONF_FEEDBACK_H
+#define HCONF_FEEDBACK_H
 
 #include <string>
 #include <vector>
-#include <qconf_common.h>
+#include <hconf_common.h>
 
 /**
  * struct for keeping tblval and feedback values 
@@ -14,16 +14,16 @@ typedef struct
     std::string fb_chds;
 } fb_val;
 
-#ifdef QCONF_CURL_ENABLE
+#ifdef HCONF_CURL_ENABLE
 /**
  * Init environment of feedback
  */
-int qconf_init_feedback(const std::string &url);
+int hconf_init_feedback(const std::string &url);
 
 /**
  * Destroy environment of feedback
  */
-void qconf_destroy_feedback();
+void hconf_destroy_feedback();
 
 /**
  * Do feedback
@@ -51,4 +51,4 @@ void feedback_generate_chdval(const string_vector_t &chdnodes, const std::vector
 void feedback_generate_batchval(const string_vector_t &batchnodes, std::string &value);
 #endif
 
-#endif // __QCONF_FEEDBACK_H__
+#endif // __HCONF_FEEDBACK_H__

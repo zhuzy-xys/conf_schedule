@@ -3,7 +3,7 @@ package main
 import (
     "fmt"
     "time"
-    "infra/go_qconf"
+    "infra/go_hconf"
 )
 
 func main(){
@@ -19,7 +19,7 @@ func main(){
     for key, times := range m{
         for i := 0; i < times; i++{
             //fmt.Printf("%v : %v\n", key, i)
-            value, err_conf := go_qconf.GetConf(key, "")
+            value, err_conf := go_hconf.GetConf(key, "")
             if err_conf != nil{
                 fmt.Println(err_conf)
                 value = "ERROR"

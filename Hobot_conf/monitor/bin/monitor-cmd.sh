@@ -1,6 +1,6 @@
 #!/bin/sh
 
-monitor=qconf_monitor
+monitor=hconf_monitor
 cmdfile=tmp/cmd
 pidfile=monitor_pid
 
@@ -78,8 +78,8 @@ case "$1" in
 
     *)
         echo "Usage: "
-        echo "  $0 start              start qconf monitor. "
-        echo "  $0 stop               stop qconf monitor."
+        echo "  $0 start              start hconf monitor. "
+        echo "  $0 stop               stop hconf monitor."
         echo "  $0 reload             reload configuration."
         echo "  $0 list               list all service and their status."
         echo "  $0 list up            list service whose status is up."

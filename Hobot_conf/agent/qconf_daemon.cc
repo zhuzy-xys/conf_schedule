@@ -9,9 +9,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include "qconf_log.h"
-#include "qconf_const.h"
-#include "qconf_daemon.h"
+#include "hconf_log.h"
+#include "hconf_const.h"
+#include "hconf_daemon.h"
 
 using namespace std;
 
@@ -66,7 +66,7 @@ static void daemonize()
         if (fd >= 3) close(fd);
     }
 
-    qconf_close_log_stream();
+    hconf_close_log_stream();
 
     for (fd = sysconf(_SC_OPEN_MAX); fd >= 3; fd--)
     {
@@ -88,12 +88,12 @@ static void signal_forward(int sig)
 int check_proc_exist(const string &pid_file, int &pid_fd)
 {
     pid_fd = open(pid_file.c_str(), O_RDWR | O_TRUNC | O_CREAT, 0644);
-    if (-1 == pid_fd) return QCONF_ERR_OPEN;
+    if (-1 == pid_fd) return HCONF_ERR_OPEN;
 
     int ret = lockf(pid_fd, F_TLOCK, 0);
-    if (-1 == ret) return QCONF_ERR_LOCK;
+    if (-1 == ret) return HCONF_ERR_LOCK;
 
-    return QCONF_OK;
+    return HCONF_OK;
 }
 
 void write_pid(int fd, pid_t chd_pid)
@@ -105,13 +105,13 @@ void write_pid(int fd, pid_t chd_pid)
     write(fd, buf, strlen(buf));
 }
 
-int qconf_agent_daemon_keepalive(const string &pid_file)
+int hconf_agent_daemon_keepalive(const string &pid_file)
 {
     daemonize();
 
     int pid_fd = 0;
     int ret = check_proc_exist(pid_file, pid_fd);
-    if (QCONF_OK != ret) return ret;
+    if (HCONF_OK != ret) return ret;
 
     int nprocs = 0;
     pid_t child_pid = -1;
@@ -124,12 +124,12 @@ int qconf_agent_daemon_keepalive(const string &pid_file)
             if (0 == pid)
             {
                 LOG_INFO("current child process id is %d", getpid());
-                return QCONF_OK;
+                return HCONF_OK;
             }
             else if (pid < 0)
             {
                 LOG_ERR("error happened when fork child. errno:%d", errno);
-                return QCONF_ERR_OTHER;
+                return HCONF_ERR_OTHER;
             }
 
             LOG_INFO("we try to keep alive for daemon process:%d", pid);
@@ -167,7 +167,7 @@ int qconf_agent_daemon_keepalive(const string &pid_file)
                         // if child process exist success, then return, or restart
                         LOG_INFO("Child PID:%d exited normally, now current PID:%d exited!", child_pid, getpid());
                         unlink(pid_file.c_str());
-                        return QCONF_EXIT_NORMAL;
+                        return HCONF_EXIT_NORMAL;
                     }
 
                     // wait and then restart the daemon
@@ -211,5 +211,5 @@ int qconf_agent_daemon_keepalive(const string &pid_file)
             }
         }
     }
-    return QCONF_OK;
+    return HCONF_OK;
 }

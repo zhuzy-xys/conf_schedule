@@ -1,4 +1,4 @@
-package net.qihoo.qconf;
+package net.qihoo.hconf;
 import java.io.File;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -6,15 +6,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Map;
-import net.qihoo.qconf.QconfException;
+import net.qihoo.hconf.QconfException;
 
 /**
- * the entrance class of qconf
+ * the entrance class of hconf
  * @version 1.2.2
  */
 public class Qconf
 {
-    private static final String QCONF_DRIVER_JAVA_VERSION = "1.2.2";
+    private static final String HCONF_DRIVER_JAVA_VERSION = "1.2.2";
     static
     {
         // 1.load library
@@ -24,7 +24,7 @@ public class Qconf
         }
         catch(IOException e)
         {
-            System.out.println("load qconf library failed");
+            System.out.println("load hconf library failed");
             System.exit(1);
         }
         // 2. env initial
@@ -34,7 +34,7 @@ public class Qconf
         }
         catch(QconfException e)
         {
-            System.out.println("initial qconf environment failed");
+            System.out.println("initial hconf environment failed");
             System.exit(1);
         }
         // 3.regist shutdown hook
@@ -48,13 +48,13 @@ public class Qconf
 
     private synchronized static void loadLib() throws IOException 
     {  
-        String libFullName = "libqconf_java.so";  
+        String libFullName = "libhconf_java.so";  
         String tmpLibFilePath = System.getProperty("java.io.tmpdir") + File.separator + libFullName;
         InputStream in = null;  
         BufferedInputStream reader = null;  
         FileOutputStream writer = null;  
 
-        File extractedLibFile = File.createTempFile("libqconf_java",".so"); 
+        File extractedLibFile = File.createTempFile("libhconf_java",".so"); 
         try { 
             in = Qconf.class.getResourceAsStream(File.separator + libFullName);  
             Qconf.class.getResource(libFullName);  
@@ -89,37 +89,37 @@ public class Qconf
     private native static int destroy();
 
     /**
-     * get qconf java driver version<br>
+     * get hconf java driver version<br>
      *
      * @return version
      * @since version 0.4.0
      */
     public static String version()
     {
-        return QCONF_DRIVER_JAVA_VERSION;
+        return HCONF_DRIVER_JAVA_VERSION;
     }
     
     /**
      * get value configure from Qconf by the key and idc<br>
-     *  it will wait for a while if the qconf-agent not get the configure yet, at most 100 * 5 millisecond
+     *  it will wait for a while if the hconf-agent not get the configure yet, at most 100 * 5 millisecond
      *
      * @param key   the key indicate one configure item
      * @param idc   server room name, use 'null' if get configure from the one of current client machine
      * @return value of the configure, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.3.1
      */
     public native static String getConf(String key, String idc) throws QconfException;
 
     /**
      * get value configure from Qconf by the key in current server room<br>
-     *  it will wait for a while if the qconf-agent not get the configure yet, at most 100 * 5 millisecond
+     *  it will wait for a while if the hconf-agent not get the configure yet, at most 100 * 5 millisecond
      *
      * @param key   the key indicate one configure item
      * @return value of the configure, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.3.1
      */
     public static String getConf(String key) throws QconfException
@@ -130,13 +130,13 @@ public class Qconf
     /**
      * get one host configure available from Qconf by the key and idc<br>
      *  it will pick one randomly if multi-host available<br>
-     *  it will wait for a while if the qconf-agent not get the configure yet, at most 100 * 5 millisecond
+     *  it will wait for a while if the hconf-agent not get the configure yet, at most 100 * 5 millisecond
      *
      * @param key   the key indicate one configure item
      * @param idc   server room name, use 'null' if get configure from the one of current client machine
      * @return one host available, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.3.1
      */
     public native static String getHost(String key, String idc) throws QconfException; 
@@ -144,12 +144,12 @@ public class Qconf
     /**
      * get one host configure available from Qconf by the key in current server room<br>
      *  it will pick one randomly if multi-host available<br>
-     *  it will wait for a while if the qconf-agent not get the configure yet, at most 100 * 5 millisecond
+     *  it will wait for a while if the hconf-agent not get the configure yet, at most 100 * 5 millisecond
      *
      * @param key   the key indicate one configure item
      * @return one host available, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.3.1
      */
     public static String getHost(String key) throws QconfException
@@ -159,25 +159,25 @@ public class Qconf
 
     /**
      * get all the hosts available from Qconf by the key and idc<br>
-     *  it will wait for a while if the qconf-agent not get the configure yet, at most 100 * 5 millisecond
+     *  it will wait for a while if the hconf-agent not get the configure yet, at most 100 * 5 millisecond
      *
      * @param key   the key indicate one configure item
      * @param idc   server room name, use 'null' if get configure from the one of current client machine
      * @return all hosts  available, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.3.1
      */
     public native static ArrayList<String> getAllHost(String key, String idc) throws QconfException;
 
     /**
      * get all the hosts available from Qconf by the key in current server room<br>
-     *  it will wait for a while if the qconf-agent not get the configure yet, at most 100 * 5 millisecond
+     *  it will wait for a while if the hconf-agent not get the configure yet, at most 100 * 5 millisecond
      *
      * @param key   the key indicate one configure item
      * @return all childrent conf, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.3.1
      */
     public static ArrayList<String> getAllHost(String key) throws QconfException
@@ -192,7 +192,7 @@ public class Qconf
      * @param idc   server room name
      * @return all children conf, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.4.0
      */
     public native static Map<String, String> getBatchConf(String key, String idc) throws QconfException;
@@ -202,7 +202,7 @@ public class Qconf
      * @param key   the key indicate one configure item
      * @return all children conf, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.4.0
      */
     public static Map<String, String> getBatchConf(String key) throws QconfException
@@ -216,7 +216,7 @@ public class Qconf
      * @param key   the key indicate one configure item
      * @return all children keys, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.4.0
      */
     public native static ArrayList<String> getBatchKeys(String key, String idc) throws QconfException;
@@ -226,7 +226,7 @@ public class Qconf
      * @param key   the key indicate one configure item
      * @return all children keys, return null if failed
      * @exception QconfException 
-     *              if any exception of qconf happend during the operation
+     *              if any exception of hconf happend during the operation
      * @since version 0.4.0
      */
     public static ArrayList<String> getBatchKeys(String key) throws QconfException

@@ -1,9 +1,9 @@
-#ifndef QCONF_ZK_H
-#define QCONF_ZK_H
+#ifndef HCONF_ZK_H
+#define HCONF_ZK_H
 
 #include <string>
 #include <vector>
-#include "qconf_const.h"
+#include "hconf_const.h"
 
 /**
  *  Get conf from zookeeper
@@ -33,12 +33,12 @@ int zk_register_ephemeral(zhandle_t *zh, const std::string &path, const std::str
 /**
  * init zookeeper log stream
  */
-int qconf_init_zoo_log(const std::string &log_dir, const std::string &zoo_log = QCONF_ZOO_LOG);
+int hconf_init_zoo_log(const std::string &log_dir, const std::string &zoo_log = HCONF_ZOO_LOG);
 
 /**
  * Destroy zookeeper log stream
  */
-void qconf_destroy_zoo_log();
+void hconf_destroy_zoo_log();
 
 /**
  * Check zookeeper path exists

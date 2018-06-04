@@ -4,21 +4,21 @@
 #include <string>
 
 #include "gtest/gtest.h"
-#include "qconf_const.h"
-#include "qconf_format.h"
-#include "qconf_feedback.h"
+#include "hconf_const.h"
+#include "hconf_format.h"
+#include "hconf_feedback.h"
 
 using namespace std;
 
 static void create_string_vector(string_vector_t *nodes, size_t count, bool serv_flg = false);
 
-class Test_qconf_feedback : public ::testing::Test
+class Test_hconf_feedback : public ::testing::Test
 {
     public:
         virtual void SetUp()
         {
             host_ = "127.0.0.1:2181";
-            zh_ = zookeeper_init(host_.c_str(), NULL, QCONF_ZK_DEFAULT_RECV_TIMEOUT, NULL, NULL, 0);
+            zh_ = zookeeper_init(host_.c_str(), NULL, HCONF_ZK_DEFAULT_RECV_TIMEOUT, NULL, NULL, 0);
         }
 
         virtual void TearDown()
@@ -37,30 +37,30 @@ class Test_qconf_feedback : public ::testing::Test
  * int get_feedback_ip(const zhandle_t *zh, string &ip_str)
  */
 // Test for get_feedback_ip: zh is null
-TEST_F(Test_qconf_feedback, get_feedback_ip_null_zh)
+TEST_F(Test_hconf_feedback, get_feedback_ip_null_zh)
 {
     zhandle_t *zh = NULL;
     string ip;
 
     int ret = get_feedback_ip(zh, ip);
 
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
 }
 
 // Test for get_feedback_ip: connect zh
-TEST_F(Test_qconf_feedback, get_feedback_ip_connect_zh)
+TEST_F(Test_hconf_feedback, get_feedback_ip_connect_zh)
 {
     string ip;
 
-    zoo_exists(zh_, "/qconf", 0, NULL);
+    zoo_exists(zh_, "/hconf", 0, NULL);
     int ret = get_feedback_ip(zh_, ip);
 
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     EXPECT_EQ(0, strncmp(host_.c_str(), ip.c_str(), ip.size()));
 }
 
 // Test for get_feedback_ip: close zh
-TEST_F(Test_qconf_feedback, get_feedback_ip_close_zh)
+TEST_F(Test_hconf_feedback, get_feedback_ip_close_zh)
 {
     string ip;
 
@@ -68,7 +68,7 @@ TEST_F(Test_qconf_feedback, get_feedback_ip_close_zh)
     int ret = get_feedback_ip(zh_, ip);
     zh_ = NULL;
 
-    EXPECT_EQ(QCONF_ERR_OTHER, ret);
+    EXPECT_EQ(HCONF_ERR_OTHER, ret);
 }
 
 /**
@@ -85,7 +85,7 @@ TEST_F(Test_qconf_feedback, get_feedback_ip_close_zh)
  * void feedback_generate_chdval(const string_vector_t &chdnodes, const vector<char> &status, string &value)
  */
 // Test for feedback_generate_chdval : chdnodes is empty
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_empty_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_empty_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -97,7 +97,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_chdval_empty_chdnodes)
 }
 
 // Test for feedback_generate_chdval : number of chdnodes is one and up
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_one_up_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_one_up_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -114,7 +114,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_chdval_one_up_chdnodes)
 }
 
 // Test for feedback_generate_chdval : number of chdnodes is one and down
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_one_down_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_one_down_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -130,7 +130,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_chdval_one_down_chdnodes)
 }
 
 // Test for feedback_generate_chdval : number of chdnodes is one and offline
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_one_offline_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_one_offline_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -146,7 +146,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_chdval_one_offline_chdnodes)
 }
 
 // Test for feedback_generate_chdval : number of chdnodes is ten and up
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_ten_up_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_ten_up_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -163,7 +163,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_chdval_ten_up_chdnodes)
 }
 
 // Test for feedback_generate_chdval : number of chdnodes is ten and down
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_ten_down_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_ten_down_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -180,7 +180,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_chdval_ten_down_chdnodes)
 }
 
 // Test for feedback_generate_chdval : number of chdnodes is ten and offline
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_ten_offline_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_ten_offline_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -197,7 +197,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_chdval_ten_offline_chdnodes)
 }
 
 // Test for feedback_generate_chdval : number of chdnodes is ten and half up and half down
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_five_up_five_down_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_five_up_five_down_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -216,7 +216,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_chdval_five_up_five_down_chdnodes)
 }
 
 // Test for feedback_generate_chdval : number of chdnodes is ten and half up and half offline
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_five_up_five_offline_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_five_up_five_offline_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -235,7 +235,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_chdval_five_up_five_offline_chdnod
 }
 
 // Test for feedback_generate_chdval : number of chdnodes is ten and half down and half offline
-TEST_F(Test_qconf_feedback, feedback_generate_chdval_five_down_five_offline_chdnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_chdval_five_down_five_offline_chdnodes)
 {
     string_vector_t chdnodes;
     memset(&chdnodes, 0, sizeof(string_vector_t));
@@ -288,7 +288,7 @@ static void create_string_vector(string_vector_t *nodes, size_t count, bool serv
  * void feedback_generate_batchval(const string_vector_t &batchnodes, string &value)
  */
 // Test for feedback_generate_batchval : batchnodes is empty
-TEST_F(Test_qconf_feedback, feedback_generate_batchval_empty_batchnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_batchval_empty_batchnodes)
 {
     string_vector_t batchnodes;
     memset(&batchnodes, 0, sizeof(string_vector_t));
@@ -300,7 +300,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_batchval_empty_batchnodes)
 }
 
 // Test for feedback_generate_batchval : number of batchnodes is one
-TEST_F(Test_qconf_feedback, feedback_generate_batchval_one_batchnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_batchval_one_batchnodes)
 {
     string_vector_t batchnodes;
     memset(&batchnodes, 0, sizeof(string_vector_t));
@@ -314,7 +314,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_batchval_one_batchnodes)
 }
 
 // Test for feedback_generate_batchval : number of batchnodes is ten
-TEST_F(Test_qconf_feedback, feedback_generate_batchval_ten_batchnodes)
+TEST_F(Test_hconf_feedback, feedback_generate_batchval_ten_batchnodes)
 {
     string_vector_t batchnodes;
     memset(&batchnodes, 0, sizeof(string_vector_t));
@@ -340,63 +340,63 @@ TEST_F(Test_qconf_feedback, feedback_generate_batchval_ten_batchnodes)
  * int feedback_generate_content(const string &ip, char data_type, const string &idc, const string &path, const fb_val &fbval, string &content)
  */
 // Test for feedback_generate_content : ip is empty
-TEST_F(Test_qconf_feedback, feedback_generate_content_empty_ip)
+TEST_F(Test_hconf_feedback, feedback_generate_content_empty_ip)
 {
     string ip;
     string idc;
     string path;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_NODE;
+    char data_type = HCONF_DATA_TYPE_NODE;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
 }
 
 // Test for feedback_generate_content : idc is empty
-TEST_F(Test_qconf_feedback, feedback_generate_content_empty_idc)
+TEST_F(Test_hconf_feedback, feedback_generate_content_empty_idc)
 {
     string ip("10.10.10.10");
     string idc;
     string path;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_NODE;
+    char data_type = HCONF_DATA_TYPE_NODE;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
 }
 
 // Test for feedback_generate_content : path is empty
-TEST_F(Test_qconf_feedback, feedback_generate_content_empty_path)
+TEST_F(Test_hconf_feedback, feedback_generate_content_empty_path)
 {
     string ip("10.10.10.10");
     string idc("test");
     string path;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_NODE;
+    char data_type = HCONF_DATA_TYPE_NODE;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
 }
 
 // Test for feedback_generate_content : illegal data type
-TEST_F(Test_qconf_feedback, feedback_generate_content_illegal_data_type)
+TEST_F(Test_hconf_feedback, feedback_generate_content_illegal_data_type)
 {
     string ip("10.10.10.10");
     string idc("test");
     string path("/demo/test/confs/conf1/conf11");
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_UNKNOWN;
+    char data_type = HCONF_DATA_TYPE_UNKNOWN;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_ERR_PARAM, ret);
+    EXPECT_EQ(HCONF_ERR_PARAM, ret);
 }
 
 // Test for feedback_generate_content : data type is node with empty value
-TEST_F(Test_qconf_feedback, feedback_generate_content_node_data_type_empty_value)
+TEST_F(Test_hconf_feedback, feedback_generate_content_node_data_type_empty_value)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -404,7 +404,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_node_data_type_empty_value
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_NODE;
+    char data_type = HCONF_DATA_TYPE_NODE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -412,12 +412,12 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_node_data_type_empty_value
     fbval.tblval = tblval;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
 }
 
 // Test for feedback_generate_content : data type is node
-TEST_F(Test_qconf_feedback, feedback_generate_content_node_data_type)
+TEST_F(Test_hconf_feedback, feedback_generate_content_node_data_type)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -425,7 +425,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_node_data_type)
     string value("name=test;age=10");
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_NODE;
+    char data_type = HCONF_DATA_TYPE_NODE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -433,12 +433,12 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_node_data_type)
     fbval.tblval = tblval;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
 }
 
 // Test for feedback_generate_content : data type is service with empty value
-TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_empty_value)
+TEST_F(Test_hconf_feedback, feedback_generate_content_service_data_type_empty_value)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -446,7 +446,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_empty_va
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_SERVICE;
+    char data_type = HCONF_DATA_TYPE_SERVICE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -465,12 +465,12 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_empty_va
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
 }
 
 // Test for feedback_generate_content : data type is service with one up service
-TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_one_up)
+TEST_F(Test_hconf_feedback, feedback_generate_content_service_data_type_one_up)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -478,7 +478,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_one_up)
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_SERVICE;
+    char data_type = HCONF_DATA_TYPE_SERVICE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -499,13 +499,13 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_one_up)
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
     free_string_vector(chdnodes, chdnodes.count);
 }
 
 // Test for feedback_generate_content : data type is service with one down service
-TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_one_down)
+TEST_F(Test_hconf_feedback, feedback_generate_content_service_data_type_one_down)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -513,7 +513,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_one_down
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_SERVICE;
+    char data_type = HCONF_DATA_TYPE_SERVICE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -534,13 +534,13 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_one_down
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
     free_string_vector(chdnodes, chdnodes.count);
 }
 
 // Test for feedback_generate_content : data type is service with one offline service
-TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_one_offline)
+TEST_F(Test_hconf_feedback, feedback_generate_content_service_data_type_one_offline)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -548,7 +548,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_one_offl
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_SERVICE;
+    char data_type = HCONF_DATA_TYPE_SERVICE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -569,13 +569,13 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_one_offl
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
     free_string_vector(chdnodes, chdnodes.count);
 }
 
 // Test for feedback_generate_content : data type is service with ten up services
-TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_ten_up)
+TEST_F(Test_hconf_feedback, feedback_generate_content_service_data_type_ten_up)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -583,7 +583,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_ten_up)
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_SERVICE;
+    char data_type = HCONF_DATA_TYPE_SERVICE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -605,13 +605,13 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_ten_up)
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
     free_string_vector(chdnodes, chdnodes.count);
 }
 
 // Test for feedback_generate_content : data type is service with ten down services
-TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_ten_down)
+TEST_F(Test_hconf_feedback, feedback_generate_content_service_data_type_ten_down)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -619,7 +619,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_ten_down
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_SERVICE;
+    char data_type = HCONF_DATA_TYPE_SERVICE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -641,13 +641,13 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_ten_down
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
     free_string_vector(chdnodes, chdnodes.count);
 }
 
 // Test for feedback_generate_content : data type is service with ten offline services
-TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_ten_offline)
+TEST_F(Test_hconf_feedback, feedback_generate_content_service_data_type_ten_offline)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -655,7 +655,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_ten_offl
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_SERVICE;
+    char data_type = HCONF_DATA_TYPE_SERVICE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -677,13 +677,13 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_service_data_type_ten_offl
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
     free_string_vector(chdnodes, chdnodes.count);
 }
 
 // Test for feedback_generate_content : data type is batchnode with empty value
-TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_empty_value)
+TEST_F(Test_hconf_feedback, feedback_generate_content_batchnode_data_type_empty_value)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -691,7 +691,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_empty_
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_BATCH_NODE;
+    char data_type = HCONF_DATA_TYPE_BATCH_NODE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -709,12 +709,12 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_empty_
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
 }
 
 // Test for feedback_generate_content : data type is batchnode with one node
-TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_one)
+TEST_F(Test_hconf_feedback, feedback_generate_content_batchnode_data_type_one)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -722,7 +722,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_one)
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_BATCH_NODE;
+    char data_type = HCONF_DATA_TYPE_BATCH_NODE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -740,13 +740,13 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_one)
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
     free_string_vector(batchnodes, batchnodes.count);
 }
 
 // Test for feedback_generate_content : data type is batchnode with ten node
-TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_ten)
+TEST_F(Test_hconf_feedback, feedback_generate_content_batchnode_data_type_ten)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -754,7 +754,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_ten)
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_BATCH_NODE;
+    char data_type = HCONF_DATA_TYPE_BATCH_NODE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -772,13 +772,13 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_ten)
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
     free_string_vector(batchnodes, batchnodes.count);
 }
 
 // Test for feedback_generate_content : data type is batchnode with hundred node
-TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_hundred)
+TEST_F(Test_hconf_feedback, feedback_generate_content_batchnode_data_type_hundred)
 {
     string ip("10.10.10.10");
     string idc("test");
@@ -786,7 +786,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_hundre
     string value;
     fb_val fbval;
     string content;
-    char data_type = QCONF_DATA_TYPE_BATCH_NODE;
+    char data_type = HCONF_DATA_TYPE_BATCH_NODE;
     string tblkey;
     serialize_to_tblkey(data_type, idc, path, tblkey);
     string tblval;
@@ -805,7 +805,7 @@ TEST_F(Test_qconf_feedback, feedback_generate_content_batchnode_data_type_hundre
     fbval.fb_chds = fb_chd;
     
     int ret = feedback_generate_content(ip, data_type, idc, path, fbval, content);
-    EXPECT_EQ(QCONF_OK, ret);
+    EXPECT_EQ(HCONF_OK, ret);
     cout << content << endl;
     free_string_vector(batchnodes, batchnodes.count);
 }

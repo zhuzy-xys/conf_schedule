@@ -1,4 +1,4 @@
-# node-qconf
+# node-hconf
 Qihoo360 QConf(https://github.com/Qihoo360/QConf) Node.js addon.
 
 [![NPM version][npm-image]][npm-url]
@@ -8,35 +8,35 @@ Qihoo360 QConf(https://github.com/Qihoo360/QConf) Node.js addon.
 ## Installation
 
 ```
-$ npm install node-qconf --save
+$ npm install node-hconf --save
 ```
 
 Notes:
 
-* You need set the Environment Variable QCONF_INSTALL before install this addon.
+* You need set the Environment Variable HCONF_INSTALL before install this addon.
 
 ```
-$ export QCONF_INSTALL=/home/work/local/qconf
-$ npm install node-qconf --save
+$ export HCONF_INSTALL=/home/work/local/hconf
+$ npm install node-hconf --save
 ```
 
 ## Useage
 
 ```
-var qconf = require('node-qconf');
+var hconf = require('node-hconf');
 
-console.log('version:', qconf.version())
-console.log('getConf:', qconf.getConf('/demo'))
-console.log('getBatchKeys:', qconf.getBatchKeys('/backend', 'test'))
-console.log('getBatchConf:', qconf.getBatchConf('/backend/umem/users'))
-console.log('getAllHost:', qconf.getAllHost('/backend/umem/users'))
-console.log('getHost:', qconf.getHost('/backend/umem/users'))
+console.log('version:', hconf.version())
+console.log('getConf:', hconf.getConf('/demo'))
+console.log('getBatchKeys:', hconf.getBatchKeys('/backend', 'test'))
+console.log('getBatchConf:', hconf.getBatchConf('/backend/umem/users'))
+console.log('getAllHost:', hconf.getAllHost('/backend/umem/users'))
+console.log('getHost:', hconf.getHost('/backend/umem/users'))
 
 ```
 
 
-[npm-image]: https://img.shields.io/npm/v/node-qconf.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/node-qconf
-[downloads-image]: https://img.shields.io/npm/dm/node-qconf.svg?style=flat-square
-[david-image]: https://img.shields.io/david/bluedapp/node-qconf.svg?style=flat-square
-[david-url]: https://david-dm.org/bluedapp/node-qconf
+[npm-image]: https://img.shields.io/npm/v/node-hconf.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/node-hconf
+[downloads-image]: https://img.shields.io/npm/dm/node-hconf.svg?style=flat-square
+[david-image]: https://img.shields.io/david/bluedapp/node-hconf.svg?style=flat-square
+[david-url]: https://david-dm.org/bluedapp/node-hconf

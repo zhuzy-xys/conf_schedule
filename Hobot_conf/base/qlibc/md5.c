@@ -89,25 +89,25 @@ static unsigned char PADDING[64] =
  * Rotation is separate from addition to prevent recomputation.
  */
 #define FF(a, b, c, d, x, s, ac) { \
-	(a) += F ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
-	(a) = ROTATE_LEFT ((a), (s)); \
-	(a) += (b); \
-	}
+    (a) += F ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
+    (a) = ROTATE_LEFT ((a), (s)); \
+    (a) += (b); \
+    }
 #define GG(a, b, c, d, x, s, ac) { \
-	(a) += G ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
-	(a) = ROTATE_LEFT ((a), (s)); \
-	(a) += (b); \
-	}
+    (a) += G ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
+    (a) = ROTATE_LEFT ((a), (s)); \
+    (a) += (b); \
+    }
 #define HH(a, b, c, d, x, s, ac) { \
-	(a) += H ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
-	(a) = ROTATE_LEFT ((a), (s)); \
-	(a) += (b); \
-	}
+    (a) += H ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
+    (a) = ROTATE_LEFT ((a), (s)); \
+    (a) += (b); \
+    }
 #define II(a, b, c, d, x, s, ac) { \
-	(a) += I ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
-	(a) = ROTATE_LEFT ((a), (s)); \
-	(a) += (b); \
-	}
+    (a) += I ((b), (c), (d)) + (x) + (u_int32_t)(ac); \
+    (a) = ROTATE_LEFT ((a), (s)); \
+    (a) += (b); \
+    }
 
 /* QMD5 initialization. Begins an QMD5 operation, writing a new context. */
 
@@ -132,7 +132,7 @@ QMD5Init (QMD5_CTX *context)
  */
 
 void
-QMD5Update (	QMD5_CTX *context,
+QMD5Update (    QMD5_CTX *context,
             const unsigned char *input,
             unsigned int inputLen)
 {

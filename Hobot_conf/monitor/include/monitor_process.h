@@ -14,7 +14,7 @@
 namespace process{
 
 //process name
-const std::string kMonitorProcessName = "qconf_monitor";
+const std::string kMonitorProcessName = "hconf_monitor";
 
 //pid file
 const std::string kPidFile = "monitor_pid";

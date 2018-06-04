@@ -1,24 +1,24 @@
 {
     "targets": [
         {
-            "target_name": "qconf",
-            "sources": [ "qconf.cc" ],
+            "target_name": "hconf",
+            "sources": [ "hconf.cc" ],
             "cflags!": ["-fno-exceptions"],
             "cflags_cc!": ["-fno-exceptions"],
-            "libraries": ["-lqconf"],
+            "libraries": ["-lhconf"],
             "link_settings": {
-            "libraries": ["-L<!(echo $QCONF_INSTALL)/lib"]
+            "libraries": ["-L<!(echo $HCONF_INSTALL)/lib"]
             },
             "include_dirs": [
-                "<!(echo $QCONF_INSTALL)/include",
-                "/usr/local/qconf/include",
-                "/usr/local/include/qconf"
+                "<!(echo $HCONF_INSTALL)/include",
+                "/usr/local/hconf/include",
+                "/usr/local/include/hconf"
             ],
             "copies": [
                 {
-                    'destination': '/usr/local/qconf/lib',
+                    'destination': '/usr/local/hconf/lib',
                     'files': [
-                        './build/Release/qconf.node'
+                        './build/Release/hconf.node'
                     ]
                 }
             ]

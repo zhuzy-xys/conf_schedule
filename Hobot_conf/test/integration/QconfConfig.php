@@ -1,10 +1,10 @@
 <?php
 class QconfConfig 
 {
-    const QCONF_WAIT = 0;   // wait if the share memory doesn't have value within the certain time
-    const QCONF_NOWAIT = 1; // return immediately if the share momory doesn't have value
+    const HCONF_WAIT = 0;   // wait if the share memory doesn't have value within the certain time
+    const HCONF_NOWAIT = 1; // return immediately if the share momory doesn't have value
 
-    public static $dir = "/qconf/";
+    public static $dir = "/hconf/";
 
     public static function getNodePath($path)
     {
@@ -12,7 +12,7 @@ class QconfConfig
         $path = QconfConfig::$dir . $path;
         return $path;
     }
-	public static $qconfZkHost = array
+	public static $hconfZkHost = array
 	(
 		"bjcc"   => "10.143.3.25:2181,10.143.3.24:2181,10.143.3.23:2181",
 		"bjdt"   => "10.138.252.184:2181,10.138.252.185:2181,10.138.252.186:2181",

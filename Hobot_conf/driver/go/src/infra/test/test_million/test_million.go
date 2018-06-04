@@ -3,7 +3,7 @@ package main
 import (
     "time"
     "fmt"
-    "infra/go_qconf"
+    "infra/go_hconf"
 )
 
 const (
@@ -11,10 +11,10 @@ const (
 
 )
 
-func qconf_use(key string){
+func hconf_use(key string){
     fmt.Println(key)
     idc := "corp"
-    value, err_conf := go_qconf.GetConf(key, "")
+    value, err_conf := go_hconf.GetConf(key, "")
     if err_conf != nil{
         fmt.Println(err_conf)
     } else {
@@ -25,14 +25,14 @@ func qconf_use(key string){
     }
 
     host_key := "/demo/test_bcdppp"
-    host, err_host := go_qconf.GetHost(host_key, idc)
+    host, err_host := go_hconf.GetHost(host_key, idc)
     if err_host != nil{
         fmt.Println(err_host)
     } else {
         fmt.Printf("one host of %v is %v\n", host_key, host)
     }
 
-    hosts, err_hosts := go_qconf.GetAllHost(host_key, idc)
+    hosts, err_hosts := go_hconf.GetAllHost(host_key, idc)
     if err_hosts != nil{
         fmt.Println(err_hosts)
     } else {
@@ -42,14 +42,14 @@ func qconf_use(key string){
         }
     }
 
-    batch_conf, err_batch_conf := go_qconf.GetBatchConf(key, idc)
+    batch_conf, err_batch_conf := go_hconf.GetBatchConf(key, idc)
     if err_batch_conf != nil{
         fmt.Println(err_batch_conf)
     } else {
         fmt.Printf("%v\n", batch_conf)
     }
 
-    batch_keys, err_batch_keys := go_qconf.GetBatchKeys(key, idc)
+    batch_keys, err_batch_keys := go_hconf.GetBatchKeys(key, idc)
     if err_batch_keys != nil{
         fmt.Println(err_batch_keys)
     } else {
@@ -57,7 +57,7 @@ func qconf_use(key string){
     }
 
     
-    version, err_version := go_qconf.Version()
+    version, err_version := go_hconf.Version()
     if err_version != nil{
         fmt.Println(err_version)
     } else {
@@ -69,7 +69,7 @@ func main(){
     key := "/test_million/million_"
     for index := 0; ; index++ {
 	suffix := index % 100
-	qconf_use(key + fmt.Sprint(suffix))
+	hconf_use(key + fmt.Sprint(suffix))
 	time.Sleep(time.Millisecond *100 )
     }
 }

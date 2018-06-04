@@ -1,7 +1,7 @@
-package go_qconf
+package go_hconf
 
 /*
-#cgo LDFLAGS: -lqconf -lm
+#cgo LDFLAGS: -lhconf -lm
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -12,30 +12,30 @@ struct string_vector
 };
 typedef struct string_vector string_vector_t;
 
-typedef struct qconf_node
+typedef struct hconf_node
 {
     char *key;
     char *value;
-} qconf_node;
+} hconf_node;
 
-typedef struct qconf_batch_nodes
+typedef struct hconf_batch_nodes
 {
     int count;
-    qconf_node *nodes;
-} qconf_batch_nodes;
+    hconf_node *nodes;
+} hconf_batch_nodes;
 
-int qconf_init();
-int qconf_destroy();
+int hconf_init();
+int hconf_destroy();
 int init_string_vector(string_vector_t *nodes);
 int destroy_string_vector(string_vector_t *nodes);
-int init_qconf_batch_nodes(qconf_batch_nodes *bnodes);
-int destroy_qconf_batch_nodes(qconf_batch_nodes *bnodes);
+int init_hconf_batch_nodes(hconf_batch_nodes *bnodes);
+int destroy_hconf_batch_nodes(hconf_batch_nodes *bnodes);
 
-int qconf_get_conf(const char *path, char *buf, int buf_len, const char *idc);
-int qconf_get_allhost(const char *path, string_vector_t *nodes, const char *idc);
-int qconf_get_host(const char *path, char *buf, int buf_len, const char *idc);
-int qconf_get_batch_conf(const char *path, qconf_batch_nodes *bnodes, const char *idc);
-int qconf_get_batch_keys(const char *path, string_vector_t *nodes, const char *idc);
+int hconf_get_conf(const char *path, char *buf, int buf_len, const char *idc);
+int hconf_get_allhost(const char *path, string_vector_t *nodes, const char *idc);
+int hconf_get_host(const char *path, char *buf, int buf_len, const char *idc);
+int hconf_get_batch_conf(const char *path, hconf_batch_nodes *bnodes, const char *idc);
+int hconf_get_batch_keys(const char *path, string_vector_t *nodes, const char *idc);
 
 
 */
@@ -112,19 +112,19 @@ var (
 )
 
 const (
-    QCONF_DRIVER_GO_VERSION         = "1.2.2"
-    QCONF_CONF_BUF_INIT_MAX_LEN     = 2 *1024
-    QCONF_CONF_BUF_MAX_LEN          = 1024 *1024
-    QCONF_CONF_BUF_MULTIPLE         = 8
-    QCONF_HOST_BUF_MAX_LEN          = 256
+    HCONF_DRIVER_GO_VERSION         = "1.2.2"
+    HCONF_CONF_BUF_INIT_MAX_LEN     = 2 *1024
+    HCONF_CONF_BUF_MAX_LEN          = 1024 *1024
+    HCONF_CONF_BUF_MULTIPLE         = 8
+    HCONF_HOST_BUF_MAX_LEN          = 256
 
-    QCONF_OK                        = 0
-    QCONF_ERR_BUF_NOT_ENOUGH        = 6
+    HCONF_OK                        = 0
+    HCONF_ERR_BUF_NOT_ENOUGH        = 6
 )
 
 func init(){
-    ret := C.qconf_init()
-    if QCONF_OK != ret {
+    ret := C.hconf_init()
+    if HCONF_OK != ret {
         panic(ret)
     }
 }
@@ -145,18 +145,18 @@ func convertToGoSlice(nodes *C.string_vector_t) []string{
     return go_nodes
 }
 
-func convertToGoMap(bnodes *C.qconf_batch_nodes) map[string]string{
+func convertToGoMap(bnodes *C.hconf_batch_nodes) map[string]string{
     length := int((*bnodes).count)
     hdr := reflect.SliceHeader{
         Data: uintptr(unsafe.Pointer((*bnodes).nodes)),
         Len:  length,
         Cap:  length,
     }
-    qconf_nodes := *(*[]C.qconf_node)(unsafe.Pointer(&hdr))
+    hconf_nodes := *(*[]C.hconf_node)(unsafe.Pointer(&hdr))
     go_nodes := map[string]string{}
     for i := 0; i < length; i++ {
-        go_key := C.GoString(qconf_nodes[i].key)
-        go_value := C.GoString(qconf_nodes[i].value)
+        go_key := C.GoString(hconf_nodes[i].key)
+        go_value := C.GoString(hconf_nodes[i].value)
         go_nodes[go_key] = go_value;
     }
     return go_nodes
@@ -168,21 +168,21 @@ func GetConf(key string, idc string) (string, error){
     defer C.free(unsafe.Pointer(c_key))
     var ret int
     var c_ptr_value *C.char
-    slice_length := QCONF_CONF_BUF_INIT_MAX_LEN
+    slice_length := HCONF_CONF_BUF_INIT_MAX_LEN
 
-    for ret = QCONF_ERR_BUF_NOT_ENOUGH; ret == QCONF_ERR_BUF_NOT_ENOUGH && slice_length <= QCONF_CONF_BUF_MAX_LEN; slice_length *= QCONF_CONF_BUF_MULTIPLE{
+    for ret = HCONF_ERR_BUF_NOT_ENOUGH; ret == HCONF_ERR_BUF_NOT_ENOUGH && slice_length <= HCONF_CONF_BUF_MAX_LEN; slice_length *= HCONF_CONF_BUF_MULTIPLE{
         c_value := make([]C.char, slice_length)
         c_ptr_value = (*C.char)(unsafe.Pointer(&(c_value[0])))
 
         if idc == "" {
-            ret = int(C.qconf_get_conf(c_key, c_ptr_value, C.int(slice_length), nil))
+            ret = int(C.hconf_get_conf(c_key, c_ptr_value, C.int(slice_length), nil))
         } else {
             c_idc := C.CString(idc)
             defer C.free(unsafe.Pointer(c_idc))
-            ret = int(C.qconf_get_conf(c_key, c_ptr_value, C.int(slice_length), c_idc))
+            ret = int(C.hconf_get_conf(c_key, c_ptr_value, C.int(slice_length), c_idc))
         }
     }
-    if QCONF_OK != ret {
+    if HCONF_OK != ret {
         cur_err := Errno(ret)
         return "", cur_err
     }
@@ -193,18 +193,18 @@ func GetConf(key string, idc string) (string, error){
 func GetHost(key string, idc string) (string, error){
     c_key := C.CString(key)
     defer C.free(unsafe.Pointer(c_key))
-    var c_host[QCONF_HOST_BUF_MAX_LEN]C.char
+    var c_host[HCONF_HOST_BUF_MAX_LEN]C.char
     c_ptr_host := (*C.char)(unsafe.Pointer(&(c_host[0])))
 
     var ret int
     if idc == "" {
-        ret = int(C.qconf_get_host(c_key, c_ptr_host, QCONF_HOST_BUF_MAX_LEN, nil))
+        ret = int(C.hconf_get_host(c_key, c_ptr_host, HCONF_HOST_BUF_MAX_LEN, nil))
     } else {
         c_idc := C.CString(idc)
         defer C.free(unsafe.Pointer(c_idc))
-        ret = int(C.qconf_get_host(c_key, c_ptr_host, QCONF_HOST_BUF_MAX_LEN, c_idc))
+        ret = int(C.hconf_get_host(c_key, c_ptr_host, HCONF_HOST_BUF_MAX_LEN, c_idc))
     }
-    if QCONF_OK != ret {
+    if HCONF_OK != ret {
         cur_err := Errno(ret)
         return "", cur_err
     }
@@ -217,7 +217,7 @@ func GetAllHost(key string, idc string) ([]string, error){
     defer C.free(unsafe.Pointer(c_key))
     var nodes C.string_vector_t
     init_ret := C.init_string_vector(&nodes)
-    if QCONF_OK != init_ret{
+    if HCONF_OK != init_ret{
         cur_err := Errno(init_ret)
         return nil, cur_err
     }
@@ -225,13 +225,13 @@ func GetAllHost(key string, idc string) ([]string, error){
 
     var ret int
     if idc == "" {
-        ret = int(C.qconf_get_allhost(c_key, &nodes, nil))
+        ret = int(C.hconf_get_allhost(c_key, &nodes, nil))
     } else {
         c_idc := C.CString(idc)
         defer C.free(unsafe.Pointer(c_idc))
-        ret = int(C.qconf_get_allhost(c_key, &nodes, c_idc))
+        ret = int(C.hconf_get_allhost(c_key, &nodes, c_idc))
     }
-    if QCONF_OK != ret {
+    if HCONF_OK != ret {
         cur_err := Errno(ret)
         return nil, cur_err
     }
@@ -243,23 +243,23 @@ func GetAllHost(key string, idc string) ([]string, error){
 func GetBatchConf(key string, idc string) (map[string]string, error){
     c_key := C.CString(key)
     defer C.free(unsafe.Pointer(c_key))
-    var bnodes C.qconf_batch_nodes
-    init_ret := C.init_qconf_batch_nodes(&bnodes)
-    if QCONF_OK != init_ret{
+    var bnodes C.hconf_batch_nodes
+    init_ret := C.init_hconf_batch_nodes(&bnodes)
+    if HCONF_OK != init_ret{
         cur_err := Errno(init_ret)
         return nil, cur_err
     }
-    defer C.destroy_qconf_batch_nodes(&bnodes)
+    defer C.destroy_hconf_batch_nodes(&bnodes)
 
     var ret int
     if idc == "" {
-        ret = int(C.qconf_get_batch_conf(c_key, &bnodes, nil))
+        ret = int(C.hconf_get_batch_conf(c_key, &bnodes, nil))
     } else {
         c_idc := C.CString(idc)
         defer C.free(unsafe.Pointer(c_idc))
-        ret = int(C.qconf_get_batch_conf(c_key, &bnodes, c_idc))
+        ret = int(C.hconf_get_batch_conf(c_key, &bnodes, c_idc))
     }
-    if QCONF_OK != ret {
+    if HCONF_OK != ret {
         cur_err := Errno(ret)
         return nil, cur_err
     }
@@ -274,7 +274,7 @@ func GetBatchKeys(key string, idc string) ([]string, error){
     defer C.free(unsafe.Pointer(c_key))
     var nodes C.string_vector_t
     init_ret := C.init_string_vector(&nodes)
-    if QCONF_OK != init_ret{
+    if HCONF_OK != init_ret{
         cur_err := Errno(init_ret)
         return nil, cur_err
     }
@@ -282,13 +282,13 @@ func GetBatchKeys(key string, idc string) ([]string, error){
 
     var ret int
     if idc == "" {
-        ret = int(C.qconf_get_batch_keys(c_key, &nodes, nil))
+        ret = int(C.hconf_get_batch_keys(c_key, &nodes, nil))
     } else {
         c_idc := C.CString(idc)
         defer C.free(unsafe.Pointer(c_idc))
-        ret = int(C.qconf_get_batch_keys(c_key, &nodes, c_idc))
+        ret = int(C.hconf_get_batch_keys(c_key, &nodes, c_idc))
     }
-    if QCONF_OK != ret {
+    if HCONF_OK != ret {
         cur_err := Errno(ret)
         return nil, cur_err
     }
@@ -298,5 +298,5 @@ func GetBatchKeys(key string, idc string) ([]string, error){
 }
 
 func Version() (string, error){
-    return QCONF_DRIVER_GO_VERSION, nil;
+    return HCONF_DRIVER_GO_VERSION, nil;
 }

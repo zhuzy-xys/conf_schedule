@@ -1,6 +1,6 @@
 #CMakelist sh
 
-project(qconf_sh)
+project(hconf_sh)
 cmake_minimum_required(VERSION 2.6)
 include_directories(
     ${PROJECT_SOURCE_DIR}/../c++/include
@@ -9,13 +9,13 @@ include_directories(
 aux_source_directory(. DIR_SRCS)
 
 #add_definitions(${AGENT_COMPILE_FLAGS})
-add_executable(qconf_client ${DIR_SRCS})
+add_executable(hconf_client ${DIR_SRCS})
 
-target_link_libraries (qconf_client qconf_static)
+target_link_libraries (hconf_client hconf_static)
 
-set_target_properties(qconf_client PROPERTIES OUTPUT_NAME qconf)
-install(TARGETS qconf_client DESTINATION bin)
+set_target_properties(hconf_client PROPERTIES OUTPUT_NAME hconf)
+install(TARGETS hconf_client DESTINATION bin)
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     install(CODE "EXECUTE_PROCESS (COMMAND ln -sf
-    ${CMAKE_INSTALL_PREFIX}/bin/qconf /usr/local/bin/qconf)")
+    ${CMAKE_INSTALL_PREFIX}/bin/hconf /usr/local/bin/hconf)")
 endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)

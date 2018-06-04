@@ -1,5 +1,5 @@
-#ifndef QCONF_LOCK_H
-#define QCONF_LOCK_H
+#ifndef HCONF_LOCK_H
+#define HCONF_LOCK_H
 
 class CondVar;
 
@@ -37,4 +37,4 @@ class CondVar {
 //#define LEVELDB_ONCE_INIT PTHREAD_ONCE_INIT
 //extern void InitOnce(OnceType* once, void (*initializer)());
 
-#endif  // QCONF_LOCK_H
+#endif  // HCONF_LOCK_H

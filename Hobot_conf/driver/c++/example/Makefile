@@ -2,7 +2,7 @@
 
 #PARAM
 CC     = g++ 
-CFLAGS = -g -c -Wall -I/usr/local/include/qconf
+CFLAGS = -g -c -Wall -I/usr/local/include/hconf
 OBJS   = demo.o
 
 #.PHONY
@@ -11,7 +11,7 @@ OBJS   = demo.o
 all : build clean
 
 build : $(OBJS)
-	$(CC) -o $@ $^ -lqconf
+	$(CC) -o $@ $^ -lhconf
 
 clean : 
 	rm -fr $(OBJS)

@@ -1,5 +1,5 @@
-#ifndef QCONF_CONFIG_H
-#define QCONF_CONFIG_H
+#ifndef HCONF_CONFIG_H
+#define HCONF_CONFIG_H
 
 #include <map>
 #include <string>
@@ -7,7 +7,7 @@
 /**
  * Read configuration from file
  */
-int qconf_load_conf(const std::string &agent_dir, const std::string& localidc = "");
+int hconf_load_conf(const std::string &agent_dir, const std::string& localidc = "");
 
 /**
  * Get config value
@@ -22,7 +22,7 @@ int get_idc_conf(const std::string &idc, std::string &value);
 /**
  * Destory environment
  */
-void qconf_destroy_conf_map();
+void hconf_destroy_conf_map();
 
 /**
  * Judge whether can be parse to integer

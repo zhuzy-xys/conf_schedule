@@ -38,7 +38,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/install/prefix
 - **Register** the Zookeeper server address with QConf
 
 ``` shell
-vi QCONF_INSTALL_PREFIX/conf/idc.conf
+vi HCONF_INSTALL_PREFIX/conf/idc.conf
 ```
 ``` php
   # all the zookeeper host configuration.
@@ -47,17 +47,17 @@ vi QCONF_INSTALL_PREFIX/conf/idc.conf
 ```
  - **Assign** local idc
 ``` shell
-echo test > QCONF_INSTALL_PREFIX/conf/localidc #assign local idc to test
+echo test > HCONF_INSTALL_PREFIX/conf/localidc #assign local idc to test
 ```
  - **Run** QConf
 
 ``` shell
-cd QCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
+cd HCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 ```
  - **Code** to access QConf
 ## Component
 * **ZooKeeper** as the server, restore all configurations, so the limit data size of single configuration item is 1MB, since the size limit of Znode.
-* **qconf_agent** is a daemon run on client machine, maintain data in share memory.
+* **hconf_agent** is a daemon run on client machine, maintain data in share memory.
 * **share memory**,  QConf use share memory as the local cache of all configuration items needed by current client.
 * **interface** in different programming languages, chose your language for accessing of QConf.  
 
@@ -70,7 +70,7 @@ cd QCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 * [Java Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Java%20Doc.md) - the Java reference to QConf APIs
 * [Python Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Python%20Doc.md) - the Python reference to QConf APIs，Python 2.4,  2.5,  2.6 or 2.7 is required. Python 3.x is not yet supported.
 * [PHP Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20PHP%20Doc.md) -  the PHP reference to QConf APIs
-* [Shell Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20C%5CC%2B%2B%20Doc.md) - the command qconf can be use in command line
+* [Shell Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20C%5CC%2B%2B%20Doc.md) - the command hconf can be use in command line
 * [LuaJit Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20LuaJit%20Doc.md) - the LuaJit reference to QConf APIs
 * [Go Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Go%20Doc.md) - the Go reference to QConf APIs
 
@@ -78,21 +78,21 @@ cd QCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 ## Example
 * **C Exmaple**
 ``` c
-	  // Init the qconf env
-      ret = qconf_init();
-      assert(QCONF_OK == ret);
+	  // Init the hconf env
+      ret = hconf_init();
+      assert(HCONF_OK == ret);
 
       // Get Conf value
-      char value[QCONF_CONF_BUF_MAX_LEN];
-      ret = qconf_get_conf("/demo/node1", value, sizeof(value), NULL);
-      assert(QCONF_OK == ret);
+      char value[HCONF_CONF_BUF_MAX_LEN];
+      ret = hconf_get_conf("/demo/node1", value, sizeof(value), NULL);
+      assert(HCONF_OK == ret);
 
       // Get Batch keys
       string_vector_t bnodes_key;
       init_string_vector(&bnodes_key);
 
-      ret = qconf_get_batch_keys("/demo/node2", &bnodes_key, NULL);
-      assert(QCONF_OK == ret);
+      ret = hconf_get_batch_keys("/demo/node2", &bnodes_key, NULL);
+      assert(HCONF_OK == ret);
 
       int i = 0;
       for (i = 0; i < bnodes_key.count; i++)
@@ -101,13 +101,13 @@ cd QCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
       }
       destroy_string_vector(&bnodes_key);
 
-      // Destroy qconf env
-      qconf_destroy();
+      // Destroy hconf env
+      hconf_destroy();
 ```
 
 * **Shell Exmaple**
 ``` shell
-	   usage: qconf command key [idc]
+	   usage: hconf command key [idc]
        command: can be one of below commands:
                 get_conf        : get configure value
                 get_host        : get one service
@@ -116,6 +116,6 @@ cd QCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
        key    : the path of your configure items
        idc    : query from current idc if be omitted
 example:
-       qconf get_conf "demo/conf"
-       qconf get_conf "demo/conf" "test"
+       hconf get_conf "demo/conf"
+       hconf get_conf "demo/conf" "test"
 ```

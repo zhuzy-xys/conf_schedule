@@ -1,9 +1,9 @@
-#ifndef QCONF_MSG_H
-#define QCONF_MSG_H
+#ifndef HCONF_MSG_H
+#define HCONF_MSG_H
 
 #include <string>
 
-#include "qconf_common.h"
+#include "hconf_common.h"
 
 #ifndef __PERMS_FLAGS__
 #define __PERMS_FLAGS__
@@ -13,8 +13,8 @@
 typedef struct
 {
     long mtype;
-    char mtext[QCONF_MAX_MSG_LEN];
-} qconf_msgbuf;
+    char mtext[HCONF_MAX_MSG_LEN];
+} hconf_msgbuf;
 
 int init_msg_queue(key_t key, int &msqid);
 int create_msg_queue(key_t key, int &msqid);

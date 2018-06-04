@@ -9,7 +9,7 @@ extern "C" {
 
 #include <string>
 
-#include "qconf_common.h"
+#include "hconf_common.h"
 #include "driver_common.h"
 
 // zookeeper event type constants
@@ -21,12 +21,12 @@ extern "C" {
 #define NOTWATCHING_EVENT_DEF        -2
 
 /**
- * initialize current qconf environment before using qconf 
+ * initialize current hconf environment before using hconf 
  *
- * @return: if success, return QCONF_OK
- *          if failed, return QCONF_ERR_OTHER
+ * @return: if success, return HCONF_OK
+ *          if failed, return HCONF_ERR_OTHER
  */
-int init_qconf_env();
+int init_hconf_env();
 
 /**
  * get the value of path
@@ -36,16 +36,16 @@ int init_qconf_env();
  *              should free it if it's no used
  * @param idc:  the place to get the nodes
  * @param flags: this indicates that operation if there is no value in the share memory
- *               QCONF_WAIT: it will wait until there is value in the share memory during certain time
- *               QCONF_NOWAIT: it will return immediately if there is no value in share memory
+ *               HCONF_WAIT: it will wait until there is value in the share memory during certain time
+ *               HCONF_NOWAIT: it will return immediately if there is no value in share memory
  *
- * @return: if success, return QCONF_OK
- *          if path exists in the zookeeper, but its value is NULL, return QCONF_ERR_NULL_VALUE, this may not be error
- *          if path is NULL or buf or buf_len is NULL, return QCONF_ERR_PARAM
- *          if get idc failed, return QCONF_ERR_GET_IDC
- *          other failed, return QCONF_ERR_OTHER
+ * @return: if success, return HCONF_OK
+ *          if path exists in the zookeeper, but its value is NULL, return HCONF_ERR_NULL_VALUE, this may not be error
+ *          if path is NULL or buf or buf_len is NULL, return HCONF_ERR_PARAM
+ *          if get idc failed, return HCONF_ERR_GET_IDC
+ *          other failed, return HCONF_ERR_OTHER
  */
-int qconf_get(const std::string &path, std::string &buf, const std::string &idc, int flags);
+int hconf_get(const std::string &path, std::string &buf, const std::string &idc, int flags);
 
 /**
  * get the available services of path
@@ -61,16 +61,16 @@ int qconf_get(const std::string &path, std::string &buf, const std::string &idc,
  *               more use of this struct, please refer zookeeper document
  * @param idc:  the place to get the nodes
  * @param flags: this indicates that operation if there is no value in the share memory
- *               QCONF_WAIT: it will wait until there is value in the share memory during certain time
- *               QCONF_NOWAIT: it will return immediately if there is no value in share memory
+ *               HCONF_WAIT: it will wait until there is value in the share memory during certain time
+ *               HCONF_NOWAIT: it will return immediately if there is no value in share memory
  *
- * @return: if success, return QCONF_OK
- *          if path exists in the zookeeper, but no available services, return QCONF_ERR_NULL_VALUE, this may not be error
- *          if path is NULL or buf or buf_len is NULL, return QCONF_ERR_PARAM
- *          if get idc failed, return QCONF_ERR_GET_IDC
- *          other failed, return QCONF_ERR_OTHER
+ * @return: if success, return HCONF_OK
+ *          if path exists in the zookeeper, but no available services, return HCONF_ERR_NULL_VALUE, this may not be error
+ *          if path is NULL or buf or buf_len is NULL, return HCONF_ERR_PARAM
+ *          if get idc failed, return HCONF_ERR_GET_IDC
+ *          other failed, return HCONF_ERR_OTHER
  */
-int qconf_get_children(const std::string &path, string_vector_t &nodes, const std::string &idc, int flags);
+int hconf_get_children(const std::string &path, string_vector_t &nodes, const std::string &idc, int flags);
 
 /**
  * get the children nodes of path including node's key and node's value
@@ -80,16 +80,16 @@ int qconf_get_children(const std::string &path, string_vector_t &nodes, const st
  * @param bnodes: the place to keep the children nodes including node's key and node's value
  * @param new_idc: the idc that will be used to get the nodes
  * @param flags: this indicates that operation if there is no value in the share memory
- *               QCONF_WAIT: it will wait until there is value in the share memory during certain time
- *               QCONF_NOWAIT: it will return immediately if there is no value in share memory
+ *               HCONF_WAIT: it will wait until there is value in the share memory during certain time
+ *               HCONF_NOWAIT: it will return immediately if there is no value in share memory
  *
- * @return: if success, return QCONF_OK
- *          if path exists in the zookeeper, but no children nodes, return QCONF_ERR_NULL_VALUE, this may not be error
- *          if path is NULL or buf or buf_len is NULL, return QCONF_ERR_PARAM
- *          if get idc failed, return QCONF_ERR_GET_IDC
- *          other failed, return QCONF_ERR_OTHER
+ * @return: if success, return HCONF_OK
+ *          if path exists in the zookeeper, but no children nodes, return HCONF_ERR_NULL_VALUE, this may not be error
+ *          if path is NULL or buf or buf_len is NULL, return HCONF_ERR_PARAM
+ *          if get idc failed, return HCONF_ERR_GET_IDC
+ *          other failed, return HCONF_ERR_OTHER
  */
-int qconf_get_batchnode(const std::string &path, qconf_batch_nodes &bnodes, const std::string &idc, int flags);
+int hconf_get_batchnode(const std::string &path, hconf_batch_nodes &bnodes, const std::string &idc, int flags);
 
 /**
  * get the children nodes of path only including nodes' key
@@ -98,16 +98,16 @@ int qconf_get_batchnode(const std::string &path, qconf_batch_nodes &bnodes, cons
  * @param nodes: the place to keep the children nodes only including node's key
  * @param idc: the place to get the nodes
  * @param flags: this indicates that operation if there is no value in the share memory
- *               QCONF_WAIT: it will wait until there is value in the share memory during certain time
- *               QCONF_NOWAIT: it will return immediately if there is no value in share memory
+ *               HCONF_WAIT: it will wait until there is value in the share memory during certain time
+ *               HCONF_NOWAIT: it will return immediately if there is no value in share memory
  *
- * @return: if success, return QCONF_OK
- *          if path exists in the zookeeper, but no children nodes, return QCONF_ERR_NULL_VALUE, this may not be error
- *          if path is NULL or buf or buf_len is NULL, return QCONF_ERR_PARAM
- *          if get idc failed, return QCONF_ERR_GET_IDC
- *          other failed, return QCONF_ERR_OTHER
+ * @return: if success, return HCONF_OK
+ *          if path exists in the zookeeper, but no children nodes, return HCONF_ERR_NULL_VALUE, this may not be error
+ *          if path is NULL or buf or buf_len is NULL, return HCONF_ERR_PARAM
+ *          if get idc failed, return HCONF_ERR_GET_IDC
+ *          other failed, return HCONF_ERR_OTHER
  */
-int qconf_get_batchnode_keys(const std::string &path, string_vector_t &nodes, const std::string &idc, int flags);
+int hconf_get_batchnode_keys(const std::string &path, string_vector_t &nodes, const std::string &idc, int flags);
 
 #ifdef __cplusplus
 }

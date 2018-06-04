@@ -1,29 +1,29 @@
 /* $Id$ */
 
-#ifndef PHP_QCONF_MANAGER_H
-#define PHP_QCONF_MANAGER_H
+#ifndef PHP_HCONF_MANAGER_H
+#define PHP_HCONF_MANAGER_H
 
 extern "C"{
 #include "php.h"
 }
 
-#define PHP_QCONF_MANAGER_VERSION "1.0.0" /* Replace with version number for your extension */
+#define PHP_HCONF_MANAGER_VERSION "1.0.0" /* Replace with version number for your extension */
 
-extern zend_module_entry qconf_manager_module_entry;
-#define phpext_qconf_manager_ptr &qconf_manager_module_entry
+extern zend_module_entry hconf_manager_module_entry;
+#define phpext_hconf_manager_ptr &hconf_manager_module_entry
 
 
 #ifdef PHP_WIN32
-#	define PHP_QCONF_MANAGER_API __declspec(dllexport)
+#	define PHP_HCONF_MANAGER_API __declspec(dllexport)
 #elif defined(__GNUC__) && __GNUC__ >= 4
-#	define PHP_QCONF_MANAGER_API __attribute__ ((visibility("default")))
+#	define PHP_HCONF_MANAGER_API __attribute__ ((visibility("default")))
 #else
-#	define PHP_QCONF_MANAGER_API
+#	define PHP_HCONF_MANAGER_API
 #endif
 
-PHP_MINIT_FUNCTION(qconf_manager);
-PHP_MSHUTDOWN_FUNCTION(qconf_manager);
-PHP_MINFO_FUNCTION(qconf_manager);
+PHP_MINIT_FUNCTION(hconf_manager);
+PHP_MSHUTDOWN_FUNCTION(hconf_manager);
+PHP_MINFO_FUNCTION(hconf_manager);
 
 #ifdef ZTS
 #include "TSRM.h"
@@ -31,14 +31,14 @@ PHP_MINFO_FUNCTION(qconf_manager);
 
 
 #ifdef ZTS
-#define QCONF_MANAGER_G(v) TSRMG(qconf_manager_globals_id, zend_qconf_manager_globals *, v)
+#define HCONF_MANAGER_G(v) TSRMG(hconf_manager_globals_id, zend_hconf_manager_globals *, v)
 #else
-#define QCONF_MANAGER_G(v) (qconf_manager_globals.v)
+#define HCONF_MANAGER_G(v) (hconf_manager_globals.v)
 #endif
 
 
 
-#endif	/* PHP_QCONF_MANAGER_H */
+#endif	/* PHP_HCONF_MANAGER_H */
 
 
 /*

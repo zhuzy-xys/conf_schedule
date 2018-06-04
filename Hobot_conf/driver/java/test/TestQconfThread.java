@@ -1,5 +1,5 @@
-import net.qihoo.qconf.Qconf;
-import net.qihoo.qconf.QconfException;
+import net.qihoo.hconf.Qconf;
+import net.qihoo.hconf.QconfException;
 import java.util.ArrayList;
 import java.util.Map;
 public class TestQconfThread extends Thread
@@ -30,7 +30,7 @@ public class TestQconfThread extends Thread
     public void doIt()
     {
         // ********************************Asign Idc Usage******************************
-        String key = "__qconf_anchor_node";
+        String key = "__hconf_anchor_node";
         String idc = "corp";
         // Get Conf
         try

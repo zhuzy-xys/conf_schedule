@@ -1,5 +1,5 @@
-#ifndef QCONF_GRAY_H
-#define QCONF_GRAY_H
+#ifndef HCONF_GRAY_H
+#define HCONF_GRAY_H
 
 #include <string>
 #include <vector>

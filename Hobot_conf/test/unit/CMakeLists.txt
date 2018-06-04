@@ -1,10 +1,10 @@
 #CMakelist test
-project(qconf-test)
+project(hconf-test)
 cmake_minimum_required(VERSION 2.6)
 
 add_subdirectory(gtest)
 
-add_definitions("-c -DQCONF_CURL_ENABLE -D__STDC_FORMAT_MACROS -g -pthread -Wall")
+add_definitions("-c -DHCONF_CURL_ENABLE -D__STDC_FORMAT_MACROS -g -pthread -Wall")
 
 set(BASE_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../base)
 set(QLIBC_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../base/qlibc)
@@ -67,10 +67,10 @@ include_directories(
 aux_source_directory(${BASE_SOURCE_DIR} DIR_SRCS)
 aux_source_directory(${QLIBC_SOURCE_DIR} DIR_SRCS)
 aux_source_directory(${AGENT_SOURCE_DIR} DIR_SRCS)
-list(REMOVE_ITEM DIR_SRCS "${AGENT_SOURCE_DIR}/qconf_agent.cc")
+list(REMOVE_ITEM DIR_SRCS "${AGENT_SOURCE_DIR}/hconf_agent.cc")
 
 aux_source_directory(${MANAGER_SOURCE_DIR} DIR_SRCS)
-list(REMOVE_ITEM DIR_SRCS "${MANAGER_SOURCE_DIR}/qconf_format.cc")
+list(REMOVE_ITEM DIR_SRCS "${MANAGER_SOURCE_DIR}/hconf_format.cc")
 aux_source_directory(${ZK_SOURCE_DIR} DIR_SRCS)
 aux_source_directory(. DIR_SRCS)
 
@@ -78,22 +78,22 @@ set_source_files_properties(${QLIBC_SOURCE_DIR}/md5.c PROPERTIES LANGUAGE CXX )
 set_source_files_properties(${QLIBC_SOURCE_DIR}/qhash.c PROPERTIES LANGUAGE CXX )
 set_source_files_properties(${QLIBC_SOURCE_DIR}/qhasharr.c PROPERTIES LANGUAGE CXX )
 
-add_executable(qconf_test ${DIR_SRCS})
+add_executable(hconf_test ${DIR_SRCS})
 
 # link libpthread
 find_package (Threads)
-target_link_libraries (qconf_test ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries (hconf_test ${CMAKE_THREAD_LIBS_INIT})
 
 # link gtest
-target_link_libraries(qconf_test gtest)
-target_link_libraries(qconf_test gtest_main)
+target_link_libraries(hconf_test gtest)
+target_link_libraries(hconf_test gtest_main)
 
 # link libcurl
-target_link_libraries(qconf_test ${CURL_SOURCE_DIR}/lib/libcurl.a)
+target_link_libraries(hconf_test ${CURL_SOURCE_DIR}/lib/libcurl.a)
 # link static libgdbm
-target_link_libraries(qconf_test ${GDBM_SOURCE_DIR}/lib/libgdbm.a)
+target_link_libraries(hconf_test ${GDBM_SOURCE_DIR}/lib/libgdbm.a)
 # link static libzookeeper_mt
-target_link_libraries(qconf_test ${ZK_SOURCE_DIR}/lib/libzookeeper_mt.a)
+target_link_libraries(hconf_test ${ZK_SOURCE_DIR}/lib/libzookeeper_mt.a)
 
 # link rt
 IF(WIN32)
@@ -102,5 +102,5 @@ ELSEIF(APPLE)
     MESSAGE(STATUS "This is apple")
 ELSEIF(UNIX)
     MESSAGE(STATUS "This is unix, and add the librt.so")
-    target_link_libraries (qconf_test rt)
+    target_link_libraries (hconf_test rt)
 ENDIF(WIN32)

@@ -1,20 +1,20 @@
-#ifndef QCONF_CONFIG_H
-#define QCONF_CONFIG_H
+#ifndef HCONF_CONFIG_H
+#define HCONF_CONFIG_H
 
 #include <string>
 #include <map>
 
-#define QCONF_OK                            0
-#define QCONF_ERR_OTHER                     -1
-#define QCONF_ERR_PARAM                     1
-#define QCONF_ERR_NOT_FOUND                 10  
-#define QCONF_ERR_INVALID_IP                30
-#define QCONF_ERR_OPEN                      51
+#define HCONF_OK                            0
+#define HCONF_ERR_OTHER                     -1
+#define HCONF_ERR_PARAM                     1
+#define HCONF_ERR_NOT_FOUND                 10  
+#define HCONF_ERR_INVALID_IP                30
+#define HCONF_ERR_OPEN                      51
 
 /**
  * Read configuration from file
  */
-int qconf_load_conf();
+int hconf_load_conf();
 
 /**
  * Get host value of idc
@@ -29,6 +29,6 @@ const std::map<std::string, std::string> get_idc_map();
 /**
  * Destory environment
  */
-void qconf_destroy_conf_map();
+void hconf_destroy_conf_map();
 
 #endif

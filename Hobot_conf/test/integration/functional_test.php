@@ -10,7 +10,7 @@ $internal = false;
 
 $qzk = new QConfZK($zoo_host);
 
-$prefix = ($internal) ? "/qconf" : "/";
+$prefix = ($internal) ? "/hconf" : "/";
 
 // Operation type
 define ('OP_SERV_UP', 0);
@@ -49,14 +49,14 @@ $gray_out_path = "integration_test/gray/nogray_node"; //Node not in gray process
 $gray_out_val = "gray_out_val"; //Node not in gray process
 
 // Script related
-define ('SCRIPT_EXEC_RESULT_FILE', "/tmp/qconf_test_script");
-define ('SCRIPT_PARAM_PATH', "qconf_path");
-define ('SCRIPT_PARAM_IDC', "qconf_idc");
-define ('SCRIPT_PARAM_TYPE', "qconf_type");
-define ('SCRIPT_PARAM_TIME', "qconf_time");
+define ('SCRIPT_EXEC_RESULT_FILE', "/tmp/hconf_test_script");
+define ('SCRIPT_PARAM_PATH', "hconf_path");
+define ('SCRIPT_PARAM_IDC', "hconf_idc");
+define ('SCRIPT_PARAM_TYPE', "hconf_type");
+define ('SCRIPT_PARAM_TIME', "hconf_time");
 
 // Feedback related
-$check_feedback_url = "dev.qconf.qihoo.net/testfeature/checkFeedback";
+$check_feedback_url = "dev.hconf.qihoo.net/testfeature/checkFeedback";
 
 /* {{{ Inner Function
  */
@@ -348,7 +348,7 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
  ***************/
 {
     echo_color("[-- clear all services: BEGIN --]", BROWN);
-    assert(0 === $qzk->serviceAdd("$prefix$service_path", $skey[1], QCONF_STATUS_UP));
+    assert(0 === $qzk->serviceAdd("$prefix$service_path", $skey[1], HCONF_STATUS_UP));
     sleep(10);
     assert(0 === $qzk->serviceClear("$prefix$service_path"));
     $histroy_ops = array();

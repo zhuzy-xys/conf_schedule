@@ -1,7 +1,7 @@
 #include <iostream>
 #include "gtest/gtest.h"
 #include "qlibc.h"
-#include "qconf_common.h"
+#include "hconf_common.h"
 #include <iostream>
 #define MAX_SLOT_NUM 20
 
@@ -199,7 +199,7 @@ TEST_F(Test_qhasharr, qhasharr_put_tbl_key_not_be_truncated)
     const char* key = "abcdefghijklmnopqrstuvwxyz12345";
     const void* val = (const void*)"1234";
     qhasharr_slot_t* _tbl_slots = NULL;
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
 
     qhasharr_init(tbl, &_tbl_slots);
 
@@ -217,7 +217,7 @@ TEST_F(Test_qhasharr, qhasharr_put_tbl_key_not_be_truncated)
     EXPECT_EQ(0, strncmp(key, _tbl_slots[index].data.pair.key, _Q_HASHARR_KEYSIZE));
     EXPECT_EQ(0, memcmp("1234", _tbl_slots[index].data.pair.value, 5));
     EXPECT_EQ(31, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(1, _tbl_slots[index].count);
     EXPECT_EQ(hash, _tbl_slots[index].hash);
     EXPECT_EQ(5, _tbl_slots[index].size);
@@ -231,7 +231,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_is_truncated)
     const char* key = "abcdefghijklmnopqrstuvwxyz123456";
     const void* val = (const void*)"1234";
     qhasharr_slot_t* _tbl_slots = NULL;
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
 
     qhasharr_init(tbl, &_tbl_slots);
 
@@ -248,7 +248,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_is_truncated)
     EXPECT_EQ(0, strncmp(key, _tbl_slots[index].data.pair.key, _Q_HASHARR_KEYSIZE));
     EXPECT_EQ(0, memcmp("1234", _tbl_slots[index].data.pair.value, 5));
     EXPECT_EQ(32, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(1, _tbl_slots[index].count);
     EXPECT_EQ(hash, _tbl_slots[index].hash);
     EXPECT_EQ(5, _tbl_slots[index].size);
@@ -262,7 +262,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_is_truncated2)
     const char* key = "abcdefghijklmnopqrstuvwxyz1234567";
     const void* val = (const void*)"1234";
     qhasharr_slot_t* _tbl_slots = NULL;
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
 
     qhasharr_init(tbl, &_tbl_slots);
 
@@ -279,7 +279,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_is_truncated2)
     EXPECT_EQ(0, strncmp(key, _tbl_slots[index].data.pair.key, _Q_HASHARR_KEYSIZE));
     EXPECT_EQ(0, memcmp("1234", _tbl_slots[index].data.pair.value, 5));
     EXPECT_EQ(33, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(1, _tbl_slots[index].count);
     EXPECT_EQ(hash, _tbl_slots[index].hash);
     EXPECT_EQ(5, _tbl_slots[index].size);
@@ -293,7 +293,7 @@ TEST_F(Test_qhasharr, qhasharr_put_size_of_value_less_than_max_size)
     const char* key = "value size is small enough";
     const void* val = (const void*)"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz1234567890123456";
     qhasharr_slot_t* _tbl_slots = NULL;
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
 
     qhasharr_init(tbl, &_tbl_slots);
 
@@ -310,7 +310,7 @@ TEST_F(Test_qhasharr, qhasharr_put_size_of_value_less_than_max_size)
     EXPECT_EQ(0, strncmp(key, _tbl_slots[index].data.pair.key, _Q_HASHARR_KEYSIZE));
     EXPECT_EQ(0, strncmp((const char*)val, (const char*)_tbl_slots[index].data.pair.value, _Q_HASHARR_VALUESIZE));
     EXPECT_EQ(26, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(1, _tbl_slots[index].count);
     EXPECT_EQ(hash, _tbl_slots[index].hash);
     EXPECT_EQ(95, _tbl_slots[index].size);
@@ -324,7 +324,7 @@ TEST_F(Test_qhasharr, qhasharr_put_size_of_value_equals_with_max_size)
     const char* key = "value size is small enough";
     const void* val = (const void*)"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz12345678901234567";
     qhasharr_slot_t* _tbl_slots = NULL;
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
     qhasharr_init(tbl, &_tbl_slots);
 
     retCode = qhasharr_put(tbl, key, strlen(key), val, 96);
@@ -340,7 +340,7 @@ TEST_F(Test_qhasharr, qhasharr_put_size_of_value_equals_with_max_size)
     EXPECT_EQ(0, strncmp(key, _tbl_slots[index].data.pair.key, _Q_HASHARR_KEYSIZE));
     EXPECT_EQ(0, strncmp((const char*)val, (const char*)_tbl_slots[index].data.pair.value, _Q_HASHARR_VALUESIZE));
     EXPECT_EQ(26, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(1, _tbl_slots[index].count);
     EXPECT_EQ(hash, _tbl_slots[index].hash);
     EXPECT_EQ(96, _tbl_slots[index].size);
@@ -354,7 +354,7 @@ TEST_F(Test_qhasharr, qhasharr_put_size_of_value_more_thane_max_size_and_need_tw
     const char* key = "value size is too big to fit it into a slot";
     const void* val = (const void*)"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz123456789012345678";
     qhasharr_slot_t* _tbl_slots = NULL;
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
     qhasharr_init(tbl, &_tbl_slots);
 
     retCode = qhasharr_put(tbl, key, strlen(key), val, 97);
@@ -372,7 +372,7 @@ TEST_F(Test_qhasharr, qhasharr_put_size_of_value_more_thane_max_size_and_need_tw
     EXPECT_EQ(0, strncmp(key, _tbl_slots[index].data.pair.key, _Q_HASHARR_KEYSIZE));
     EXPECT_EQ(0, memcmp((const char*)val, (const char*)_tbl_slots[index].data.pair.value, _Q_HASHARR_VALUESIZE));
     EXPECT_EQ(43, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(1, _tbl_slots[index].count);
     EXPECT_EQ(hash, _tbl_slots[index].hash);
     EXPECT_EQ(96, _tbl_slots[index].size);
@@ -390,7 +390,7 @@ TEST_F(Test_qhasharr, qhasharr_put_size_of_value_more_thane_max_size_and_need_th
     //size_t total_size=_Q_HASHARR_VALUESIZE+ext_size+1;
     char val[243] = {0};
     qhasharr_slot_t* _tbl_slots = NULL;
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
     qhasharr_init(tbl, &_tbl_slots);
     size_t i = 0;
 
@@ -412,7 +412,7 @@ TEST_F(Test_qhasharr, qhasharr_put_size_of_value_more_thane_max_size_and_need_th
     EXPECT_EQ(1, tbl->num);
     EXPECT_EQ(0, strncmp(key, _tbl_slots[index].data.pair.key, _Q_HASHARR_KEYSIZE));
     EXPECT_EQ(43, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(1, _tbl_slots[index].count);
     EXPECT_EQ(hash, _tbl_slots[index].hash);
     EXPECT_EQ(96, _tbl_slots[index].size);
@@ -453,7 +453,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_already_exists)
     qhasharr_slot_t* _tbl_slots = NULL;
     const char* key = "hello";
     const void* data = (const void*)"1234";
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
 
     qhasharr_init(tbl, &_tbl_slots);
 
@@ -473,7 +473,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_already_exists)
     EXPECT_EQ(-1, _tbl_slots[index].link);
     EXPECT_STREQ(key, _tbl_slots[index].data.pair.key);
     EXPECT_EQ(5, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(0, strncmp("aaaaa", (const char*)_tbl_slots[index].data.pair.value, _Q_HASHARR_VALUESIZE));
 }
 
@@ -488,7 +488,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_already_exists_and_new_value_needs_two_sl
     const char* key = "hello";
     const void* data = (const void*)"1234";
     const void* newdata = (const void*)"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz123456789012345678901";
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
 
     qhasharr_init(tbl, &_tbl_slots);
 
@@ -511,7 +511,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_already_exists_and_new_value_needs_two_sl
     EXPECT_EQ(_Q_HASHARR_VALUESIZE, _tbl_slots[index].size);
     EXPECT_STREQ(key, _tbl_slots[index].data.pair.key);
     EXPECT_EQ(5, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(0, memcmp(newdata, (const char*)_tbl_slots[index].data.pair.value, _Q_HASHARR_VALUESIZE));
 
     //to verify the second slot
@@ -533,7 +533,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_already_exists_and_new_value_needs_one_sl
     const char* key = "hello";
     const void* data = (const void*)"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz123456789012345678901";
     const void* newdata = (const void*)"1234";
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
 
     qhasharr_init(tbl, &_tbl_slots);
 
@@ -554,7 +554,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_already_exists_and_new_value_needs_one_sl
     EXPECT_EQ(-1, _tbl_slots[index].link);
     EXPECT_STREQ(key, _tbl_slots[index].data.pair.key);
     EXPECT_EQ(5, _tbl_slots[index].data.pair.keylen);
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(0, memcmp(newdata, (const char*)_tbl_slots[index].data.pair.value, 5));
 }
 
@@ -566,8 +566,8 @@ TEST_F(Test_qhasharr, qhasharr_put_key_be_truncated)
     const char* key = "abcdefghijklmnopqrstuvwxyz012345";
     const char* newkey = "abcdefghijklmnopqrstuvwxyz01234";
     const void* data = (const void*)"hello";
-    char md5_int[QCONF_MD5_INT_LEN] = {0};
-    char md5_int1[QCONF_MD5_INT_LEN] = {0};
+    char md5_int[HCONF_MD5_INT_LEN] = {0};
+    char md5_int1[HCONF_MD5_INT_LEN] = {0};
     qhasharr_init(tbl, &_tbl_slots);
 
     unsigned int hash = qhashmurmur3_32(key, strlen(key)) % tbl->maxslots;
@@ -585,7 +585,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_be_truncated)
     EXPECT_EQ(2, tbl->num);
     EXPECT_NE(index, index1);
     EXPECT_NE(hash, hash1);
-    EXPECT_NE(0, memcmp(md5_int, md5_int1, QCONF_MD5_INT_LEN));
+    EXPECT_NE(0, memcmp(md5_int, md5_int1, HCONF_MD5_INT_LEN));
     //to verify the slot contains key
     EXPECT_EQ(1, _tbl_slots[index].count);
     EXPECT_EQ(hash, _tbl_slots[index].hash);
@@ -593,7 +593,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_be_truncated)
     EXPECT_EQ(-1, _tbl_slots[index].link);
     EXPECT_EQ(32, _tbl_slots[index].data.pair.keylen);
     EXPECT_EQ(0, memcmp(key, _tbl_slots[index].data.pair.key, _Q_HASHARR_KEYSIZE));
-    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int, _tbl_slots[index].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(0, memcmp(data, (const char*)_tbl_slots[index].data.pair.value, 6));
 
     //to verify the slot contains newkey
@@ -603,7 +603,7 @@ TEST_F(Test_qhasharr, qhasharr_put_key_be_truncated)
     EXPECT_EQ(-1, _tbl_slots[index1].link);
     EXPECT_EQ(31, _tbl_slots[index1].data.pair.keylen);
     EXPECT_EQ(0, memcmp(newkey, _tbl_slots[index1].data.pair.key, _Q_HASHARR_KEYSIZE));
-    EXPECT_EQ(0, memcmp(md5_int1, _tbl_slots[index1].data.pair.keymd5, QCONF_MD5_INT_LEN));
+    EXPECT_EQ(0, memcmp(md5_int1, _tbl_slots[index1].data.pair.keymd5, HCONF_MD5_INT_LEN));
     EXPECT_EQ(0, memcmp(data, (const char*)_tbl_slots[index1].data.pair.value, 6));
 }
 /**
