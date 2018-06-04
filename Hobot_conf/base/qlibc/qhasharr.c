@@ -419,7 +419,7 @@ bool qhasharr_putint(qhasharr_t *tbl, const char *key, int64_t num)
     }
 
     char str[20+1];
-    snprintf(str, sizeof(str), "%"PRId64, num);
+    snprintf(str, sizeof(str), "%" PRId64, num);
     return qhasharr_putstr(tbl, key, str);
 }
 

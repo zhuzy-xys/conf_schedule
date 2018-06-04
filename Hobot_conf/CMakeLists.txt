@@ -6,6 +6,8 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
         )
 endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
+set(CMAKE_CXX_STANDARD 11)
+
 cmake_minimum_required(VERSION 2.6)
 #build libzookeeper
 execute_process(WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/deps/zookeeper COMMAND

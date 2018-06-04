@@ -60,7 +60,15 @@ static int hconf_init_dbf_(int flags)
     }
 
     int mode = 0644;
-    _hconf_dbf = gdbm_open(_hconf_dump_file.c_str(), 0, flags, mode, NULL);
+    char dump_file_buf[1024];
+    if (_hconf_dump_file.length() >= 1024)
+    {
+	LOG_FATAL_ERR("file name length out of range: %d", _hconf_dump_file.length());
+	return HCONF_ERR_OPEN_DUMP;
+    }
+    strcpy(dump_file_buf, _hconf_dump_file.c_str());
+    dump_file_buf[_hconf_dump_file.length()] = '\0';
+    _hconf_dbf = gdbm_open(dump_file_buf, 0, flags, mode, NULL);
     if (NULL == _hconf_dbf)
     {
         LOG_FATAL_ERR("Failed to open gdbm file:%s; gdbm err:%s", 
