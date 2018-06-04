@@ -42,7 +42,7 @@ protected:
     }
 
     zhandle_t *zh;
-    QConfZK qzk;
+    HConfZK qzk;
     string host_name;
 };
 

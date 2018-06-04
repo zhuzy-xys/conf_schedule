@@ -1,7 +1,7 @@
-use QConf;
+use HConf;
 use strict;
 # init
-my $err = &QConf::hconf_init();
+my $err = &HConf::hconf_init();
 if ($err != 0){
 	printf "init fail.\n";
 	printf "$err\n";
@@ -10,7 +10,7 @@ if ($err != 0){
 
 #hconf_get_conf
 	my $ret = "";
-	my $errCode = &QConf::get_conf("/zookeeper",$ret,"","true");
+	my $errCode = &HConf::get_conf("/zookeeper",$ret,"","true");
 	if ($errCode == 0){  
 		printf "$ret\n";	
 	}else{
@@ -19,7 +19,7 @@ if ($err != 0){
 
 #hconf_get_batch_conf
 	my %ret = ();
-	my $errCode = &QConf::get_batch_conf("/zookeeper",\%ret,"","false");
+	my $errCode = &HConf::get_batch_conf("/zookeeper",\%ret,"","false");
 	if ($errCode == 0){  		
 		while (my ($k, $v) = each %ret){
     		print "$k : $v\n";
@@ -30,7 +30,7 @@ if ($err != 0){
 
 #hconf_get_host
 	my $ret = "";
-	my $errCode = &QConf::get_host("/zookeeper",$ret,"","false");
+	my $errCode = &HConf::get_host("/zookeeper",$ret,"","false");
 	if ($errCode == 0){  
 		printf "$ret\n";	
 	}else{
@@ -39,7 +39,7 @@ if ($err != 0){
 
 #hconf_get_batch_keys
 	my @ret = ();
-	my $errCode = &QConf::get_batch_keys("/zookeeper",\@ret,"","false");
+	my $errCode = &HConf::get_batch_keys("/zookeeper",\@ret,"","false");
 	if ($errCode == 0){  		
 		foreach(@ret){
 			printf "$_\n";
@@ -49,5 +49,5 @@ if ($err != 0){
 	}
 
 #finalize
-&QConf::hconf_destroy();
+&HConf::hconf_destroy();
 

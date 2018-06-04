@@ -1,5 +1,5 @@
 <?php
-$zk = new QConfZK("127.0.0.1:2181");
+$zk = new HConfZK("127.0.0.1:2181");
 $service_key = "/hconf_manager/services/2";
 
 $services = array(

@@ -1,4 +1,4 @@
-QConf LuaJit Doc
+HConf LuaJit Doc
 =====
 ## Build
 - Build luajit extension
@@ -15,7 +15,7 @@ cp hconf.lua LuaJit_dir/share/lua/5.1/
 ## API Doc
 
 
-### QConf access functions 
+### HConf access functions 
 
 ----
 

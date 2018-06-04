@@ -6,13 +6,13 @@
 using namespace v8;  
 
 //gte version
-Handle<Value> QConf_version(const Arguments& args) {
+Handle<Value> HConf_version(const Arguments& args) {
     HandleScope scope;
     return scope.Close(String::New(HCONF_DRIVER_CC_VERSION));
 }
 
 //get_conf
-Handle<Value> QConf_get_conf(const Arguments& args) {
+Handle<Value> HConf_get_conf(const Arguments& args) {
     HandleScope scope;
 
     const char *path = NULL;
@@ -45,7 +45,7 @@ Handle<Value> QConf_get_conf(const Arguments& args) {
 }
 
 //get children
-Handle<Value> QConf_get_batch_keys(const Arguments& args) {
+Handle<Value> HConf_get_batch_keys(const Arguments& args) {
     HandleScope scope;
 
     const char *path = NULL;
@@ -85,7 +85,7 @@ Handle<Value> QConf_get_batch_keys(const Arguments& args) {
 }
 
 //get children and their confs
-Handle<Value> QConf_get_batch_conf(const Arguments& args) {
+Handle<Value> HConf_get_batch_conf(const Arguments& args) {
     HandleScope scope;
 
     const char *path = NULL;
@@ -125,7 +125,7 @@ Handle<Value> QConf_get_batch_conf(const Arguments& args) {
 }
 
 //get_host
-Handle<Value> QConf_get_host(const Arguments& args) {
+Handle<Value> HConf_get_host(const Arguments& args) {
     HandleScope scope;
 
     const char *path = NULL;
@@ -157,7 +157,7 @@ Handle<Value> QConf_get_host(const Arguments& args) {
 }
 
 //get_allhost
-Handle<Value> QConf_get_allhost(const Arguments& args) {
+Handle<Value> HConf_get_allhost(const Arguments& args) {
     HandleScope scope;
 
     const char *path = NULL;
@@ -199,25 +199,25 @@ Handle<Value> QConf_get_allhost(const Arguments& args) {
 void init(Handle<Object> target) {
     int ret = hconf_init();
     if (ret != HCONF_OK) {
-        ThrowException(Exception::TypeError(String::New("QConf init failed")));
+        ThrowException(Exception::TypeError(String::New("HConf init failed")));
         return;
     }
     target->Set(String::NewSymbol("version"),
-            FunctionTemplate::New(QConf_version)->GetFunction());
+            FunctionTemplate::New(HConf_version)->GetFunction());
 
     target->Set(String::NewSymbol("get_conf"),
-            FunctionTemplate::New(QConf_get_conf)->GetFunction());
+            FunctionTemplate::New(HConf_get_conf)->GetFunction());
 
     target->Set(String::NewSymbol("get_batch_keys"),
-            FunctionTemplate::New(QConf_get_batch_keys)->GetFunction());
+            FunctionTemplate::New(HConf_get_batch_keys)->GetFunction());
 
     target->Set(String::NewSymbol("get_batch_conf"),
-            FunctionTemplate::New(QConf_get_batch_conf)->GetFunction());
+            FunctionTemplate::New(HConf_get_batch_conf)->GetFunction());
 
     target->Set(String::NewSymbol("get_host"),
-            FunctionTemplate::New(QConf_get_host)->GetFunction());
+            FunctionTemplate::New(HConf_get_host)->GetFunction());
 
     target->Set(String::NewSymbol("get_allhost"),
-            FunctionTemplate::New(QConf_get_allhost)->GetFunction());
+            FunctionTemplate::New(HConf_get_allhost)->GetFunction());
 }
 NODE_MODULE(hconf, init)

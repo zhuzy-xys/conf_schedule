@@ -1,9 +1,9 @@
-QConf Getting Started Guide
+HConf Getting Started Guide
 =====
 
 ## Introduction
-QConf is a Distrubuted Configuration Management System!
-A better replacement of the traditional configuration file. As designed, configuration items which is constantly accessed and modified should be completely separated with application code, and QConf is where it should be.
+HConf is a Distrubuted Configuration Management System!
+A better replacement of the traditional configuration file. As designed, configuration items which is constantly accessed and modified should be completely separated with application code, and HConf is where it should be.
 
  - Changes to any configuration will be synchronised across all client
    machines, in seconds.
@@ -13,7 +13,7 @@ A better replacement of the traditional configuration file. As designed, configu
 
 
 ## Install
-The QConf is built using CMake (version 2.6 or newer).
+The HConf is built using CMake (version 2.6 or newer).
 
 On most systems you can build the library using the following commands:
 ``` shell
@@ -24,7 +24,7 @@ make install
 ```
 Alternatively you can also point the CMake GUI tool to the CMakeLists.txt file.
 
-To install the QConf you can specify the install prefix by setting:
+To install the HConf you can specify the install prefix by setting:
 ``` shell
 cmake .. -DCMAKE_INSTALL_PREFIX=/install/prefix
 ```
@@ -35,7 +35,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/install/prefix
 
 	 More information about Zookeper: [ZooKeeper Getting Started Guide](http://zookeeper.apache.org/doc/r3.3.3/zookeeperStarted.html)
 	 
-- **Register** the Zookeeper server address with QConf
+- **Register** the Zookeeper server address with HConf
 
 ``` shell
 vi HCONF_INSTALL_PREFIX/conf/idc.conf
@@ -49,30 +49,30 @@ vi HCONF_INSTALL_PREFIX/conf/idc.conf
 ``` shell
 echo test > HCONF_INSTALL_PREFIX/conf/localidc #assign local idc to test
 ```
- - **Run** QConf
+ - **Run** HConf
 
 ``` shell
 cd HCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 ```
- - **Code** to access QConf
+ - **Code** to access HConf
 ## Component
 * **ZooKeeper** as the server, restore all configurations, so the limit data size of single configuration item is 1MB, since the size limit of Znode.
 * **hconf_agent** is a daemon run on client machine, maintain data in share memory.
-* **share memory**,  QConf use share memory as the local cache of all configuration items needed by current client.
-* **interface** in different programming languages, chose your language for accessing of QConf.  
+* **share memory**,  HConf use share memory as the local cache of all configuration items needed by current client.
+* **interface** in different programming languages, chose your language for accessing of HConf.  
 
 
 ![enter image description here](http://ww2.sinaimg.cn/bmiddle/69a9c739jw1eqhuo29639j20iq0i8402.jpg "Component")
 
 
 ## Document
-* [C Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20C%5CC%2B%2B%20Doc.md) - the C reference to QConf APIs
-* [Java Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Java%20Doc.md) - the Java reference to QConf APIs
-* [Python Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Python%20Doc.md) - the Python reference to QConf APIs，Python 2.4,  2.5,  2.6 or 2.7 is required. Python 3.x is not yet supported.
-* [PHP Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20PHP%20Doc.md) -  the PHP reference to QConf APIs
-* [Shell Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20C%5CC%2B%2B%20Doc.md) - the command hconf can be use in command line
-* [LuaJit Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20LuaJit%20Doc.md) - the LuaJit reference to QConf APIs
-* [Go Doc](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Go%20Doc.md) - the Go reference to QConf APIs
+* [C Doc](https://github.com/Qihoo360/HConf/blob/master/doc/HConf%20C%5CC%2B%2B%20Doc.md) - the C reference to HConf APIs
+* [Java Doc](https://github.com/Qihoo360/HConf/blob/master/doc/HConf%20Java%20Doc.md) - the Java reference to HConf APIs
+* [Python Doc](https://github.com/Qihoo360/HConf/blob/master/doc/HConf%20Python%20Doc.md) - the Python reference to HConf APIs，Python 2.4,  2.5,  2.6 or 2.7 is required. Python 3.x is not yet supported.
+* [PHP Doc](https://github.com/Qihoo360/HConf/blob/master/doc/HConf%20PHP%20Doc.md) -  the PHP reference to HConf APIs
+* [Shell Doc](https://github.com/Qihoo360/HConf/blob/master/doc/HConf%20C%5CC%2B%2B%20Doc.md) - the command hconf can be use in command line
+* [LuaJit Doc](https://github.com/Qihoo360/HConf/blob/master/doc/HConf%20LuaJit%20Doc.md) - the LuaJit reference to HConf APIs
+* [Go Doc](https://github.com/Qihoo360/HConf/blob/master/doc/HConf%20Go%20Doc.md) - the Go reference to HConf APIs
 
 
 ## Example

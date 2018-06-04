@@ -1,4 +1,4 @@
-package QConf;
+package HConf;
 
 use 5.008007;
 use strict;
@@ -12,7 +12,7 @@ our @ISA = qw(Exporter);
 # names by default without a very good reason. Use EXPORT_OK instead.
 # Do not simply export all your public functions/methods/constants.
 
-# This allows declaration	use QConf ':all';
+# This allows declaration	use HConf ':all';
 # If you do not need this, moving things directly into @EXPORT or @EXPORT_OK
 # will save memory.
 our %EXPORT_TAGS = ( 'all' => [ qw(
@@ -28,7 +28,7 @@ our @EXPORT = qw(
 our $VERSION = '1.0.1';
 
 require XSLoader;
-XSLoader::load('QConf', $VERSION);
+XSLoader::load('HConf', $VERSION);
 
 # Preloaded methods go here.
 
@@ -38,16 +38,16 @@ __END__
 
 =head1 NAME
 
-QConf - Perl extension for blah blah blah
+HConf - Perl extension for blah blah blah
 
 =head1 SYNOPSIS
 
-  use QConf;
+  use HConf;
   blah blah blah
 
 =head1 DESCRIPTION
 
-Stub documentation for QConf, created by h2xs. It looks like the
+Stub documentation for HConf, created by h2xs. It looks like the
 author of the extension was negligent enough to leave the stub
 unedited.
 

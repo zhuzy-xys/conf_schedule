@@ -13,7 +13,7 @@ using namespace std;
 
 string path, idc, value;
 vector<string> idcs, children;
-QConfZK hconfZk;
+HConfZK hconfZk;
 const int HCONF_VALUE_BUFFER_SIZE = 1024*1024;
 
 static void HandleDeleteNode();

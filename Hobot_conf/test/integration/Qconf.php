@@ -159,12 +159,12 @@ class Qconf0_4_0
 
     public static function getAllHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        return QConfig::GetChild(trim($name), $idc, $flags);
+        return HConfig::GetChild(trim($name), $idc, $flags);
     }
 
     public static function getConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        return QConfig::Get(trim($name), $idc, $flags);
+        return HConfig::Get(trim($name), $idc, $flags);
     }
 
     public static function getMultConf($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
@@ -187,12 +187,12 @@ class Qconf0_4_0
 
     public static function getBatchConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        return QConfig::GetBatchConf(trim($name), $idc, $flags);
+        return HConfig::GetBatchConf(trim($name), $idc, $flags);
     }
 
     public static function getBatchKeys($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        return QConfig::GetBatchKeys(trim($name), $idc, $flags);
+        return HConfig::GetBatchKeys(trim($name), $idc, $flags);
     }
 
     public static function getHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
@@ -207,7 +207,7 @@ class Qconf0_4_0
 
     public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        return QConfig::GetBatchKeysNative(trim($name), $idc, $flags);
+        return HConfig::GetBatchKeysNative(trim($name), $idc, $flags);
     }
 }
 
@@ -235,13 +235,13 @@ class Qconf0_3_1
     public static function getAllHost($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $node = QconfConfig::getNodePath($name);
-        return QConfig::GetChild($node, $idc, $flags);
+        return HConfig::GetChild($node, $idc, $flags);
     }
 
     public static function getConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
         $node = QconfConfig::getNodePath($name);
-        return QConfig::Get($node, $idc, $flags);
+        return HConfig::Get($node, $idc, $flags);
     }
 
     public static function getMultConf($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
@@ -275,12 +275,12 @@ class Qconf0_3_1
 
     public static function getAllHostNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        return QConfig::GetChild($name, $idc, $flags);
+        return HConfig::GetChild($name, $idc, $flags);
     }
 
     public static function getConfNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
     {
-        return QConfig::Get($name, $idc, $flags);
+        return HConfig::Get($name, $idc, $flags);
     }
 
     public static function getMultConfNative($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
@@ -341,10 +341,10 @@ class Qconf0_3_0
             $idc = self::getIdc();
         }
         if ($idc == null) return null;
-        QConfig::setIdc($idc);
+        HConfig::setIdc($idc);
 
         $node = QconfConfig::getNodePath($name);
-        return QConfig::GetChild($node, $flags);
+        return HConfig::GetChild($node, $flags);
     }
 
     public static function getConf($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
@@ -354,10 +354,10 @@ class Qconf0_3_0
             $idc = self::getIdc();
         }
         if ($idc == null) return null;
-        QConfig::setIdc($idc);
+        HConfig::setIdc($idc);
 
         $node = QconfConfig::getNodePath($name);
-        return QConfig::Get($node, $flags);
+        return HConfig::Get($node, $flags);
     }
 
     public static function getMultConf($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
@@ -396,9 +396,9 @@ class Qconf0_3_0
             $idc = self::getIdc();
         }
         if ($idc == null || $name == null) return null;
-        QConfig::setIdc($idc);
+        HConfig::setIdc($idc);
 
-        return QConfig::GetChild($name, $flags);
+        return HConfig::GetChild($name, $flags);
     }
 
     public static function getConfNative($name, $idc = null, $flags = QconfConfig::HCONF_WAIT)
@@ -408,9 +408,9 @@ class Qconf0_3_0
             $idc = self::getIdc();
         }
         if ($idc == null || $name == null) return null;
-        QConfig::setIdc($idc);
+        HConfig::setIdc($idc);
 
-        return QConfig::Get($name, $flags);
+        return HConfig::Get($name, $flags);
     }
 
     public static function getMultConfNative($names, $idc = null, $flags = QconfConfig::HCONF_WAIT)
@@ -463,20 +463,20 @@ class Qconf_old {
     {
 	    $zk = self::getZk();
     	if ($zk == null) return null;
-        QConfig::setFastGetHost($zk);
+        HConfig::setFastGetHost($zk);
 
 		$node = QconfConfig::$dir . $name;
-        return QConfig::GetChild($node);
+        return HConfig::GetChild($node);
     }
 
     public static function getConf($name)
     {
         $zk = self::getZk();
 	    if ($zk == null) return null;
-        QConfig::setFastGetHost($zk);
+        HConfig::setFastGetHost($zk);
 
         $node = QconfConfig::$dir . $name;
-        return QConfig::Get($node);
+        return HConfig::Get($node);
     }
 
     public static function getMultConf($names)
@@ -511,9 +511,9 @@ class Qconf_old {
             $zk = self::getZk();
         }
     	if ($zk == null) return null;
-        QConfig::setFastGetHost($zk);
+        HConfig::setFastGetHost($zk);
 
-        return QConfig::GetChild($name);
+        return HConfig::GetChild($name);
     }
 
     public static function getConfNative($name, $zk = null)
@@ -523,9 +523,9 @@ class Qconf_old {
             $zk = self::getZk();
         }
 	    if ($zk == null) return null;
-        QConfig::setFastGetHost($zk);
+        HConfig::setFastGetHost($zk);
 
-        return QConfig::Get($name);
+        return HConfig::Get($name);
     }
 
     public static function getMultConfNative($names, $zk = null)
@@ -549,10 +549,10 @@ class Qconf_old {
         $real_path = NULL;
         $zk = self::getZk();
         if ($zk == null) return null;
-        QConfig::setFastGetHost($zk);
+        HConfig::setFastGetHost($zk);
         $node = QconfConfig::$dir . $name;
-        if ( ! QConfig::Exists($node)) {
-            $real_path = QConfig::Create($node, $val);
+        if ( ! HConfig::Exists($node)) {
+            $real_path = HConfig::Create($node, $val);
         }
         else {
             $real_path = $node;
@@ -564,9 +564,9 @@ class Qconf_old {
     {
 	    $zk = self::getZk();
     	if ($zk == null) return null;
-        QConfig::setFastGetHost($zk);
+        HConfig::setFastGetHost($zk);
         $node = QconfConfig::$dir . $name;
-        return QConfig::Set($node, $val);
+        return HConfig::Set($node, $val);
     }
 
 }

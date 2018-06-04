@@ -1,4 +1,4 @@
-QConf Go Doc
+HConf Go Doc
 =====
 ## Usage
 - Download the code and add its location to `GOPATH` environment variable.
@@ -15,7 +15,7 @@ go install infra/go_hconf
 ## API Doc
 
 
-### QConf access functions 
+### HConf access functions 
 
 ----
 

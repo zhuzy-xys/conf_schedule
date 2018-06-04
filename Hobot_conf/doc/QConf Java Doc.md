@@ -1,4 +1,4 @@
-QConf Java Doc
+HConf Java Doc
 =====
 ## Build
 - Modify Makefile as your situation
@@ -32,7 +32,7 @@ import net.qihoo.hconf.QconfException;
 ## API Doc
 
 
-### QConf access functions 
+### HConf access functions 
 
 ----
 

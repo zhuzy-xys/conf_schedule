@@ -1,10 +1,10 @@
-QConf
+HConf
 =====
 
 我们团队开发了另外一个有意思的项目 [pika](https://github.com/Qihoo360/pika), pika 是一个兼容redis 协议的大容量的存储, 用来解决redis 内存不够的问题, 欢迎大家试试
 
-## 简介 [English](https://github.com/Qihoo360/QConf/blob/master/README.md)
-QConf 是一个分布式配置管理工具。
+## 简介 [English](https://github.com/Qihoo360/HConf/blob/master/README.md)
+HConf 是一个分布式配置管理工具。
 用来替代传统的配置文件，使得配置信息和程序代码分离，同时配置变化能够实时同步到客户端，而且保证用户高效读取配置，这使的工程师从琐碎的配置修改、代码提交、配置上线流程中解放出来，极大地简化了配置管理工作。
 
 ## 特点
@@ -16,9 +16,9 @@ QConf 是一个分布式配置管理工具。
 
 
 ## 编译安装
-QConf采用CMake进行构建（CMake 版本 2.6及以上）
+HConf采用CMake进行构建（CMake 版本 2.6及以上）
 
-可以使用以下命令完成QConf的编译安装:
+可以使用以下命令完成HConf的编译安装:
 ``` shell
 mkdir build && cd build
 cmake ..
@@ -27,7 +27,7 @@ make install
 ```
 你也可以在CMake图形界面工具中导入CMakeList.txt 文件
 
-使用如下配置可以指定QConf的安装目录:
+使用如下配置可以指定HConf的安装目录:
 ``` shell
 cmake .. -DCMAKE_INSTALL_PREFIX=/install/prefix
 ```
@@ -38,7 +38,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/install/prefix
 	 关于zookeeper使用的更多信息: [ZooKeeper Getting Started Guide](http://zookeeper.apache.org/doc/r3.3.3/zookeeperStarted.html)
 	 
 
- - 在QConf 配置文件中配置Zookeeper集群地址
+ - 在HConf 配置文件中配置Zookeeper集群地址
 
 ``` shell
 vi HCONF_INSTALL_PREFIX/conf/idc.conf
@@ -48,19 +48,19 @@ vi HCONF_INSTALL_PREFIX/conf/idc.conf
   #[zookeeper]
   zookeeper.test=127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183 #test机房zookeeper配置
 ```
- - 在QConf配置文件中指定本地机房
+ - 在HConf配置文件中指定本地机房
 ``` shell
 echo test > HCONF_INSTALL_PREFIX/conf/localidc #指定本地机房为test
 ```
- - 启动QConf
+ - 启动HConf
 
 ``` shell
 cd HCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 ```
- - 编写代码访问QConf
+ - 编写代码访问HConf
  
 ## 相关
-* [zkdash](https://github.com/ireaderlab/zkdash) - 由掌阅团队开发的dashboad平台，可以作为QConf或ZooKeeper的管理端
+* [zkdash](https://github.com/ireaderlab/zkdash) - 由掌阅团队开发的dashboad平台，可以作为HConf或ZooKeeper的管理端
  
 ## 性能
 1. 测试策略
@@ -98,10 +98,10 @@ cd HCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 ```
 
 ## 文档
-* [Getting Started](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Getting%20Started%20Guide.md) - QConf 使用说明，包括QConf的安装，运行，API等信息
+* [Getting Started](https://github.com/Qihoo360/HConf/blob/master/doc/HConf%20Getting%20Started%20Guide.md) - HConf 使用说明，包括HConf的安装，运行，API等信息
 * [实现介绍](http://catkang.github.io/2015/06/23/hconf.html)
-* [wiki](https://github.com/Qihoo360/QConf/wiki)
-* [hconf video guide](https://github.com/Qihoo360/QConf/wiki/QConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8)
+* [wiki](https://github.com/Qihoo360/HConf/wiki)
+* [hconf video guide](https://github.com/Qihoo360/HConf/wiki/HConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8)
 
 
 ## 联系方式

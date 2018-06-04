@@ -8,7 +8,7 @@ $idc = "test";
 $waiting_time = 5;
 $internal = false;
 
-$qzk = new QConfZK($zoo_host);
+$qzk = new HConfZK($zoo_host);
 
 $prefix = ($internal) ? "/hconf" : "/";
 
@@ -222,10 +222,10 @@ function service_operation(&$ops, &$history_ops, $line, $first_time=FALSE)
     assert(TRUE === zoo_services_operation($ops, $history_ops, $right_hosts));
 
     if ($first_time) 
-        $host = QConf::getAllHost("$service_path");
+        $host = HConf::getAllHost("$service_path");
 
     sleep($waiting_time);
-    $host = QConf::getAllHost("$service_path");
+    $host = HConf::getAllHost("$service_path");
     var_dump($host);
     var_dump($right_hosts);
     print_info(array_diff($right_hosts, $host) == array(), $line);
@@ -270,10 +270,10 @@ function node_operation($op, $config_val, $line)
     assert(TRUE === zoo_node_opeartion($op, $config_val));  
 
     if (OP_NODE_ADD === $op)
-        $value = QConf::getConf("$config_path");
+        $value = HConf::getConf("$config_path");
     
     sleep($waiting_time);
-    $value = QConf::getConf("$config_path");
+    $value = HConf::getConf("$config_path");
     
     var_dump($value);
     print_info($value == $config_val, $line);
@@ -323,15 +323,15 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     assert(TRUE === zoo_batch_operation($nodes, $ops, $cur_batch_nodes));  
 
     if ($first_time)
-        $children = QConf::getBatchConf($batch_path);
+        $children = HConf::getBatchConf($batch_path);
     
     sleep($waiting_time);
-    $children = QConf::getBatchConf($batch_path);
+    $children = HConf::getBatchConf($batch_path);
     
     var_dump($children);
     print_info($children == $cur_batch_nodes, $line);
     
-    $keys = QConf::getBatchKeys($batch_path);
+    $keys = HConf::getBatchKeys($batch_path);
     
     var_dump($keys);
     print_info($keys == array_keys($cur_batch_nodes), $line);
@@ -688,8 +688,8 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     echo_color("[-- register to gray node: BEGIN --]", BROWN);
     assert(0 === $qzk->nodeSet("$prefix$gray_in_path", $gray_in_val));   
     assert(0 === $qzk->nodeSet("$prefix$gray_out_path", $gray_out_val));   
-    QConf::getConf($gray_in_path);
-    QConf::getConf($gray_out_path);
+    HConf::getConf($gray_in_path);
+    HConf::getConf($gray_out_path);
     echo_color("[-- register to gray node: END --]", BROWN);
 }
 
@@ -706,14 +706,14 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == "value_in_new", __LINE__);
     print_check_script(TRUE === check_script_result($gray_in_path, $idc, "2", $waiting_time + 2),
             __line__); //check script execute
     
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
 
@@ -722,12 +722,12 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == "value_in_new", __LINE__);
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
     echo_color("[==END==============================]", GREEN);
@@ -756,14 +756,14 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == "value_in_new", __LINE__);
     print_check_script(TRUE === check_script_result($gray_in_path, $idc, "2", $waiting_time + 2),
             __line__); //check script execute
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
 
@@ -772,14 +772,14 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == $gray_in_val, __LINE__);
     print_check_script(TRUE === check_script_result($gray_in_path, $idc, "2", $waiting_time + 2),
             __line__); //check script execute
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
     echo_color("[==END==============================]", GREEN);
@@ -808,12 +808,12 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == $gray_in_val, __LINE__);
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
 
@@ -822,14 +822,14 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == "value_in_new", __LINE__);
     print_check_script(TRUE === check_script_result($gray_in_path, $idc, "2", $waiting_time + 2),
             __line__); //check script execute
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
     echo_color("[==END==============================]", GREEN);
@@ -858,12 +858,12 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == $gray_in_val, __LINE__);
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
 
@@ -872,12 +872,12 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == $gray_in_val, __LINE__);
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
     echo_color("[==END==============================]", GREEN);
@@ -899,12 +899,12 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == "value_in_new", __LINE__);
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
     echo_color("[==END==============================]", GREEN);
@@ -936,14 +936,14 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == $gray_in_val, __LINE__);
     print_check_script(TRUE === check_script_result($gray_in_path, $idc, "2", $waiting_time + 2),
             __line__); //check script execute
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
     echo_color("[==END==============================]", GREEN);
@@ -975,14 +975,14 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == "value_in_new", __LINE__);
     print_check_script(TRUE === check_script_result($gray_in_path, $idc, "2", $waiting_time + 2),
             __line__); //check script execute
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
     echo_color("[==END==============================]", GREEN);
@@ -1014,12 +1014,12 @@ function batch_operation(&$nodes, &$ops, &$cur_batch_nodes, $line, $first_time=F
     sleep($waiting_time);
 
     //node in gray process
-    $in_val = QConf::getConf($gray_in_path);
+    $in_val = HConf::getConf($gray_in_path);
     var_dump($in_val);
     print_info($in_val == $gray_in_val, __LINE__);
 
     //node out of gray process
-    $out_val = QConf::getConf($gray_out_path);
+    $out_val = HConf::getConf($gray_out_path);
     var_dump($out_val);
     print_info($out_val == $gray_out_val, __LINE__);
     echo_color("[==END==============================]", GREEN);

@@ -50,7 +50,7 @@ typedef struct String_vector string_vector_t;
 #endif
 
 
-int QConfZK::zk_init(const std::string &host)
+int HConfZK::zk_init(const std::string &host)
 {
     if (host.empty()) return HCONF_ERR_PARAM;
     zkLog = fopen("/dev/null", "a");  
@@ -63,7 +63,7 @@ int QConfZK::zk_init(const std::string &host)
     return HCONF_OK;
 }
 
-void QConfZK::zk_close()   
+void HConfZK::zk_close()   
 {
     zookeeper_close(zh);
     if (NULL != zkLog)
@@ -74,7 +74,7 @@ void QConfZK::zk_close()
     }
 }
 
-int QConfZK::zk_create(const std::string &path, const std::string &value)
+int HConfZK::zk_create(const std::string &path, const std::string &value)
 {
     for (int i = 0; i < HCONF_GET_RETRIES; ++i)
     {
@@ -99,7 +99,7 @@ int QConfZK::zk_create(const std::string &path, const std::string &value)
     return HCONF_ERR_ZOO_FAILED;
 }
 
-int QConfZK::zk_exist(const std::string &path, bool &exist)
+int HConfZK::zk_exist(const std::string &path, bool &exist)
 {
     exist = false;
     for (int i = 0; i < HCONF_GET_RETRIES; ++i)
@@ -121,7 +121,7 @@ int QConfZK::zk_exist(const std::string &path, bool &exist)
     return HCONF_ERR_ZOO_FAILED;
 }
 
-int QConfZK::zk_modify(const std::string &path, const std::string &value)
+int HConfZK::zk_modify(const std::string &path, const std::string &value)
 {
     for (int i = 0; i < HCONF_GET_RETRIES; ++i)
     {
@@ -142,7 +142,7 @@ int QConfZK::zk_modify(const std::string &path, const std::string &value)
     return HCONF_ERR_ZOO_FAILED;
 }
 
-int QConfZK::zk_get(const std::string &path, std::string &value)
+int HConfZK::zk_get(const std::string &path, std::string &value)
 {
     for (int i = 0; i < HCONF_GET_RETRIES; ++i)
     {
@@ -167,7 +167,7 @@ int QConfZK::zk_get(const std::string &path, std::string &value)
     return HCONF_ERR_ZOO_FAILED;
 }
 
-int QConfZK::zk_delete_exist(const std::string &path)
+int HConfZK::zk_delete_exist(const std::string &path)
 {
     for (int i = 0; i < HCONF_GET_RETRIES; ++i)
     {
@@ -190,7 +190,7 @@ int QConfZK::zk_delete_exist(const std::string &path)
     return HCONF_ERR_ZOO_FAILED;
 }
 
-int QConfZK::zk_delete(const std::string &path)
+int HConfZK::zk_delete(const std::string &path)
 {
     int ret = HCONF_ERR_OTHER;
     if (HCONF_ERR_ZOO_NOT_EXIST == (ret = zk_delete_exist(path)))
@@ -199,7 +199,7 @@ int QConfZK::zk_delete(const std::string &path)
 }
 
 
-int QConfZK::zk_node_delete(const std::string &node)
+int HConfZK::zk_node_delete(const std::string &node)
 {
     std::string path;
     if (NULL == zh || HCONF_OK != zk_path(node, path)) return HCONF_ERR_PARAM;
@@ -210,7 +210,7 @@ int QConfZK::zk_node_delete(const std::string &node)
 /**
  * Set node value, add if not exist
  */
-int QConfZK::zk_node_set(const std::string &node, const std::string &value)
+int HConfZK::zk_node_set(const std::string &node, const std::string &value)
 {
     std::string path;
     if (NULL == zh || HCONF_OK != zk_path(node, path)) return HCONF_ERR_PARAM;
@@ -224,7 +224,7 @@ int QConfZK::zk_node_set(const std::string &node, const std::string &value)
 /**
  * Set services, add if not exit 
  */
-int QConfZK::zk_services_set(const std::string &node, const std::map<std::string, char> &servs)
+int HConfZK::zk_services_set(const std::string &node, const std::map<std::string, char> &servs)
 {
     //parameter check
     std::string path;
@@ -279,7 +279,7 @@ int QConfZK::zk_services_set(const std::string &node, const std::map<std::string
 /**
  * Add one service
  */
-int QConfZK::zk_service_add(const std::string &node, const std::string &serv, const char &status)
+int HConfZK::zk_service_add(const std::string &node, const std::string &serv, const char &status)
 {
     std::string path;
     if (NULL == zh || HCONF_OK != zk_path(node, path) || !check_service(serv, status)) return HCONF_ERR_PARAM;
@@ -298,7 +298,7 @@ int QConfZK::zk_service_add(const std::string &node, const std::string &serv, co
 /**
  * Delete one sevice
  */
-int QConfZK::zk_service_delete(const std::string &node, const std::string &serv)
+int HConfZK::zk_service_delete(const std::string &node, const std::string &serv)
 {
     int ret = HCONF_ERR_OTHER;
     std::string path;
@@ -314,7 +314,7 @@ int QConfZK::zk_service_delete(const std::string &node, const std::string &serv)
 /**
  * Clear sevices
  */
-int QConfZK::zk_service_clear(const std::string &node)
+int HConfZK::zk_service_clear(const std::string &node)
 {
     std::string path;
     if (NULL == zh || HCONF_OK != zk_path(node, path)) return HCONF_ERR_PARAM;
@@ -342,7 +342,7 @@ int QConfZK::zk_service_clear(const std::string &node)
 /**
  * Up one service
  */
-int QConfZK::zk_service_up(const std::string &node, const std::string &serv)
+int HConfZK::zk_service_up(const std::string &node, const std::string &serv)
 {
     int ret = HCONF_ERR_OTHER;
     std::string path;
@@ -358,7 +358,7 @@ int QConfZK::zk_service_up(const std::string &node, const std::string &serv)
 /**
  * Down one service
  */
-int QConfZK::zk_service_down(const std::string &node, const std::string &serv)
+int HConfZK::zk_service_down(const std::string &node, const std::string &serv)
 {
     int ret = HCONF_ERR_OTHER;
     std::string path;
@@ -374,7 +374,7 @@ int QConfZK::zk_service_down(const std::string &node, const std::string &serv)
 /**
  * Offline one service
  */
-int QConfZK::zk_service_offline(const std::string &node, const std::string &serv)
+int HConfZK::zk_service_offline(const std::string &node, const std::string &serv)
 {
     int ret = HCONF_ERR_OTHER;
     std::string path;
@@ -390,7 +390,7 @@ int QConfZK::zk_service_offline(const std::string &node, const std::string &serv
 /**
  *  Get conf from zookeeper
  */
-int QConfZK::zk_node_get(const std::string &node, std::string &buf)
+int HConfZK::zk_node_get(const std::string &node, std::string &buf)
 {
     std::string path;
 
@@ -402,7 +402,7 @@ int QConfZK::zk_node_get(const std::string &node, std::string &buf)
 /**
  *  Get all services 
  */
-int QConfZK::zk_services_get(const std::string &node, std::set<std::string> &servs)
+int HConfZK::zk_services_get(const std::string &node, std::set<std::string> &servs)
 {
     int ret = HCONF_ERR_OTHER;
     std::string path;
@@ -418,7 +418,7 @@ int QConfZK::zk_services_get(const std::string &node, std::set<std::string> &ser
 /**
  *  Get all services together with their status
  */
-int QConfZK::zk_services_get_with_status(const std::string &node, std::map<std::string, char> &servs)
+int HConfZK::zk_services_get_with_status(const std::string &node, std::map<std::string, char> &servs)
 {
     int ret = HCONF_ERR_OTHER;
     std::string path;
@@ -449,7 +449,7 @@ int QConfZK::zk_services_get_with_status(const std::string &node, std::map<std::
 /**
  * List all children nodes 
  */
-int QConfZK::zk_list(const std::string &node, std::set<std::string> &children)
+int HConfZK::zk_list(const std::string &node, std::set<std::string> &children)
 {
     std::string path;
     if (NULL == zh || HCONF_OK != zk_path(node, path)) return HCONF_ERR_PARAM;
@@ -486,7 +486,7 @@ int QConfZK::zk_list(const std::string &node, std::set<std::string> &children)
 /**
  * List all children nodes together with their values
  */
-int QConfZK::zk_list_with_values(const std::string &node, std::map<std::string, std::string> &children)
+int HConfZK::zk_list_with_values(const std::string &node, std::map<std::string, std::string> &children)
 {
     std::string path;
     if (NULL == zh || HCONF_OK != zk_path(node, path)) return HCONF_ERR_PARAM;
@@ -509,7 +509,7 @@ int QConfZK::zk_list_with_values(const std::string &node, std::map<std::string, 
     return ret;
 }
 
-int QConfZK::zk_service_status_get(const std::string &path, char &status)
+int HConfZK::zk_service_status_get(const std::string &path, char &status)
 {
     std::string buf;
     if (HCONF_OK == zk_get(path, buf))
@@ -537,7 +537,7 @@ int QConfZK::zk_service_status_get(const std::string &path, char &status)
 /**
  * Judge whether the content can be converted to integer
  */
-int QConfZK::string_to_integer(const std::string &cnt, long &integer)
+int HConfZK::string_to_integer(const std::string &cnt, long &integer)
 {
     if(cnt.empty()) return HCONF_ERR_PARAM;
     errno = 0;
@@ -557,7 +557,7 @@ int QConfZK::string_to_integer(const std::string &cnt, long &integer)
     return HCONF_OK;
 }
 
-inline std::string QConfZK::integer_to_string(const long &integer)
+inline std::string HConfZK::integer_to_string(const long &integer)
 {
     std::stringstream ss;
     ss << integer;
@@ -567,7 +567,7 @@ inline std::string QConfZK::integer_to_string(const long &integer)
 /**
  * Get the parent node
  */
-inline std::string QConfZK::parent_node(const std::string &path)
+inline std::string HConfZK::parent_node(const std::string &path)
 {
     std::string parent(path, 0, path.find_last_of('/'));
     return parent;
@@ -576,7 +576,7 @@ inline std::string QConfZK::parent_node(const std::string &path)
 /**
  * Get the parent node
  */
-inline std::string QConfZK::serv_path(const std::string &node, const std::string serv)
+inline std::string HConfZK::serv_path(const std::string &node, const std::string serv)
 {
     return node + "/" + serv; 
 }
@@ -584,7 +584,7 @@ inline std::string QConfZK::serv_path(const std::string &node, const std::string
 /**
  * Set monitor node for services
  */
-inline int QConfZK::zk_monitor_node_create(const std::string &path)
+inline int HConfZK::zk_monitor_node_create(const std::string &path)
 {
     int ret = zk_create(get_monitor_node(path), path);
     if (HCONF_ERR_ZOO_ALREADY_EXIST == ret) ret = HCONF_OK;
@@ -594,7 +594,7 @@ inline int QConfZK::zk_monitor_node_create(const std::string &path)
 /**
  * Remove monitor node for services
  */
-inline int QConfZK::zk_monitor_node_remove(const std::string &path)
+inline int HConfZK::zk_monitor_node_remove(const std::string &path)
 {
     return  zk_delete(get_monitor_node(path));
 }
@@ -602,7 +602,7 @@ inline int QConfZK::zk_monitor_node_remove(const std::string &path)
 /**
  * Genereate the monitor node path, all service node should has been register the monitor node
  */
-std::string QConfZK::get_monitor_node(const std::string &path)
+std::string HConfZK::get_monitor_node(const std::string &path)
 {
     unsigned char md5hash[16] = {0};
     qhashmd5(path.c_str(), path.size(), md5hash);
@@ -616,7 +616,7 @@ std::string QConfZK::get_monitor_node(const std::string &path)
     return new_path;
 }
 
-int QConfZK::zk_path(const std::string &path, std::string &new_path)
+int HConfZK::zk_path(const std::string &path, std::string &new_path)
 {
     if (path.empty()) return HCONF_ERR_PARAM;
     // check path format TODO check multi slash
@@ -647,7 +647,7 @@ int QConfZK::zk_path(const std::string &path, std::string &new_path)
     return path_normalize(path, new_path);
 }
 
-int QConfZK::path_normalize(const std::string &path, std::string &new_path)
+int HConfZK::path_normalize(const std::string &path, std::string &new_path)
 {
     //add slash at begin and remove slash at end
     new_path.assign("/");
@@ -659,7 +659,7 @@ int QConfZK::path_normalize(const std::string &path, std::string &new_path)
     return HCONF_OK;
 }
 
-int QConfZK::check_node_type(const std::string &path, char &node_type)
+int HConfZK::check_node_type(const std::string &path, char &node_type)
 {
     bool exist = false;
     if (HCONF_OK != zk_exist(get_monitor_node(path), exist)) return HCONF_ERR_ZOO_FAILED;   
@@ -667,7 +667,7 @@ int QConfZK::check_node_type(const std::string &path, char &node_type)
     return HCONF_OK;
 }
 
-bool QConfZK::check_service(const std::string &path, const char status)
+bool HConfZK::check_service(const std::string &path, const char status)
 {
     if (path.empty()) return false;
     switch (status)
@@ -684,7 +684,7 @@ bool QConfZK::check_service(const std::string &path, const char status)
 /**
  * Begin gray begin
  */
-int QConfZK::zk_gray_begin(const std::map<std::string, std::string> &raw_nodes, 
+int HConfZK::zk_gray_begin(const std::map<std::string, std::string> &raw_nodes, 
         const std::vector<std::string> &clients, std::string &gray_id)
 {
     std::map<std::string, std::string> nodes;
@@ -734,7 +734,7 @@ int QConfZK::zk_gray_begin(const std::map<std::string, std::string> &raw_nodes,
 /**
  * Rollback gray rollback
  */
-int QConfZK::zk_gray_rollback(const std::string &gray_id)
+int HConfZK::zk_gray_rollback(const std::string &gray_id)
 {
     // Delete notify node
     return zk_gray_delete_notify(gray_id);
@@ -743,7 +743,7 @@ int QConfZK::zk_gray_rollback(const std::string &gray_id)
 /**
  * Commit gray commit
  */
-int QConfZK::zk_gray_commit(const std::string &gray_id)
+int HConfZK::zk_gray_commit(const std::string &gray_id)
 {
     // Get notify content
     std::vector<std::pair<std::string, std::string> > nodes;
@@ -764,7 +764,7 @@ int QConfZK::zk_gray_commit(const std::string &gray_id)
 /**
  * Get all gray content nodes
  */
-int QConfZK::zk_gray_get_content(const std::string &gray_id, std::vector<std::pair<std::string, std::string> > &nodes)
+int HConfZK::zk_gray_get_content(const std::string &gray_id, std::vector<std::pair<std::string, std::string> > &nodes)
 {
     std::string content_node_pfx(HCONF_NOTIFY_CONTENT_PREFIX);
     content_node_pfx += "/" + gray_id;
@@ -796,7 +796,7 @@ int QConfZK::zk_gray_get_content(const std::string &gray_id, std::vector<std::pa
 /**
  * Delete all related nodes for indicated gray_id
  */
-int QConfZK::zk_gray_delete_notify(const std::string &gray_id)
+int HConfZK::zk_gray_delete_notify(const std::string &gray_id)
 {
     // Delete clients
     std::string backlink_node_pfx(HCONF_NOTIFY_BACKLINK_PREFIX);
@@ -835,7 +835,7 @@ int QConfZK::zk_gray_delete_notify(const std::string &gray_id)
 /**
  * Check wether all nodes is exists
  */
-int QConfZK::zk_gray_check_nodes(const std::map<std::string, std::string> &nodes, 
+int HConfZK::zk_gray_check_nodes(const std::map<std::string, std::string> &nodes, 
         std::map<std::string, std::string> &new_nodes)
 {
     if (nodes.empty()) return HCONF_ERR_PARAM;
@@ -865,7 +865,7 @@ int QConfZK::zk_gray_check_nodes(const std::map<std::string, std::string> &nodes
 /**
  * Check wether the clients are already in gray process
  */
-int QConfZK::zk_gray_check_chients(const std::vector<std::string> &clients)
+int HConfZK::zk_gray_check_chients(const std::vector<std::string> &clients)
 {
     if (clients.empty()) return HCONF_ERR_PARAM;
     
@@ -886,7 +886,7 @@ int QConfZK::zk_gray_check_chients(const std::vector<std::string> &clients)
 /**
  * Generate gray id
  */
-std::string QConfZK::gray_generate_id()
+std::string HConfZK::gray_generate_id()
 {
     // Generate id
     std::string id;
@@ -901,7 +901,7 @@ std::string QConfZK::gray_generate_id()
 /**
  * Serialize into gray content
  */
-int QConfZK::gray_serialize_content(const std::map<std::string, std::string> &nodes, std::string &content)
+int HConfZK::gray_serialize_content(const std::map<std::string, std::string> &nodes, std::string &content)
 {
     if (nodes.empty()) return HCONF_ERR_PARAM;
 
@@ -921,7 +921,7 @@ int QConfZK::gray_serialize_content(const std::map<std::string, std::string> &no
 /**
  * Deserialize from gray content
  */
-int QConfZK::gray_deserialize_content(const std::string &content, std::vector<std::pair<std::string, std::string> > &nodes)
+int HConfZK::gray_deserialize_content(const std::string &content, std::vector<std::pair<std::string, std::string> > &nodes)
 {
     if (content.empty()) return HCONF_ERR_PARAM;
 

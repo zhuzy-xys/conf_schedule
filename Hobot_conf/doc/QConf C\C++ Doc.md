@@ -1,4 +1,4 @@
-QConf C\C++ Doc
+HConf C\C++ Doc
 =====
 
 ## C Interface
@@ -38,7 +38,7 @@ Example
 
 ---
 
-### **QConf access functions wait version, retry sometime if configure not exist**
+### **HConf access functions wait version, retry sometime if configure not exist**
 
 ----
 

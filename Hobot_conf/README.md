@@ -1,14 +1,14 @@
-QConf
+HConf
 =====
 
-[![Build Status](https://travis-ci.org/Qihoo360/QConf.svg?branch=master)](https://travis-ci.org/Qihoo360/QConf)
+[![Build Status](https://travis-ci.org/Qihoo360/HConf.svg?branch=master)](https://travis-ci.org/Qihoo360/HConf)
 
 We have build another interesting proect [pika](https://github.com/Qihoo360/pika). Pika is a nosql compatible with redis protocol with huge storage space. You can have a try.
 
-## Introduction [中文](https://github.com/Qihoo360/QConf/blob/master/README_ZH.md)
+## Introduction [中文](https://github.com/Qihoo360/HConf/blob/master/README_ZH.md)
 
-QConf is a Distributed Configuration Management System!
-A better replacement of the traditional configuration file. As designed, configuration items which is constantly accessed and modified should be completely separated with application code, and QConf is where it should be.
+HConf is a Distributed Configuration Management System!
+A better replacement of the traditional configuration file. As designed, configuration items which is constantly accessed and modified should be completely separated with application code, and HConf is where it should be.
 
 ## Features
 * Changes to any configuration will be synchronised to all client machines in real-time.
@@ -18,7 +18,7 @@ A better replacement of the traditional configuration file. As designed, configu
 * support c/c++, shell, php, python, lua, java, go, node and etc.
 
 ## Install
-The QConf is built using CMake (version 2.6 or newer).
+The HConf is built using CMake (version 2.6 or newer).
 
 On most systems you can build the library using the following commands:
 ``` shell
@@ -29,7 +29,7 @@ make install
 ```
 Alternatively you can also point the CMake GUI tool to the CMakeLists.txt file.
 
-To install the QConf you can specify the install prefix by setting:
+To install the HConf you can specify the install prefix by setting:
 ``` shell
 cmake .. -DCMAKE_INSTALL_PREFIX=/install/prefix
 ```
@@ -41,7 +41,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/install/prefix
 	 More information about Zookeper: [ZooKeeper Getting Started Guide](http://zookeeper.apache.org/doc/r3.3.3/zookeeperStarted.html)
 	 
 
- - **Register** the Zookeeper server address with QConf
+ - **Register** the Zookeeper server address with HConf
 
 ``` shell
 vi HCONF_INSTALL_PREFIX/conf/idc.conf
@@ -55,16 +55,16 @@ vi HCONF_INSTALL_PREFIX/conf/idc.conf
 ``` 
 echo test > HCONF_INSTALL_PREFIX/conf/localidc #assign local idc to 'test'
 ```
- - **Run** QConf
+ - **Run** HConf
 
 ``` shell
 cd HCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 ```
- - **Code** to access QConf
+ - **Code** to access HConf
 
 
 ## Related
-* [zkdash](https://github.com/ireaderlab/zkdash) - An excellent dashboard for QConf or ZooKeeper provided by IReader Team
+* [zkdash](https://github.com/ireaderlab/zkdash) - An excellent dashboard for HConf or ZooKeeper provided by IReader Team
 
 
 ## Performance
@@ -103,10 +103,10 @@ cd HCONF_INSTALL_PREFIX/bin && sh agent-cmd.sh start
 ```
 
 ## Document
-* [Getting Started](https://github.com/Qihoo360/QConf/blob/master/doc/QConf%20Getting%20Started%20Guide.md) - a tutorial-style guide for developers to install, run, and program to QConf
+* [Getting Started](https://github.com/Qihoo360/HConf/blob/master/doc/HConf%20Getting%20Started%20Guide.md) - a tutorial-style guide for developers to install, run, and program to HConf
 * [Implement](http://catkang.github.io/2015/06/23/hconf.html)
-* [wiki](https://github.com/Qihoo360/QConf/wiki)
-* [hconf video guide](https://github.com/Qihoo360/QConf/wiki/QConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8)
+* [wiki](https://github.com/Qihoo360/HConf/wiki)
+* [hconf video guide](https://github.com/Qihoo360/HConf/wiki/HConf-%E7%AE%80%E6%98%93%E9%83%A8%E7%BD%B2%E5%92%8C%E4%BD%BF%E7%94%A8)
 
 ## Contact
 

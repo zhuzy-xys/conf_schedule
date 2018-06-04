@@ -1,5 +1,5 @@
 # node-hconf
-Qihoo360 QConf(https://github.com/Qihoo360/QConf) Node.js addon.
+Qihoo360 HConf(https://github.com/Qihoo360/HConf) Node.js addon.
 
 [![NPM version][npm-image]][npm-url]
 [![NPM downloads][downloads-image]][npm-url]

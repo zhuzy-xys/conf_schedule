@@ -58,7 +58,7 @@ ZEND_GET_MODULE(hconf)
 #ifndef HCONF_COMPATIBLE
 
 /* {{{ Qconf::__construct ( .. )
-   Creates a QConfig object */
+   Creates a HConfig object */
 static PHP_METHOD(Qconf, __construct)
 {
 }
@@ -433,16 +433,16 @@ static PHP_METHOD(Qconf, getAllHostNative)
 
 #endif
 
-/* {{{ QConfig::__construct ( .. )
-   Creates a QConfig object */
-static PHP_METHOD(QConfig, __construct)
+/* {{{ HConfig::__construct ( .. )
+   Creates a HConfig object */
+static PHP_METHOD(HConfig, __construct)
 {
 }
 /* }}} */
 
-/* {{{ QConfig::Get( .. )
+/* {{{ HConfig::Get( .. )
    */
-static PHP_METHOD(QConfig, Get)
+static PHP_METHOD(HConfig, Get)
 {
 	char *path, *idc = NULL;
 	size_t path_len, idc_len = 0;
@@ -483,9 +483,9 @@ static PHP_METHOD(QConfig, Get)
 }
 /* }}} */
 
-/* {{{ QConfig::GetChild( .. )
+/* {{{ HConfig::GetChild( .. )
    */
-static PHP_METHOD(QConfig, GetChild)
+static PHP_METHOD(HConfig, GetChild)
 {
 	char *path, *idc = NULL;
 	size_t path_len, idc_len = 0;
@@ -537,9 +537,9 @@ static PHP_METHOD(QConfig, GetChild)
 }
 /* }}} */
 
-/* {{{ QConfig::GetBatchConf( .. )
+/* {{{ HConfig::GetBatchConf( .. )
    */
-static PHP_METHOD(QConfig, GetBatchConf)
+static PHP_METHOD(HConfig, GetBatchConf)
 {
 	char *path, *idc = NULL;
 	size_t path_len, idc_len = 0;
@@ -591,9 +591,9 @@ static PHP_METHOD(QConfig, GetBatchConf)
 }
 /* }}} */
 
-/* {{{ QConfig::GetBatchKeys( .. )
+/* {{{ HConfig::GetBatchKeys( .. )
    */
-static PHP_METHOD(QConfig, GetBatchKeys)
+static PHP_METHOD(HConfig, GetBatchKeys)
 {
 	char *path, *idc = NULL;
 	size_t path_len, idc_len = 0;
@@ -646,9 +646,9 @@ static PHP_METHOD(QConfig, GetBatchKeys)
 /* }}} */
 
 #ifdef HCONF_INTERNAL
-/* {{{ QConfig::GetBatchKeysNative( .. )
+/* {{{ HConfig::GetBatchKeysNative( .. )
    */
-static PHP_METHOD(QConfig, GetBatchKeysNative)
+static PHP_METHOD(HConfig, GetBatchKeysNative)
 {
 	char *path, *idc = NULL;
 	size_t path_len, idc_len = 0;
@@ -779,13 +779,13 @@ ZEND_END_ARG_INFO()
 #define QC_ME(class, name, args) PHP_ME(class, name, args, ZEND_ACC_PUBLIC)
 #define QC_ME_STATIC(class, name, args) PHP_ME(class, name, args, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 static zend_function_entry hconfig_class_methods[] = {
-    QC_ME(QConfig, __construct,        arginfo___construct)
-    QC_ME_STATIC(QConfig, Get,            arginfo_Get)
-    QC_ME_STATIC(QConfig, GetChild,       arginfo_GetChild)
-    QC_ME_STATIC(QConfig, GetBatchConf,   arginfo_GetBatchConf)
-    QC_ME_STATIC(QConfig, GetBatchKeys,   arginfo_GetBatchKeys)
+    QC_ME(HConfig, __construct,        arginfo___construct)
+    QC_ME_STATIC(HConfig, Get,            arginfo_Get)
+    QC_ME_STATIC(HConfig, GetChild,       arginfo_GetChild)
+    QC_ME_STATIC(HConfig, GetBatchConf,   arginfo_GetBatchConf)
+    QC_ME_STATIC(HConfig, GetBatchKeys,   arginfo_GetBatchKeys)
 #ifdef HCONF_INTERNAL
-    QC_ME_STATIC(QConfig, GetBatchKeysNative,       arginfo_GetBatchKeysNative)
+    QC_ME_STATIC(HConfig, GetBatchKeysNative,       arginfo_GetBatchKeysNative)
 #endif
 
     { NULL, NULL, NULL }
@@ -845,7 +845,7 @@ PHP_INI_END()
 PHP_MINIT_FUNCTION(hconf)
 {
 	zend_class_entry ce;
-	INIT_CLASS_ENTRY(ce, "QConfig", hconfig_class_methods);
+	INIT_CLASS_ENTRY(ce, "HConfig", hconfig_class_methods);
 	hconfig_ce = zend_register_internal_class(&ce TSRMLS_CC);
 
 #ifndef HCONF_COMPATIBLE

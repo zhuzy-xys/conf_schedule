@@ -1,6 +1,6 @@
 
  
-QConf PHP Doc
+HConf PHP Doc
 =====
 ## Build
 Build php extension
@@ -14,7 +14,7 @@ Build php extension
 ## API Doc
 
 
-### QConf access functions 
+### HConf access functions 
 ----
 
 ### getConf
@@ -29,7 +29,7 @@ Parameters
 >
 >*idc* - Optional，from which idc to get the value，get from local idc if  omit
 >
->*get_flag* - Optional，if set get_flag be 0, QConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, QConf return immediately return NULL, default get_flag is 0;
+>*get_flag* - Optional，if set get_flag be 0, HConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, HConf return immediately return NULL, default get_flag is 0;
 
 Return Value
 >value of the configuation, NULL if failed 
@@ -49,7 +49,7 @@ Parameters
 >
 >*idc* - Optional，from which idc to get the value，get from local idc if  omit
 >
->*get_flag* - Optional，if set get_flag be 0, QConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, QConf return immediately return NULL, default get_flag is 0;
+>*get_flag* - Optional，if set get_flag be 0, HConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, HConf return immediately return NULL, default get_flag is 0;
 
 Return Value
 >array of the children keys, NULL if failed 
@@ -70,7 +70,7 @@ Parameters
 >
 >idc - Optional， from which idc to get the children configurations，get from local idc if  omit
 >
->*get_flag* - Optional，if set get_flag be 0, QConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, QConf return immediately return NULL, default get_flag is 0;
+>*get_flag* - Optional，if set get_flag be 0, HConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, HConf return immediately return NULL, default get_flag is 0;
 
 Return Value
 >array of the children confs, NULL if failed 
@@ -90,7 +90,7 @@ Parameters
 >
 >idc - Optional， from which idc to get the services，get from local idc if  omit
 >
->*get_flag* - Optional，if set get_flag be 0, QConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, QConf return immediately return NULL, default get_flag is 0;
+>*get_flag* - Optional，if set get_flag be 0, HConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, HConf return immediately return NULL, default get_flag is 0;
 
 Return Value
 >array of the all available services, NULL if failed 
@@ -110,7 +110,7 @@ Parameters
 >
 >idc - Optional，from which idc to get the host，get from local idc if  omit
 >
->*get_flag* - Optional，if set get_flag be 0, QConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, QConf return immediately return NULL, default get_flag is 0;
+>*get_flag* - Optional，if set get_flag be 0, HConf will wait some time if the configuration is not in share memory yet, which may happen when key not exist or get key the first time. If 1, HConf return immediately return NULL, default get_flag is 0;
 
 Return Value
 >available host, NULL if failed

@@ -35,10 +35,10 @@
 #define STATUS_DOWN                         2
 
 
-class QConfZK
+class HConfZK
 {
     public:
-        QConfZK():zh(NULL){}
+        HConfZK():zh(NULL){}
 
         /**
          * Init zookeeper

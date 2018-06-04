@@ -2,7 +2,7 @@ Changes
 Makefile.PL
 MANIFEST
 ppport.h
-QConf.xs
+HConf.xs
 README
-t/QConf.t
-lib/QConf.pm
+t/HConf.t
+lib/HConf.pm

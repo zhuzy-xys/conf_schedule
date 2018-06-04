@@ -159,7 +159,7 @@ SV* get_allhost(const char *path, AV *ret,const char *idc, const char *async)
 }
 
 
-MODULE = QConf		PACKAGE = QConf		
+MODULE = HConf		PACKAGE = HConf		
 
 int
 hconf_init()

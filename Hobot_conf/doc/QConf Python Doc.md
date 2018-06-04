@@ -1,4 +1,4 @@
-QConf Python Doc
+HConf Python Doc
 =====
 ## Build
 - Build python extension
@@ -18,7 +18,7 @@ more information about python [Setup Script](https://docs.python.org/2/distutils
 ## API Doc
 
 
-### QConf access functions 
+### HConf access functions 
 
 ----
 
